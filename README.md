@@ -11,12 +11,12 @@ Gere um arquivo `.env` com base no exemplo:
 $ cp .env.example .env
 ```
 
-Popule o arquivo com as credenciais de banco de dados desejado e uma porta para subir a API
+Popule o arquivo escolhendo o banco desejado (postgres|mysql), credenciais, além de portas para expor os serviços para o host.
 
 Utilize `docker compose` para gerir ambiente
 
 ```
-# Buildar (se necessário) e subir os services
+# Buildar (se necessário) e subir os todos services
 $ docker compose up -d
 
 # buildar imagem da api
