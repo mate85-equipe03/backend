@@ -1,1 +1,3 @@
-export class CreateNiveisVagaDto {}
+export class CreateNiveisVagaDto {
+  name: string;
+}

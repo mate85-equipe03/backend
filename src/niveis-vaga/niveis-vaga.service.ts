@@ -13,7 +13,11 @@ export class NiveisVagaService {
   
 
   create(createNiveisVagaDto: CreateNiveisVagaDto) {
-    return 'This action adds a new niveisVaga';
+    return this.prisma.nivelVaga.create({
+      data: {
+        name: createNiveisVagaDto.name
+      },
+    });
   }
 
   findAll(): Promise<NivelVaga[]> {
@@ -29,11 +33,22 @@ export class NiveisVagaService {
     return nivelVaga;
   }
 
-  update(id: number, updateNiveisVagaDto: UpdateNiveisVagaDto) {
-    return `This action updates a #${id} niveisVaga`;
+  async update(id: number, updateNiveisVagaDto: UpdateNiveisVagaDto) {
+    await this.findOne(id);
+    return this.prisma.nivelVaga.update({
+      data: updateNiveisVagaDto,
+      where: {
+        id,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} niveisVaga`;
+  async remove(id: number) {
+    await this.findOne(id);
+
+    return this.prisma.nivelVaga.delete({
+      where: { id },
+    });
+    return `deleted`;
   }
 }
