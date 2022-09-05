@@ -9,3 +9,11 @@ datasource db {
   provider = "postgres"
   url      = env("DATABASE_URL")
 }
+
+model NivelVaga {
+  id          Int       @default(autoincrement()) @id
+  name        String
+  createdAt   DateTime  @default(now())
+
+  @@map("niveis_vaga")
+}
