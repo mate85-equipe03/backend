@@ -19,8 +19,18 @@ Utilize `docker compose` para gerir ambiente
 # Buildar (se necessário) e subir os todos services
 $ docker compose up -d
 
+# Rodar as migrations
+
+# Abra um processo shell no container em execução
+$ docker container exec -it backend-api-1 sh
+
+# Execute e saia
+$ npx prisma migrate dev
+$ exit
+
 # buildar imagem da api
-$ docker compose build api
+$ docker compose build api # Ou
+$ docker compose build --no-cache api
 
 # help com mais opções
 $ docker compose --help
