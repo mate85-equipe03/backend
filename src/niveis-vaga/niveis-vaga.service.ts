@@ -49,6 +49,5 @@ export class NiveisVagaService {
     return this.prisma.nivelVaga.delete({
       where: { id },
     });
-    return `deleted`;
   }
 }
