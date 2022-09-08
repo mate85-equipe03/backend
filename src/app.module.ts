@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { NiveisVagaModule } from './niveis-vaga/niveis-vaga.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
-  imports: [PrismaModule, NiveisVagaModule],
+  imports: [PrismaModule, NiveisVagaModule, UsuariosModule],
   controllers: [AppController],
   providers: [AppService],
 })
