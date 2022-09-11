@@ -18,5 +18,7 @@ export class UsuariosService {
     return usuario;
   }
 
-
+  async create (usuario: Usuario) {
+    return null
+  }
 }

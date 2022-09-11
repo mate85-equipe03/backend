@@ -23,7 +23,25 @@ model Usuario {
   login       String    @unique
   email       String    @unique
   senha       String
+  professor Professor?
+  aluno     Aluno?
   createdAt   DateTime  @default(now())
 
   @@map("usuarios")
+}
+
+model Professor {
+  id       Int  @id @default(autoincrement())
+  professor   Usuario @relation(fields: [userId], references: [id])
+  userId Int @unique
+  siape       String    @unique
+  @@map("professores")
+}
+
+model Aluno {
+  id       Int  @id @default(autoincrement())
+  aluno   Usuario @relation(fields: [userId], references: [id])
+  userId Int @unique
+  matricula       String    @unique
+  @@map("alunos")
 }
