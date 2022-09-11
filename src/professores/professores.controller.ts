@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ProfessoresService } from './professores.service';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
 import { Usuario as UsuarioModel} from '@prisma/client';
 
 @Controller('professores')
@@ -9,7 +10,7 @@ export class ProfessoresController {
 
   @Post('professor')
   async signupUser(
-    @Body() professorData: { login: string; email: string, senha: string, siape: string},
+    @Body() professorData: CreateUsuarioDto,
   ): Promise<UsuarioModel> {
     return this.professoresService.createProfessor(professorData);
   }
