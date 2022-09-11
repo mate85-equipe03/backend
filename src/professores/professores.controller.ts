@@ -6,12 +6,12 @@ import { Professor as ProfessorModel} from '@prisma/client';
 export class ProfessoresController {
   constructor(private readonly professoresService: ProfessoresService) {}
 
-  @Post('professor')
-  async signupUser(
-    @Body() professorData: { login: string; email: string, senha: string, siape: string},
-  ): Promise<ProfessorModel> {
-    return this.professoresService.createProfessor(professorData);
-  }
+  //@Post('professor')
+  //async signupUser(
+  //  @Body() professorData: { login: string; email: string, senha: string, siape: string},
+  //): Promise<ProfessorModel> {
+  //  return this.professoresService.createProfessor(professorData);
+  //}
 }
   
 
