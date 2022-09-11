@@ -4,9 +4,11 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { NiveisVagaModule } from './niveis-vaga/niveis-vaga.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AlunosModule } from './alunos/alunos.module';
+import { ProfessoresModule } from './professores/professores.module';
 
 @Module({
-  imports: [PrismaModule, NiveisVagaModule, UsuariosModule],
+  imports: [PrismaModule, NiveisVagaModule, UsuariosModule, AlunosModule, ProfessoresModule],
   controllers: [AppController],
   providers: [AppService],
 })
