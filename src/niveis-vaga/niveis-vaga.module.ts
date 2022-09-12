@@ -4,6 +4,6 @@ import { NiveisVagaController } from './niveis-vaga.controller';
 
 @Module({
   controllers: [NiveisVagaController],
-  providers: [NiveisVagaService]
+  providers: [NiveisVagaService],
 })
 export class NiveisVagaModule {}

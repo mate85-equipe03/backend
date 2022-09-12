@@ -3,19 +3,16 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateNiveisVagaDto } from './dto/create-niveis-vaga.dto';
 import { UpdateNiveisVagaDto } from './dto/update-niveis-vaga.dto';
 import { NiveisVaga } from './entities/niveis-vaga.entity';
-import { NivelVaga} from '@prisma/client';
-
+import { NivelVaga } from '@prisma/client';
 
 @Injectable()
 export class NiveisVagaService {
-
   constructor(private prisma: PrismaService) {}
-  
 
   create(createNiveisVagaDto: CreateNiveisVagaDto) {
     return this.prisma.nivelVaga.create({
       data: {
-        name: createNiveisVagaDto.name
+        name: createNiveisVagaDto.name,
       },
     });
   }
@@ -29,7 +26,10 @@ export class NiveisVagaService {
       where: { id },
     });
     if (!nivelVaga)
-      throw new HttpException('Nivel Vaga não encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        'Nivel Vaga não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
     return nivelVaga;
   }
 

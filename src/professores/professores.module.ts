@@ -6,8 +6,8 @@ import { UsuariosService } from 'src/usuarios/usuarios.service';
 
 @Module({
   controllers: [ProfessoresController],
-  providers: [ProfessoresService], 
+  providers: [ProfessoresService],
   imports: [UsuariosModule, UsuariosService],
-  exports: [ProfessoresService]
+  exports: [ProfessoresService],
 })
 export class ProfessoresModule {}

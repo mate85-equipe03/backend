@@ -1,8 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProfessoresService } from './professores.service';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
-import { Usuario as UsuarioModel} from '@prisma/client';
+import { Usuario as UsuarioModel } from '@prisma/client';
 
 @Controller('professores')
 export class ProfessoresController {
@@ -15,5 +23,3 @@ export class ProfessoresController {
     return this.professoresService.createProfessor(professorData);
   }
 }
-  
-

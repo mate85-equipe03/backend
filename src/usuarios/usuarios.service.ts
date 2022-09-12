@@ -1,11 +1,9 @@
-import {  HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import {Usuario, Prisma} from '@prisma/client';
-
+import { Usuario, Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsuariosService {
-
   constructor(private prisma: PrismaService) {}
 
   async usuario(
@@ -22,11 +20,11 @@ export class UsuariosService {
     });
 
     if (!usuario)
-        throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
     return usuario;
   }
 
-  async createUser (data: Prisma.UsuarioCreateInput): Promise<Usuario> {
+  async createUser(data: Prisma.UsuarioCreateInput): Promise<Usuario> {
     return this.prisma.usuario.create({
       data,
     });

@@ -4,6 +4,6 @@ import { AlunosController } from './alunos.controller';
 
 @Module({
   controllers: [AlunosController],
-  providers: [AlunosService]
+  providers: [AlunosService],
 })
 export class AlunosModule {}
