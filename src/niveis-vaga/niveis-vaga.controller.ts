@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { NiveisVagaService } from './niveis-vaga.service';
 import { CreateNiveisVagaDto } from './dto/create-niveis-vaga.dto';
 import { UpdateNiveisVagaDto } from './dto/update-niveis-vaga.dto';
@@ -23,7 +31,10 @@ export class NiveisVagaController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNiveisVagaDto: UpdateNiveisVagaDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateNiveisVagaDto: UpdateNiveisVagaDto,
+  ) {
     return this.niveisVagaService.update(+id, updateNiveisVagaDto);
   }
 
