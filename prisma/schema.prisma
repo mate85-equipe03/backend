@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model NivelVaga {
+  id          Int       @default(autoincrement()) @id
+  name        String
+  createdAt   DateTime  @default(now())
+
+  @@map("niveis_vaga")
+}
+
+model Usuario {
+  id          Int       @default(autoincrement()) @id
+  login       String    @unique
+  email       String    @unique
+  senha       String
+  professor Professor?
+  aluno     Aluno?
+  createdAt   DateTime  @default(now())
+
+  @@map("usuarios")
+}
+
+model Professor {
+  id       Int  @id @default(autoincrement())
+  professor   Usuario @relation(fields: [userId], references: [id])
+  userId Int @unique
+  siape       String    @unique
+  @@map("professores")
+}
+
+model Aluno {
+  id       Int  @id @default(autoincrement())
+  aluno   Usuario @relation(fields: [userId], references: [id])
+  userId Int @unique
+  matricula       String    @unique
+  @@map("alunos")
+}
