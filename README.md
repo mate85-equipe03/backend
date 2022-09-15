@@ -3,15 +3,13 @@
 
 ## Como rodar ambiente de Desenvolvimento
 
-Necessário apenas possuir [Docker](https://www.docker.com/) instalado.
-
 Gere um arquivo `.env` com base no exemplo:
 
 ```
 $ cp .env.example .env
 
 ```
-## Docker
+### Docker
 
 Popule o arquivo escolhendo o banco desejado (postgres|mysql), credenciais, além de portas para expor os serviços para o host.
 
@@ -42,14 +40,14 @@ Exemplos acima com Docker Compose v2. Pode-se usar a v1, se desejar.
 
 Consulte [Docs](https://docs.docker.com/compose/) do Docker Compose para mais opções.
 
-## Local - Node.js
+### Local - Node.js
 
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Running the app
 
 ```bash
 # development
@@ -61,6 +59,18 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+### Migrations & Seeds
+
+Pra facilitar, resete sempre o banco, utilizando o PRISMA
+
+
+```
+$ npx prisma migrate reset
+```
+
+Vai apagar o banco todo, rodar novamente as migrations e popular com o seed.
+
 
 ## Test
 
