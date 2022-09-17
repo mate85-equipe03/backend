@@ -16,10 +16,12 @@ import { Usuario as UsuarioModel } from '@prisma/client';
 export class ProfessoresController {
   constructor(private readonly professoresService: ProfessoresService) {}
 
-  @Post('professor')
+  @Post()
   async signupUser(
     @Body() professorData: CreateUsuarioDto,
   ): Promise<UsuarioModel> {
     return this.professoresService.createProfessor(professorData);
   }
+
+
 }
