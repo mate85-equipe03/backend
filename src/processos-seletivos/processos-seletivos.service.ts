@@ -1,19 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { ProcessoSeletivo } from '@prisma/client';
 import { CreateProcessosSeletivoDto } from './dto/create-processos-seletivo.dto';
 import { UpdateProcessosSeletivoDto } from './dto/update-processos-seletivo.dto';
 
+
 @Injectable()
 export class ProcessosSeletivosService {
+
+  constructor(private prisma: PrismaService) {}
+
+
   create(createProcessosSeletivoDto: CreateProcessosSeletivoDto) {
     return 'This action adds a new processosSeletivo';
   }
 
-  findAll() {
-    return `This action returns all processosSeletivos`;
+  findAll(): Promise<ProcessoSeletivo[]> {
+    return this.prisma.processoSeletivo.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} processosSeletivo`;
+  async findOne(id: number): Promise<ProcessoSeletivo> {
+
+    const processoSeletivo = await this.prisma.processoSeletivo.findUnique({
+      where: { id: id },
+    });
+
+    if (!processoSeletivo)
+      throw new HttpException('Processo Seletivo não encontrado', HttpStatus.NOT_FOUND);
+    return processoSeletivo;
+
   }
 
   update(id: number, updateProcessosSeletivoDto: UpdateProcessosSeletivoDto) {
