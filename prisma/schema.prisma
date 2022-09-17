@@ -18,6 +18,16 @@ model NivelVaga {
   @@map("niveis_vaga")
 }
 
+model ProcessoSeletivo {
+  id          Int       @default(autoincrement()) @id
+  titulo        String
+  descricao        String
+  edital_url        String
+  createdAt   DateTime  @default(now())
+
+  @@map("processos_seletivos")
+}
+
 model Usuario {
   id          Int       @default(autoincrement()) @id
   login       String    @unique
