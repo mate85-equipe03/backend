@@ -19,13 +19,15 @@ model NivelVaga {
 }
 
 model ProcessoSeletivo {
-  id            Int       @default(autoincrement()) @id
-  titulo        String
-  semestre      String
-  descricao     String?
-  edital_url    String
-  arquivado     Boolean?  @default(false)
-  createdAt     DateTime  @default(now())
+  id                      Int       @default(autoincrement()) @id
+  titulo                  String
+  semestre                String
+  descricao               String?
+  edital_url              String
+  etapa_inscricao_inicio  DateTime
+  etapa_inscricao_fim     DateTime
+  arquivado               Boolean?  @default(false)
+  createdAt               DateTime  @default(now())
 
   @@map("processos_seletivos")
 }

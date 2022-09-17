@@ -98,6 +98,8 @@ async function main() {
       descricao:  'Processo Seletivo para Concessão de Bolsas de Mestrado e Doutorado',
       semestre:   '2022.2',
       arquivado:  false,
+      etapa_inscricao_inicio: new Date("2022-09-15"),
+      etapa_inscricao_fim: new Date("2022-10-15"),
       edital_url: 'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
     },
   })
@@ -110,6 +112,8 @@ async function main() {
       descricao:  'Processo Seletivo para Concessão de Bolsas de Mestrado e Doutorado',
       semestre:   '2021.1',
       arquivado:  true,
+      etapa_inscricao_inicio: new Date("2021-09-15"),
+      etapa_inscricao_fim: new Date("2021-10-15"),
       edital_url: 'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
     },
   })
