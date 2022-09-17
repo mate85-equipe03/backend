@@ -88,19 +88,36 @@ async function main() {
   console.log({ beatriz_user, djair_user, augusto_user, root_user })
 
   /* *********************************************************************** */
-  //                          ALUNOS
+  //                          PROCESSOS SELETIVOS
   /* *********************************************************************** */
+  const processoSeletivo01 = await prisma.processoSeletivo.upsert({
+    where: { id: 1 }, 
+    update: {},
+    create: {
+      titulo:     'Edital PGCOMP-03/2022',
+      descricao:  'Processo Seletivo para Concessão de Bolsas de Mestrado e Doutorado',
+      semestre:   '2022.2',
+      arquivado:  false,
+      edital_url: 'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
+    },
+  })
 
+  const processoSeletivo02 = await prisma.processoSeletivo.upsert({
+    where: { id: 2 }, 
+    update: {},
+    create: {
+      titulo:     'Edital PGCOMP-08/2021',
+      descricao:  'Processo Seletivo para Concessão de Bolsas de Mestrado e Doutorado',
+      semestre:   '2021.1',
+      arquivado:  true,
+      edital_url: 'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
+    },
+  })
 
+  console.log(processoSeletivo01, processoSeletivo02)
 
-  /* *********************************************************************** */
-  //                          PROFESSORES
-  /* *********************************************************************** */
+  
 
-
-  /* *********************************************************************** */
-  //                          ROOT
-  /* *********************************************************************** */
 
 }
 
