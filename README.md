@@ -3,7 +3,7 @@
 
 ## Como rodar ambiente de Desenvolvimento
 
-Gere um arquivo `.env` com base no exemplo:
+Gere um arquivo `.env` com base no exemplo: 
 
 ```
 $ cp .env.example .env
