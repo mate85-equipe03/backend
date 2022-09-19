@@ -101,6 +101,13 @@ async function main() {
       etapa_inscricao_inicio: new Date("2022-09-15"),
       etapa_inscricao_fim: new Date("2022-10-15"),
       edital_url: 'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
+      etapa: {
+        create: {
+          name: 'Inscrições Abertas',
+          data_inicio: new Date("2021-09-15"),
+          data_fim: new Date("2021-10-15"),
+        },
+      }
     },
   })
 
@@ -115,13 +122,17 @@ async function main() {
       etapa_inscricao_inicio: new Date("2021-09-15"),
       etapa_inscricao_fim: new Date("2021-10-15"),
       edital_url: 'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
+      etapa: {
+        create: {
+          name: 'Arquivado',
+          data_inicio: new Date("2021-09-15"),
+          data_fim: new Date("2021-12-15"),
+        },
+      }
     },
   })
 
   console.log(processoSeletivo01, processoSeletivo02)
-
-  
-
 
 }
 

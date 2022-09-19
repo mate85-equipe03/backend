@@ -19,17 +19,30 @@ model NivelVaga {
 }
 
 model ProcessoSeletivo {
-  id                      Int       @default(autoincrement()) @id
-  titulo                  String
-  semestre                String
-  descricao               String?
-  edital_url              String
-  etapa_inscricao_inicio  DateTime
-  etapa_inscricao_fim     DateTime
-  arquivado               Boolean?  @default(false)
-  createdAt               DateTime  @default(now())
+  id                        Int       @default(autoincrement()) @id
+  titulo                    String
+  semestre                  String
+  descricao                 String?
+  edital_url                String
+  etapa                     Etapa[]
+  etapa_inscricao_inicio    DateTime
+  etapa_inscricao_fim       DateTime
+  arquivado                 Boolean?  @default(false)
+  createdAt                 DateTime  @default(now())
 
   @@map("processos_seletivos")
+}
+
+model Etapa {
+  id                        Int               @default(autoincrement()) @id
+  etapa                     ProcessoSeletivo  @relation(fields: [processo_seletivo_id], references: [id])      
+  processo_seletivo_id      Int               @unique
+  name                      String
+  data_inicio               DateTime
+  data_fim                  DateTime
+  createdAt                 DateTime          @default(now())
+
+  @@map("etapas")
 }
 
 model Usuario {
