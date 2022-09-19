@@ -11,53 +11,64 @@ datasource db {
 }
 
 model NivelVaga {
-  id          Int       @default(autoincrement()) @id
-  name        String
-  createdAt   DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
 
   @@map("niveis_vaga")
 }
 
 model ProcessoSeletivo {
-  id                      Int       @default(autoincrement()) @id
-  titulo                  String
-  semestre                String
-  descricao               String?
-  edital_url              String
-  etapa_inscricao_inicio  DateTime
-  etapa_inscricao_fim     DateTime
-  arquivado               Boolean?  @default(false)
-  createdAt               DateTime  @default(now())
+  id         Int      @id @default(autoincrement())
+  titulo     String
+  semestre   String
+  descricao  String?
+  edital_url String
+  etapas     Etapa[]
+  arquivado  Boolean? @default(false)
+  createdAt  DateTime @default(now())
 
   @@map("processos_seletivos")
 }
 
+model Etapa {
+  id                   Int              @id @default(autoincrement())
+  processo_seletivo    ProcessoSeletivo @relation(fields: [processo_seletivo_id], references: [id])
+  processo_seletivo_id Int
+  name                 String
+  data_inicio          DateTime
+  data_fim             DateTime
+  createdAt            DateTime         @default(now())
+
+  @@map("etapas")
+}
+
 model Usuario {
-  id            Int         @default(autoincrement()) @id
-  login         String      @unique
-  email         String      @unique
-  senha         String
-  professor     Professor?
-  aluno         Aluno?
-  createdAt     DateTime    @default(now())
+  id        Int        @id @default(autoincrement())
+  login     String     @unique
+  email     String     @unique
+  senha     String
+  professor Professor?
+  aluno     Aluno?
+  createdAt DateTime   @default(now())
 
   @@map("usuarios")
 }
 
 model Professor {
-  id          Int  @id    @default(autoincrement())
-  professor   Usuario     @relation(fields: [userId], references: [id])
-  userId      Int         @unique
-  siape       String      @unique
+  id        Int     @id @default(autoincrement())
+  professor Usuario @relation(fields: [userId], references: [id])
+  userId    Int     @unique
+  siape     String  @unique
 
   @@map("professores")
 }
 
 model Aluno {
-  id          Int           @id @default(autoincrement())
-  aluno       Usuario       @relation(fields: [userId], references: [id])
-  userId      Int           @unique
-  matricula   String        @unique
-  
+  id        Int     @id @default(autoincrement())
+  aluno     Usuario @relation(fields: [userId], references: [id])
+  userId    Int     @unique
+  matricula String  @unique
+
   @@map("alunos")
 }

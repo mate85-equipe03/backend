@@ -8,6 +8,7 @@ import { AlunosModule } from './alunos/alunos.module';
 import { ProfessoresModule } from './professores/professores.module';
 import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 import { ProcessosSeletivosModule } from './processos-seletivos/processos-seletivos.module';
+import { EtapasModule } from './etapas/etapas.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProcessosSeletivosModule } from './processos-seletivos/processos-seleti
     AlunosModule,
     ProfessoresModule,
     ProcessosSeletivosModule,
+    EtapasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
