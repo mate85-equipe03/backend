@@ -15,8 +15,20 @@ export class ProcessosSeletivosService {
     return 'This action adds a new processosSeletivo';
   }
 
-  findAll(): Promise<ProcessoSeletivo[]> {
-    return this.prisma.processoSeletivo.findMany();
+  findarquivados(): Promise<ProcessoSeletivo[]> {
+    return this.prisma.processoSeletivo.findMany({
+      where:{
+        arquivado:true
+      }
+  });
+  }
+
+  findativos(): Promise<ProcessoSeletivo[]> {
+    return this.prisma.processoSeletivo.findMany({
+      where:{
+        arquivado:false
+      }
+  });
   }
 
   async findOne(id: number): Promise<ProcessoSeletivo> {
