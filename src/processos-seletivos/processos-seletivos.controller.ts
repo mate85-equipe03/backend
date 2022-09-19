@@ -23,16 +23,14 @@ export class ProcessosSeletivosController {
     return this.processosSeletivosService.create(createProcessosSeletivoDto);
   }
 
-  //@Get()
-  //findAll() {
-  //  return this.processosSeletivosService.findAll();
-  //}
-
   @Get()
   async findAllfiltrado() {
-    const processos_arquivados =
-      await this.processosSeletivosService.findarquivados();
-    const processos_ativos = await this.processosSeletivosService.findativos();
+    const processos_arquivados = await this.processosSeletivosService.findMany({
+      arquivado: true,
+    });
+    const processos_ativos = await this.processosSeletivosService.findMany({
+      arquivado: false,
+    });
     const result = {
       editais: {
         em_andamento: processos_ativos,
