@@ -12,9 +12,19 @@ export class ProcessosSeletivosController {
     return this.processosSeletivosService.create(createProcessosSeletivoDto);
   }
 
+  //@Get()
+  //findAll() {
+  //  return this.processosSeletivosService.findAll();
+  //}
+
   @Get()
-  findAll() {
-    return this.processosSeletivosService.findAll();
+  findAllfiltrado() {
+    var processos_arquivados = this.processosSeletivosService.findarquivados();
+    var processos_ativos = this.processosSeletivosService.findativos();
+    var result = {"editais":{"em_andamento": processos_ativos,
+      "arquivados":processos_arquivados, 
+  }};
+    return result
   }
 
   @Get(':id')
@@ -31,4 +41,6 @@ export class ProcessosSeletivosController {
   remove(@Param('id') id: string) {
     return this.processosSeletivosService.remove(+id);
   }
+
+
 }
