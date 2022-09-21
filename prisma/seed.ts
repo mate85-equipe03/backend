@@ -106,7 +106,7 @@ async function main() {
     update: {},
     create: {
       processo_seletivo_id: processoSeletivo01.id,
-      name: 'Inscrições Abertas',
+      name: 'Inscrições',
       data_inicio: new Date('2022-09-15'),
       data_fim: new Date('2022-10-15'),
     },
