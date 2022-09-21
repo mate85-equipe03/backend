@@ -147,6 +147,40 @@ async function main() {
   });
 
   console.log(processoSeletivo01, processoSeletivo02);
+
+  /* *********************************************************************** */
+  //                          INSCRICOES
+  /* *********************************************************************** */
+  const statusEnviada = await prisma.statusInscricao.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      name: 'Enviada',
+    },
+  });  
+  const statusEmAnalise = await prisma.statusInscricao.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      name: 'Em análise',
+    },
+  });
+  const statusHomologada = await prisma.statusInscricao.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      name: 'Homologada',
+    },
+  });
+  const statusDesclassificada = await prisma.statusInscricao.upsert({
+    where: { id: 4 },
+    update: {},
+    create: {
+      name: 'Em análise',
+    },
+  });
+
+
 }
 
 main()
