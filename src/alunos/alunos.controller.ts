@@ -15,7 +15,7 @@ import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
 export class AlunosController {
   constructor(private readonly alunosService: AlunosService) {}
 
-  @Post('aluno')
+  @Post()
   async signupUser(@Body() alunoData: CreateUsuarioDto): Promise<UsuarioModel> {
     return this.alunosService.createAluno(alunoData);
   }
