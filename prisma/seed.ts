@@ -51,6 +51,9 @@ async function main() {
         },
       },
     },
+    include: {
+      professor: true,
+    }
   });
 
   const augusto_user = await prisma.usuario.upsert({
@@ -66,6 +69,9 @@ async function main() {
         },
       },
     },
+    include: {
+      professor: true,
+    }
   });
 
   const matheus_user = await prisma.usuario.upsert({
@@ -81,6 +87,9 @@ async function main() {
         },
       },
     },
+    include: {
+      professor: true,
+    }
   });
 
   const beatriz_user = await prisma.usuario.upsert({
@@ -96,6 +105,9 @@ async function main() {
         },
       },
     },
+    include: {
+      aluno: true,
+    }
   });
 
   const lucas_user = await prisma.usuario.upsert({
@@ -111,6 +123,9 @@ async function main() {
         },
       },
     },
+    include: {
+      aluno: true,
+    }
   });
 
   const kennedy_user = await prisma.usuario.upsert({
@@ -126,6 +141,9 @@ async function main() {
         },
       },
     },
+    include: {
+      aluno: true,
+    }
   });
 
   const rodrigo_user = await prisma.usuario.upsert({
@@ -141,6 +159,9 @@ async function main() {
         },
       },
     },
+    include: {
+      aluno: true,
+    }
   });
 
   console.log({ root_user, matheus_user, djair_user, augusto_user, 
@@ -167,6 +188,9 @@ async function main() {
         ],
       },
     },
+    include: {
+      categorias_producao: true,
+    }
   });
   const etapa01 = await prisma.etapa.upsert({
     where: { id: 1 },
@@ -207,6 +231,9 @@ async function main() {
         ],
       },
     },
+    include: {
+      categorias_producao: true,
+    }
   });
   const etapa02 = await prisma.etapa.upsert({
     where: { id: 2 },
@@ -246,8 +273,8 @@ async function main() {
       url_enade: 'https://ufba.br',
       producoes:{
         create: [
-          {url: "oij", file: null, categorias_producao_id: 1},
-          {url: "bla", file: null, categorias_producao_id: 2}
+          {url: "https://ieeexplore.ieee.org/", file: null, categorias_producao_id: processoSeletivo01.categorias_producao[0].id},
+          {url: "https://www.acm.org/", file: null, categorias_producao_id: processoSeletivo01.categorias_producao[1].id}
         ]
       }
     },
