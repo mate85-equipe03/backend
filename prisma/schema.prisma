@@ -19,15 +19,16 @@ model NivelVaga {
 }
 
 model ProcessoSeletivo {
-  id            Int      @id @default(autoincrement())
-  titulo        String
-  semestre      String
-  descricao     String?
-  edital_url    String
-  etapas        Etapa[]
-  inscricoes    Inscricao[]
-  arquivado     Boolean? @default(false)
-  createdAt     DateTime @default(now())
+  id                      Int      @id @default(autoincrement())
+  titulo                  String
+  semestre                String
+  descricao               String?
+  edital_url              String
+  etapas                  Etapa[]
+  inscricoes              Inscricao[]
+  categorias_producao     CategoriaProducao[]
+  arquivado               Boolean? @default(false)
+  createdAt               DateTime @default(now())
 
   @@map("processos_seletivos")
 }
@@ -80,6 +81,21 @@ model Aluno {
   @@map("alunos")
 }
 
+model CategoriaProducao {
+  id                      Int               @id @default(autoincrement())
+  nome                    String
+  pontuacao               Decimal           @default(0.00)
+  processo_seletivo       ProcessoSeletivo  @relation(fields: [processo_seletivo_id], references: [id])
+  processo_seletivo_id    Int
+
+  producoes               ProducaoCientifica[]  
+
+  createdAt               DateTime            @default(now())
+
+  @@map("categorias_producao")  
+}
+
+
 model StatusInscricao {
   id            Int      @id @default(autoincrement())
   name          String
@@ -89,22 +105,48 @@ model StatusInscricao {
   @@map("statuses_inscricao")
 }
 
+model ProducaoCientifica {
+  id            Int      @id @default(autoincrement())
+
+  inscricao     Inscricao  @relation(fields: [inscricao_id], references: [id])
+  inscricao_id  Int
+
+  categorias_producao       CategoriaProducao  @relation(fields: [categorias_producao_id], references: [id])
+  categorias_producao_id    Int  
+
+  url           String?
+  file          Bytes?
+
+  createdAt             DateTime            @default(now())
+
+  @@map("producoes_cientificas")
+
+}
+
 model Inscricao {
-  id                    Int               @id @default(autoincrement())
+  id                      Int               @id @default(autoincrement())
 
-  status                StatusInscricao   @relation(fields: [status_id], references: [id])
-  status_id             Int
+  status                  StatusInscricao   @relation(fields: [status_id], references: [id])
+  status_id               Int
 
-  processo_seletivo     ProcessoSeletivo  @relation(fields: [processo_seletivo_id], references: [id])
-  processo_seletivo_id  Int
+  processo_seletivo       ProcessoSeletivo  @relation(fields: [processo_seletivo_id], references: [id])
+  processo_seletivo_id    Int
 
-  aluno                 Aluno             @relation(fields: [aluno_id], references: [id])
-  aluno_id              Int
+  aluno                   Aluno             @relation(fields: [aluno_id], references: [id])
+  aluno_id                Int
+
+  url_lattes              String?
+  url_enade               String?
+
+  historico_graduacao     Bytes?
+  historico_posgraduacao  Bytes?
+
+  producoes               ProducaoCientifica[]
 
   revisor               Professor?         @relation("Revisor", fields: [revisor_id], references: [id])
-  revisor_id            Int
+  revisor_id            Int?
   auditor               Professor?         @relation("Auditor", fields: [auditor_id], references: [id])
-  auditor_id            Int
+  auditor_id            Int?
 
   nota_final            Decimal             @default(0.00)
   classificacao         Int                 @default(0)

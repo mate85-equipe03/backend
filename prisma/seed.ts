@@ -45,9 +45,9 @@ async function main() {
       login: '123456',
       email: 'djair@ufba.br',
       senha: bcrypt.hashSync('123456', 10),
-      aluno: {
+      professor: {
         create: {
-          matricula: '123456',
+          siape: '123456',
         },
       },
     },
@@ -68,6 +68,21 @@ async function main() {
     },
   });
 
+  const matheus_user = await prisma.usuario.upsert({
+    where: { login: '200420221' },
+    update: {},
+    create: {
+      login: '200420221',
+      email: 'matheuslao@ufba.br',
+      senha: bcrypt.hashSync('123456', 10),
+      professor: {
+        create: {
+          siape: '200420221',
+        },
+      },
+    },
+  });
+
   const beatriz_user = await prisma.usuario.upsert({
     where: { login: '123654' },
     update: {},
@@ -75,15 +90,61 @@ async function main() {
       login: '123654',
       email: 'beatriz@ufba.br',
       senha: bcrypt.hashSync('123654', 10),
-      professor: {
+      aluno: {
         create: {
-          siape: '123654',
+          matricula: '123654',
         },
       },
     },
   });
 
-  console.log({ beatriz_user, djair_user, augusto_user, root_user });
+  const lucas_user = await prisma.usuario.upsert({
+    where: { login: '202202001' },
+    update: {},
+    create: {
+      login: '202202001',
+      email: 'lucas@ufba.br',
+      senha: bcrypt.hashSync('123456', 10),
+      aluno: {
+        create: {
+          matricula: '202202001',
+        },
+      },
+    },
+  });
+
+  const kennedy_user = await prisma.usuario.upsert({
+    where: { login: '202202002' },
+    update: {},
+    create: {
+      login: '202202002',
+      email: 'kennedy@ufba.br',
+      senha: bcrypt.hashSync('123456', 10),
+      aluno: {
+        create: {
+          matricula: '202202002',
+        },
+      },
+    },
+  });
+
+  const rodrigo_user = await prisma.usuario.upsert({
+    where: { login: '202202003' },
+    update: {},
+    create: {
+      login: '202202003',
+      email: 'rodrigo@ufba.br',
+      senha: bcrypt.hashSync('123456', 10),
+      aluno: {
+        create: {
+          matricula: '202202003',
+        },
+      },
+    },
+  });
+
+  console.log({ root_user, matheus_user, djair_user, augusto_user, 
+    beatriz_user, lucas_user, kennedy_user, rodrigo_user });
 
   /* *********************************************************************** */
   //                          PROCESSOS SELETIVOS
@@ -99,6 +160,12 @@ async function main() {
       arquivado: false,
       edital_url:
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
+      categorias_producao: {
+        create: [
+          {nome: 'Publicação A1', pontuacao: 10.0},
+          {nome: 'Publicação A2', pontuacao: 8.75}
+        ],
+      },
     },
   });
   const etapa01 = await prisma.etapa.upsert({
@@ -133,6 +200,12 @@ async function main() {
       arquivado: true,
       edital_url:
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
+      categorias_producao: {
+        create: [
+          {nome: 'Publicação A1', pontuacao: 10.0},
+          {nome: 'Publicação A2', pontuacao: 8.75}
+        ],
+      },
     },
   });
   const etapa02 = await prisma.etapa.upsert({
@@ -149,7 +222,7 @@ async function main() {
   console.log(processoSeletivo01, processoSeletivo02);
 
   /* *********************************************************************** */
-  //                          INSCRICOES
+  //                          STATUS
   /* *********************************************************************** */
   const statusEnviada = await prisma.statusInscricao.upsert({
     where: { id: 1 },
@@ -158,29 +231,27 @@ async function main() {
       name: 'Enviada',
     },
   });  
-  const statusEmAnalise = await prisma.statusInscricao.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
-      name: 'Em análise',
-    },
-  });
-  const statusHomologada = await prisma.statusInscricao.upsert({
-    where: { id: 3 },
-    update: {},
-    create: {
-      name: 'Homologada',
-    },
-  });
-  const statusDesclassificada = await prisma.statusInscricao.upsert({
-    where: { id: 4 },
-    update: {},
-    create: {
-      name: 'Em análise',
-    },
-  });
 
-
+  /* *********************************************************************** */
+  //                          INSCRICAO
+  /* *********************************************************************** */
+  const inscricaoBia = await prisma.inscricao.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      status_id: statusEnviada.id,
+      aluno_id: beatriz_user.aluno.id,
+      processo_seletivo_id: processoSeletivo01.id,
+      url_lattes: 'https://idojo.com.br',
+      url_enade: 'https://ufba.br',
+      producoes:{
+        create: [
+          {url: "oij", file: null, categorias_producao_id: 1},
+          {url: "bla", file: null, categorias_producao_id: 2}
+        ]
+      }
+    },
+  });
 }
 
 main()
