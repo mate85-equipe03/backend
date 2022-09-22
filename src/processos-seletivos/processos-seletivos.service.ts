@@ -18,6 +18,7 @@ export class ProcessosSeletivosService {
     const dataAtual = new Date();
     return this.prisma.processoSeletivo.findMany({
       include: {
+        categorias_producao: {},
         etapas: {
           where: {
             AND: {
@@ -38,6 +39,10 @@ export class ProcessosSeletivosService {
   async findOne(id: number): Promise<ProcessoSeletivo> {
     const processoSeletivo = await this.prisma.processoSeletivo.findUnique({
       where: { id: id },
+      include: {
+        categorias_producao: {},
+        etapas: {}
+      },
     });
 
     if (!processoSeletivo)
