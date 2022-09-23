@@ -23,4 +23,16 @@ export class StatusesInscricaoService {
       );
     return statusInscricao;
   }
+
+  async findEnviada(): Promise<StatusInscricao> {
+    const statusInscricao = await this.prisma.statusInscricao.findFirst({
+      where: { name: "Enviada" },
+    });
+    if (!statusInscricao)
+      throw new HttpException(
+        'Status de Inscrição não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
+    return statusInscricao;
+  }
 }

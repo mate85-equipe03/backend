@@ -4,6 +4,7 @@ import { ProcessosSeletivosController } from './processos-seletivos.controller';
 
 @Module({
   controllers: [ProcessosSeletivosController],
-  providers: [ProcessosSeletivosService]
+  providers: [ProcessosSeletivosService],
+  exports:  [ProcessosSeletivosModule],
 })
 export class ProcessosSeletivosModule {}
