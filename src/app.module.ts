@@ -10,6 +10,7 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 import { ProcessosSeletivosModule } from './processos-seletivos/processos-seletivos.module';
 import { EtapasModule } from './etapas/etapas.module';
 import { StatusesInscricaoModule } from './statuses-inscricao/statuses-inscricao.module';
+import { InscricoesModule } from './inscricoes/inscricoes.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { StatusesInscricaoModule } from './statuses-inscricao/statuses-inscricao
     ProcessosSeletivosModule,
     EtapasModule,
     StatusesInscricaoModule,
+    InscricoesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
