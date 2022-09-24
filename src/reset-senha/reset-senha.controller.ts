@@ -1,14 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { HttpException, Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { ResetSenhaService } from './reset-senha.service';
+import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { MailerService } from '@nestjs-modules/mailer';
 import { CreateResetSenhaDto } from './dto/create-reset-senha.dto';
 import { UpdateResetSenhaDto } from './dto/update-reset-senha.dto';
+import * as bcrypt from 'bcrypt';
+
 
 @Controller('reset-senha')
 export class ResetSenhaController {
-  constructor(private readonly resetSenhaService: ResetSenhaService, private mailService: MailerService) {}
+  constructor(private readonly resetSenhaService: ResetSenhaService, 
+    private userService:UsuariosService,
+    private mailService: MailerService) {}
 
-  @Post()
+  @Post('')
   async forgot(@Body() createsenhaData: CreateResetSenhaDto) {
 
    const resetSenha =  await this.resetSenhaService.createResetSenha(createsenhaData)
@@ -22,6 +27,25 @@ export class ResetSenhaController {
     })
 
     return {message:url}
+  }
+
+  @Post('recuperar')
+  async reset(@Body('token') token: string,
+             @Body('password') password: string,
+             @Body('password_match') password_match: string) {
+
+  if (password !== password_match) {
+    throw new BadRequestException ("As senhas não conferem")
+  }
+
+  const reset = await this.resetSenhaService.findtoken(token)
+  const email = reset.email
+  const user = await this.userService.findbyMail(email)
+  const hashpassword = await bcrypt.hashSync(password, 10)
+
+  await this.userService.update(user.id,{"password":hashpassword})
+
+
   }
 
   @Get()

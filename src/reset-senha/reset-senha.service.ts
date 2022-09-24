@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma, ResetSenha } from '@prisma/client';
 import { CreateResetSenhaDto } from './dto/create-reset-senha.dto';
@@ -27,6 +27,19 @@ export class ResetSenhaService {
   findOne(id: number) {
     return `This action returns a #${id} resetSenha`;
   }
+
+  async findtoken(token: string): Promise<ResetSenha> {
+    const resetsenha = await this.prisma.resetSenha.findFirst({
+      where: { token },
+    });
+    if (!resetsenha)
+      throw new HttpException(
+        'Token não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
+    return resetsenha;
+  }
+  
 
   update(id: number, updateResetSenhaDto: UpdateResetSenhaDto) {
     return `This action updates a #${id} resetSenha`;
