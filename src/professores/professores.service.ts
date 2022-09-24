@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { Usuario, Professor, Prisma } from '@prisma/client';
 
@@ -15,7 +16,7 @@ export class ProfessoresService {
       data: {
         login: data['login'],
         email: data['email'],
-        senha: data['senha'],
+        senha: bcrypt.hashSync(data['senha'], 10),
         telefone: data['telefone'],
         professor: {
           create: { siape: data['siape'] },
