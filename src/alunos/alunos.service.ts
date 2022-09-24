@@ -14,8 +14,13 @@ export class AlunosService {
         login: data['login'],
         email: data['email'],
         senha: data['senha'],
+        telefone: data['telefone'],
         aluno: {
-          create: { matricula: data['matricula'] },
+          create: { matricula: data['matricula'],
+                    curso: data['curso'], 
+                    lattes_link: data['lattes_link'],
+                    semestre_pgcomp: data['semestre_pgcomp']
+        },    
         },
       },
     });

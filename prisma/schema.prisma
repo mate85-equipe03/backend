@@ -50,7 +50,7 @@ model Usuario {
   login     String     @unique
   email     String     @unique
   senha     String
-  telefone  String     
+  telefone  String    
   professor Professor?
   aluno     Aluno?
   createdAt DateTime   @default(now())

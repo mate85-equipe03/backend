@@ -16,6 +16,7 @@ export class ProfessoresService {
         login: data['login'],
         email: data['email'],
         senha: data['senha'],
+        telefone: data['telefone'],
         professor: {
           create: { siape: data['siape'] },
         },
