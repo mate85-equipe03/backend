@@ -43,9 +43,10 @@ export class ResetSenhaController {
   const user = await this.userService.findbyMail(email)
   const hashpassword = await bcrypt.hashSync(password, 10)
 
-  await this.userService.update(user.id,{"password":hashpassword})
+  await this.userService.update(user.id,{"senha":hashpassword})
 
-
+  return {"message":"senha alterada com sucesso"}
+  
   }
 
   @Get()
