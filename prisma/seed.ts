@@ -34,6 +34,7 @@ async function main() {
     create: {
       login: 'root',
       email: 'root@ufba.br',
+      telefone: '9999999999',
       senha: bcrypt.hashSync('root', 10),
     },
   });
@@ -44,6 +45,7 @@ async function main() {
     create: {
       login: '123456',
       email: 'djair@ufba.br',
+      telefone: '7399999999',
       senha: bcrypt.hashSync('123456', 10),
       professor: {
         create: {
@@ -62,6 +64,7 @@ async function main() {
     create: {
       login: '654321',
       email: 'augusto@ufba.br',
+      telefone: '7199999999',
       senha: bcrypt.hashSync('654321', 10),
       professor: {
         create: {
@@ -80,6 +83,7 @@ async function main() {
     create: {
       login: '200420221',
       email: 'matheuslao@ufba.br',
+      telefone: '7499999999',
       senha: bcrypt.hashSync('123456', 10),
       professor: {
         create: {
@@ -98,10 +102,14 @@ async function main() {
     create: {
       login: '123654',
       email: 'beatriz@ufba.br',
+      telefone: '7599999999',
       senha: bcrypt.hashSync('123654', 10),
       aluno: {
         create: {
           matricula: '123654',
+          semestre_pgcomp: 20221, 
+          curso:'mestrado', 
+          lattes_link:'-' 
         },
       },
     },
@@ -115,11 +123,15 @@ async function main() {
     update: {},
     create: {
       login: '202202001',
+      telefone: '7799999999',
       email: 'lucas@ufba.br',
       senha: bcrypt.hashSync('123456', 10),
       aluno: {
         create: {
           matricula: '202202001',
+          semestre_pgcomp: 20221, 
+          curso:'mestrado', 
+          lattes_link:'-' 
         },
       },
     },
@@ -134,10 +146,14 @@ async function main() {
     create: {
       login: '202202002',
       email: 'kennedy@ufba.br',
+      telefone: '8199999999',
       senha: bcrypt.hashSync('123456', 10),
       aluno: {
         create: {
           matricula: '202202002',
+          semestre_pgcomp: 20221, 
+          curso:'mestrado', 
+          lattes_link:'-' 
         },
       },
     },
@@ -152,10 +168,14 @@ async function main() {
     create: {
       login: '202202003',
       email: 'rodrigo@ufba.br',
+      telefone: '7499999999',
       senha: bcrypt.hashSync('123456', 10),
       aluno: {
         create: {
           matricula: '202202003',
+          semestre_pgcomp: 20221, 
+          curso:'mestrado', 
+          lattes_link:'-' 
         },
       },
     },
