@@ -1,18 +1,27 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ResetSenhaService } from './reset-senha.service';
+import { MailerService } from '@nestjs-modules/mailer';
 import { CreateResetSenhaDto } from './dto/create-reset-senha.dto';
 import { UpdateResetSenhaDto } from './dto/update-reset-senha.dto';
 
 @Controller('reset-senha')
 export class ResetSenhaController {
-  constructor(private readonly resetSenhaService: ResetSenhaService) {}
+  constructor(private readonly resetSenhaService: ResetSenhaService, private mailService: MailerService) {}
 
   @Post()
   async forgot(@Body() createsenhaData: CreateResetSenhaDto) {
 
-    await this.resetSenhaService.createResetSenha(createsenhaData)
+   const resetSenha =  await this.resetSenhaService.createResetSenha(createsenhaData)
 
-    return {message:'Sucess'}
+   const url = 'https:localhost:3000/reset-senha/${resetSenha.token}'
+
+    await this.mailService.sendMail({
+      to: resetSenha.email,
+      subject:'Reset Your Password',
+      html:'Click <a href = "${url}"> here </a> to reset your password',
+    })
+
+    return {message:'Check Your Email'}
   }
 
   @Get()
