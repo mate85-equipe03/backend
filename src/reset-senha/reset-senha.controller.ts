@@ -13,15 +13,15 @@ export class ResetSenhaController {
 
    const resetSenha =  await this.resetSenhaService.createResetSenha(createsenhaData)
 
-   const url = 'https:localhost:3000/reset-senha/${resetSenha.token}'
+   const url = `https:localhost:3000/reset-senha/${resetSenha.token}`
 
     await this.mailService.sendMail({
       to: resetSenha.email,
-      subject:'Reset Your Password',
-      html:'Click <a href = "${url}"> here </a> to reset your password',
+      subject:'Resete sua senha',
+      html:`Clique <a href="${url}"> aqui </a> pra resetar sua senha`,
     })
 
-    return {message:'Check Your Email'}
+    return {message:url}
   }
 
   @Get()
