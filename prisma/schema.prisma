@@ -50,6 +50,7 @@ model Usuario {
   login     String     @unique
   email     String     @unique
   senha     String
+  telefone  String    
   professor Professor?
   aluno     Aluno?
   createdAt DateTime   @default(now())
@@ -77,6 +78,9 @@ model Aluno {
   userId      Int     @unique
   matricula   String  @unique
   inscricoes  Inscricao[]
+  semestre_pgcomp Int 
+  curso       String 
+  lattes_link String  
 
   @@map("alunos")
 }

@@ -62,6 +62,12 @@ $ npm run start:prod
 
 ### Migrations & Seeds
 
+Como rodar uma migration:
+```
+$ npx prisma migrate dev
+```
+
+
 Pra facilitar, resete sempre o banco, utilizando o PRISMA
 
 
