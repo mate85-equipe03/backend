@@ -12,12 +12,39 @@ export class ProcessosSeletivosService {
     return 'This action adds a new processosSeletivo';
   }
 
+  areEligibleForEnrollment(id: number){
+    var now = new Date()
+
+    const processoSeletivo = this.prisma.processoSeletivo.findUnique({
+      where: { id: id },
+      include: {
+        etapas: {
+          where: {
+            AND: {
+              data_inicio: {
+                lte: now,
+              },
+              data_fim: {
+                gte: now,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!processoSeletivo)
+      return false
+    return true;
+  }
+
   findMany(
     where: Prisma.ProcessoSeletivoWhereInput,
   ): Promise<ProcessoSeletivo[]> {
     const dataAtual = new Date();
     return this.prisma.processoSeletivo.findMany({
       include: {
+        categorias_producao: {},
         etapas: {
           where: {
             AND: {
@@ -38,6 +65,10 @@ export class ProcessosSeletivosService {
   async findOne(id: number): Promise<ProcessoSeletivo> {
     const processoSeletivo = await this.prisma.processoSeletivo.findUnique({
       where: { id: id },
+      include: {
+        categorias_producao: {},
+        etapas: {}
+      },
     });
 
     if (!processoSeletivo)

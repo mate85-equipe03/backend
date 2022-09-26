@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Usuario } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
 
@@ -13,9 +14,14 @@ export class AlunosService {
       data: {
         login: data['login'],
         email: data['email'],
-        senha: data['senha'],
+        senha: bcrypt.hashSync(data['senha'], 10),
+        telefone: data['telefone'],
         aluno: {
-          create: { matricula: data['matricula'] },
+          create: { matricula: data['matricula'],
+                    curso: data['curso'], 
+                    lattes_link: data['lattes_link'],
+                    semestre_pgcomp: data['semestre_pgcomp']
+        },    
         },
       },
     });

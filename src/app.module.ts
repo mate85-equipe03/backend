@@ -9,6 +9,9 @@ import { ProfessoresModule } from './professores/professores.module';
 import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 import { ProcessosSeletivosModule } from './processos-seletivos/processos-seletivos.module';
 import { EtapasModule } from './etapas/etapas.module';
+import { StatusesInscricaoModule } from './statuses-inscricao/statuses-inscricao.module';
+import { InscricoesModule } from './inscricoes/inscricoes.module';
+import { ResetSenhaModule } from './reset-senha/reset-senha.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { EtapasModule } from './etapas/etapas.module';
     ProfessoresModule,
     ProcessosSeletivosModule,
     EtapasModule,
+    StatusesInscricaoModule,
+    InscricoesModule,
+    ResetSenhaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
