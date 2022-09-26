@@ -1,19 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { StatusInscricao } from '@prisma/client';
-
+import { StatusInscricao, StatusInscricaoDesc } from '@prisma/client';
 
 @Injectable()
 export class StatusesInscricaoService {
-
   constructor(private prisma: PrismaService) {}
 
   findAll() {
-    return this.prisma.statusInscricao.findMany();
+    return this.prisma.statusInscricaoDesc.findMany();
   }
 
-  async findOne(id: number): Promise<StatusInscricao> {
-    const statusInscricao = await this.prisma.statusInscricao.findUnique({
+  async findOne(id: StatusInscricao): Promise<StatusInscricaoDesc> {
+    const statusInscricao = await this.prisma.statusInscricaoDesc.findUnique({
       where: { id },
     });
     if (!statusInscricao)
@@ -24,9 +22,9 @@ export class StatusesInscricaoService {
     return statusInscricao;
   }
 
-  async findEnviada(): Promise<StatusInscricao> {
-    const statusInscricao = await this.prisma.statusInscricao.findFirst({
-      where: { name: "Enviada" },
+  async findEnviada(): Promise<StatusInscricaoDesc> {
+    const statusInscricao = await this.prisma.statusInscricaoDesc.findFirst({
+      where: { id: StatusInscricao.ENVIADA },
     });
     if (!statusInscricao)
       throw new HttpException(

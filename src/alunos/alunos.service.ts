@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Usuario } from '@prisma/client';
+import { Aluno, Usuario } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
@@ -17,12 +17,21 @@ export class AlunosService {
         senha: bcrypt.hashSync(data['senha'], 10),
         telefone: data['telefone'],
         aluno: {
-          create: { matricula: data['matricula'],
-                    curso: data['curso'], 
-                    lattes_link: data['lattes_link'],
-                    semestre_pgcomp: data['semestre_pgcomp']
-        },    
+          create: {
+            matricula: data['matricula'],
+            curso: data['curso'],
+            lattes_link: data['lattes_link'],
+            semestre_pgcomp: data['semestre_pgcomp'],
+          },
         },
+      },
+    });
+  }
+
+  async findAlunoByUserId(userId): Promise<Aluno> {
+    return this.prisma.aluno.findUnique({
+      where: {
+        userId: userId,
       },
     });
   }

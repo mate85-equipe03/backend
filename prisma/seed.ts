@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, StatusInscricao } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -55,7 +55,7 @@ async function main() {
     },
     include: {
       professor: true,
-    }
+    },
   });
 
   const augusto_user = await prisma.usuario.upsert({
@@ -74,7 +74,7 @@ async function main() {
     },
     include: {
       professor: true,
-    }
+    },
   });
 
   const matheus_user = await prisma.usuario.upsert({
@@ -93,7 +93,7 @@ async function main() {
     },
     include: {
       professor: true,
-    }
+    },
   });
 
   const beatriz_user = await prisma.usuario.upsert({
@@ -107,15 +107,15 @@ async function main() {
       aluno: {
         create: {
           matricula: '123654',
-          semestre_pgcomp: 20221, 
-          curso:'mestrado', 
-          lattes_link:'-' 
+          semestre_pgcomp: 20221,
+          curso: 'mestrado',
+          lattes_link: '-',
         },
       },
     },
     include: {
       aluno: true,
-    }
+    },
   });
 
   const lucas_user = await prisma.usuario.upsert({
@@ -129,15 +129,15 @@ async function main() {
       aluno: {
         create: {
           matricula: '202202001',
-          semestre_pgcomp: 20221, 
-          curso:'mestrado', 
-          lattes_link:'-' 
+          semestre_pgcomp: 20221,
+          curso: 'mestrado',
+          lattes_link: '-',
         },
       },
     },
     include: {
       aluno: true,
-    }
+    },
   });
 
   const kennedy_user = await prisma.usuario.upsert({
@@ -151,15 +151,15 @@ async function main() {
       aluno: {
         create: {
           matricula: '202202002',
-          semestre_pgcomp: 20221, 
-          curso:'mestrado', 
-          lattes_link:'-' 
+          semestre_pgcomp: 20221,
+          curso: 'mestrado',
+          lattes_link: '-',
         },
       },
     },
     include: {
       aluno: true,
-    }
+    },
   });
 
   const rodrigo_user = await prisma.usuario.upsert({
@@ -173,19 +173,27 @@ async function main() {
       aluno: {
         create: {
           matricula: '202202003',
-          semestre_pgcomp: 20221, 
-          curso:'mestrado', 
-          lattes_link:'-' 
+          semestre_pgcomp: 20221,
+          curso: 'mestrado',
+          lattes_link: '-',
         },
       },
     },
     include: {
       aluno: true,
-    }
+    },
   });
 
-  console.log({ root_user, matheus_user, djair_user, augusto_user, 
-    beatriz_user, lucas_user, kennedy_user, rodrigo_user });
+  console.log({
+    root_user,
+    matheus_user,
+    djair_user,
+    augusto_user,
+    beatriz_user,
+    lucas_user,
+    kennedy_user,
+    rodrigo_user,
+  });
 
   /* *********************************************************************** */
   //                          PROCESSOS SELETIVOS
@@ -203,14 +211,14 @@ async function main() {
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
       categorias_producao: {
         create: [
-          {nome: 'Publicação A1', pontuacao: 10.0},
-          {nome: 'Publicação A2', pontuacao: 8.75}
+          { nome: 'Publicação A1', pontuacao: 10.0 },
+          { nome: 'Publicação A2', pontuacao: 8.75 },
         ],
       },
     },
     include: {
       categorias_producao: true,
-    }
+    },
   });
   const etapa01 = await prisma.etapa.upsert({
     where: { id: 1 },
@@ -246,14 +254,14 @@ async function main() {
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
       categorias_producao: {
         create: [
-          {nome: 'Publicação A1', pontuacao: 10.0},
-          {nome: 'Publicação A2', pontuacao: 8.75}
+          { nome: 'Publicação A1', pontuacao: 10.0 },
+          { nome: 'Publicação A2', pontuacao: 8.75 },
         ],
       },
     },
     include: {
       categorias_producao: true,
-    }
+    },
   });
   const etapa02 = await prisma.etapa.upsert({
     where: { id: 2 },
@@ -271,13 +279,16 @@ async function main() {
   /* *********************************************************************** */
   //                          STATUS
   /* *********************************************************************** */
-  const statusEnviada = await prisma.statusInscricao.upsert({
-    where: { id: 1 },
+  const statusEnviada = await prisma.statusInscricaoDesc.upsert({
+    where: {
+      id: StatusInscricao.ENVIADA,
+    },
     update: {},
     create: {
       name: 'Enviada',
+      id: StatusInscricao.ENVIADA,
     },
-  });  
+  });
 
   /* *********************************************************************** */
   //                          INSCRICAO
@@ -286,17 +297,26 @@ async function main() {
     where: { id: 1 },
     update: {},
     create: {
-      status_id: statusEnviada.id,
       aluno_id: beatriz_user.aluno.id,
       processo_seletivo_id: processoSeletivo01.id,
       url_lattes: 'https://idojo.com.br',
       url_enade: 'https://ufba.br',
-      producoes:{
+      producoes: {
         create: [
-          {url: "https://ieeexplore.ieee.org/", file: null, categorias_producao_id: processoSeletivo01.categorias_producao[0].id},
-          {url: "https://www.acm.org/", file: null, categorias_producao_id: processoSeletivo01.categorias_producao[1].id}
-        ]
-      }
+          {
+            url: 'https://ieeexplore.ieee.org/',
+            file: null,
+            categorias_producao_id:
+              processoSeletivo01.categorias_producao[0].id,
+          },
+          {
+            url: 'https://www.acm.org/',
+            file: null,
+            categorias_producao_id:
+              processoSeletivo01.categorias_producao[1].id,
+          },
+        ],
+      },
     },
   });
 }
