@@ -1,4 +1,4 @@
-import { PrismaClient, StatusInscricao } from '@prisma/client';
+import { PrismaClient, StatusInscricao, Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -36,6 +36,7 @@ async function main() {
       email: 'root@ufba.br',
       telefone: '9999999999',
       senha: bcrypt.hashSync('root', 10),
+      role: Role.ROOT,
     },
   });
 
@@ -47,6 +48,7 @@ async function main() {
       email: 'djair@ufba.br',
       telefone: '7399999999',
       senha: bcrypt.hashSync('123456', 10),
+      role: Role.PROFESSOR,
       professor: {
         create: {
           siape: '123456',
@@ -66,6 +68,7 @@ async function main() {
       email: 'augusto@ufba.br',
       telefone: '7199999999',
       senha: bcrypt.hashSync('654321', 10),
+      role: Role.PROFESSOR,
       professor: {
         create: {
           siape: '654321',
@@ -85,6 +88,7 @@ async function main() {
       email: 'matheuslao@ufba.br',
       telefone: '7499999999',
       senha: bcrypt.hashSync('123456', 10),
+      role: Role.PROFESSOR,
       professor: {
         create: {
           siape: '200420221',
@@ -104,6 +108,7 @@ async function main() {
       email: 'beatriz@ufba.br',
       telefone: '7599999999',
       senha: bcrypt.hashSync('123654', 10),
+      role: Role.ALUNO,
       aluno: {
         create: {
           matricula: '123654',
@@ -126,6 +131,7 @@ async function main() {
       telefone: '7799999999',
       email: 'lucas@ufba.br',
       senha: bcrypt.hashSync('123456', 10),
+      role: Role.ALUNO,
       aluno: {
         create: {
           matricula: '202202001',
@@ -148,6 +154,7 @@ async function main() {
       email: 'kennedy@ufba.br',
       telefone: '8199999999',
       senha: bcrypt.hashSync('123456', 10),
+      role: Role.ALUNO,
       aluno: {
         create: {
           matricula: '202202002',
@@ -170,6 +177,7 @@ async function main() {
       email: 'rodrigo@ufba.br',
       telefone: '7499999999',
       senha: bcrypt.hashSync('123456', 10),
+      role: Role.ALUNO,
       aluno: {
         create: {
           matricula: '202202003',

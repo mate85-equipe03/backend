@@ -45,6 +45,12 @@ model Etapa {
   @@map("etapas")
 }
 
+enum Role {
+  ROOT
+  ALUNO
+  PROFESSOR
+}
+
 model Usuario {
   id        Int        @id @default(autoincrement())
   login     String     @unique
@@ -53,6 +59,7 @@ model Usuario {
   telefone  String
   professor Professor?
   aluno     Aluno?
+  role      Role
   createdAt DateTime   @default(now())
 
   @@map("usuarios")

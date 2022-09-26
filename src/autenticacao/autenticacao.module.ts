@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { AutenticacaoController } from './autenticacao.controller';
 import { AutenticacaoService } from './autenticacao.service';
+import { RolesGuard } from './guards/roles.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
@@ -21,6 +22,6 @@ import { LocalStrategy } from './strategies/local.strategy';
       }),
     }),
   ],
-  providers: [AutenticacaoService, LocalStrategy, JwtStrategy],
+  providers: [AutenticacaoService, LocalStrategy, JwtStrategy, RolesGuard],
 })
 export class AutenticacaoModule {}

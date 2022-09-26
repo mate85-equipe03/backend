@@ -37,8 +37,7 @@ export class InscricoesService {
     }
 
     const aluno = await this.alunosService.findAlunoByUserId(user.userId);
-    console.log(aluno);
-    console.log(data);
+
     return this.prisma.inscricao.create({
       data: {
         url_enade: data.url_enade,
