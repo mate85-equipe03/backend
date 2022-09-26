@@ -12,8 +12,8 @@ export class ProcessosSeletivosService {
     return 'This action adds a new processosSeletivo';
   }
 
-  areEligibleForEnrollment(id: number){
-    var now = new Date()
+  areEligibleForEnrollment(id: number) {
+    const now = new Date();
 
     const processoSeletivo = this.prisma.processoSeletivo.findUnique({
       where: { id: id },
@@ -33,8 +33,7 @@ export class ProcessosSeletivosService {
       },
     });
 
-    if (!processoSeletivo)
-      return false
+    if (!processoSeletivo) return false;
     return true;
   }
 
@@ -67,7 +66,7 @@ export class ProcessosSeletivosService {
       where: { id: id },
       include: {
         categorias_producao: {},
-        etapas: {}
+        etapas: {},
       },
     });
 

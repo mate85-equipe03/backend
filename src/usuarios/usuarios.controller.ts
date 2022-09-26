@@ -11,9 +11,4 @@ export class UsuariosController {
   findOne(@Param('login') login: string) {
     return this.usuariosService.findOne(login);
   }
-
-  @Post('usuario')
-  async signupUser(@Body() userData: CreateUsuarioDto): Promise<UserModel> {
-    return this.usuariosService.createUser(userData);
-  }
 }

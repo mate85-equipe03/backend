@@ -1,21 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { StatusInscricao } from '@prisma/client';
+import { AlunosService } from 'src/alunos/alunos.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
-import { StatusesInscricaoService } from 'src/statuses-inscricao/statuses-inscricao.service';
-
-
 
 @Injectable()
 export class InscricoesService {
+  constructor(
+    private prisma: PrismaService,
+    private processosSeletivosService: ProcessosSeletivosService,
+    private alunosService: AlunosService,
+  ) {}
 
-  constructor(private prisma: PrismaService){}
-
-  private readonly processosSeletivosService: ProcessosSeletivosService
-  private readonly statusInscricao: StatusesInscricaoService
-
-
-  async create(data1){
-
+  async create(data, user) {
     //PROCESSO-SELETIVO: precisa checar se o ID é permitido INSCRICAO
     //STATUS-INCRICAO: Precisa procurar automaticamente o status "Enviada"
     //ALUNO: Precisa trocar: tem que pegar do JWT TOKEN e não do POST do form
@@ -28,19 +25,26 @@ export class InscricoesService {
     //else{
     //  return 0
     //}
-   
+    if (
+      !this.processosSeletivosService.areEligibleForEnrollment(
+        data.processo_seletivo_id,
+      )
+    ) {
+      throw new HttpException(
+        'Processo Seletivo fora da data de inscrição',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
 
-    return this.prisma.inscricao.create({      
-      data:{
-        url_enade:            data1.url_enade,
-        url_lattes:           data1.url_enade,
-        status_id:            1, //tem que pegar "StatusesInscricaoService.findEnviada"
-        aluno_id:             parseInt(data1.aluno_id),
-        processo_seletivo_id: parseInt(data1.processo_seletivo_id)
-      }
-    });    
-  }  
+    const aluno = await this.alunosService.findAlunoByUserId(user.userId);
 
-  
- 
+    return this.prisma.inscricao.create({
+      data: {
+        url_enade: data.url_enade,
+        url_lattes: data.url_enade,
+        aluno_id: aluno.id,
+        processo_seletivo_id: parseInt(data.processo_seletivo_id),
+      },
+    });
+  }
 }
