@@ -65,6 +65,15 @@ model Usuario {
   @@map("usuarios")
 }
 
+model ResetSenha {
+  id        Int        @id @default(autoincrement())
+  email     String     
+  token     String
+  createdAt DateTime   @default(now())
+
+  @@map("reset_senha")
+}
+
 model Professor {
   id        Int     @id @default(autoincrement())
   professor Usuario @relation(fields: [userId], references: [id])

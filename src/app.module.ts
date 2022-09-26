@@ -11,6 +11,7 @@ import { ProcessosSeletivosModule } from './processos-seletivos/processos-seleti
 import { EtapasModule } from './etapas/etapas.module';
 import { StatusesInscricaoModule } from './statuses-inscricao/statuses-inscricao.module';
 import { InscricoesModule } from './inscricoes/inscricoes.module';
+import { ResetSenhaModule } from './reset-senha/reset-senha.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { InscricoesModule } from './inscricoes/inscricoes.module';
     EtapasModule,
     StatusesInscricaoModule,
     InscricoesModule,
+    ResetSenhaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
