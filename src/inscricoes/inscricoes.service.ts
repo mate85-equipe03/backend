@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { StatusInscricao } from '@prisma/client';
+import { Inscricao, StatusInscricao } from '@prisma/client';
 import { AlunosService } from 'src/alunos/alunos.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
@@ -38,6 +38,7 @@ export class InscricoesService {
   }
 
 
+
   async update(data,user) {
     if (
       !this.processosSeletivosService.areEligibleForEnrollment(
@@ -51,13 +52,17 @@ export class InscricoesService {
     }
 
     const aluno = await this.alunosService.findAlunoByUserId(user.userId);
+    const inscricao = await this.prisma.inscricao.findUnique({
+      where: {
+        aluno_id: aluno.id,
+      }
+    })
     
     return  this.prisma.inscricao.update({
 
-        where: {aluno_id: aluno.id,
+        where: {id: inscricao.id,
                 },
         data: {
-        processo_seletivo_id: data.processo_seletivo_id,
         url_enade: data.url_enade,
         url_lattes: data.url_enade,
         }
