@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Request, Put, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Request, Patch, UseGuards } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
 import { UpdateInscricaoDto } from './dto/update-inscricao.dto';
@@ -20,7 +20,7 @@ export class InscricoesController {
 
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Put()
+  @Patch()
   update(@Body() updateInscricaoDto: UpdateInscricaoDto, @Request() req) {
     return this.inscricoesService.update(updateInscricaoDto, req.user);
   }

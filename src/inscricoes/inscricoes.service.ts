@@ -64,7 +64,7 @@ export class InscricoesService {
                 },
         data: {
         url_enade: data.url_enade,
-        url_lattes: data.url_enade,
+        url_lattes: data.url_lattes,
         }
     });
 
