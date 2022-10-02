@@ -150,7 +150,7 @@ model Inscricao {
   processo_seletivo_id Int
 
   aluno    Aluno @relation(fields: [aluno_id], references: [id])
-  aluno_id Int @unique
+  aluno_id Int 
 
   url_lattes String?
   url_enade  String?

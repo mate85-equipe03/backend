@@ -37,6 +37,16 @@ export class InscricoesService {
     });
   }
 
+  async findInscricaoId(userId,data): Promise<Inscricao> {
+    return this.prisma.inscricao.findFirst({
+      where: { AND:{
+        aluno_id: userId,
+        processo_seletivo_id: data.processo_seletivo_id
+      }
+      },
+    });
+  }
+
 
 
   async update(data,user) {
@@ -51,16 +61,12 @@ export class InscricoesService {
       );
     }
 
-    const aluno = await this.alunosService.findAlunoByUserId(user.userId);
-    const inscricao = await this.prisma.inscricao.findUnique({
-      where: {
-        aluno_id: aluno.id,
-      }
-    })
+    const inscricao = await this.findInscricaoId(user.userId, data);
     
     return  this.prisma.inscricao.update({
 
-        where: {id: inscricao.id,
+        where:
+          {id: inscricao.id,
                 },
         data: {
         url_enade: data.url_enade,
