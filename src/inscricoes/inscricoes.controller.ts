@@ -5,7 +5,9 @@ import { JwtAuthGuard } from 'src/autenticacao/guards/jwt-auth.guard';
 import { Roles } from 'src/autenticacao/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { RolesGuard } from 'src/autenticacao/guards/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('inscricoes')
 @Controller('inscricoes')
 export class InscricoesController {
   constructor(private readonly inscricoesService: InscricoesService) {}

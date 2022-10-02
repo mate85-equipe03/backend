@@ -11,9 +11,20 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API')
-    .setDescription('The backend API description')
+    .setDescription(
+      'Endpoints do projeto Sistema de Seleção de Bolsistas - PGCOMP UFBA',
+    )
     .setVersion('0.0.1')
     .addTag('bolsas')
+    .addTag('usuarios')
+    .addTag('alunos')
+    .addTag('autenticacao')
+    .addTag('etapas')
+    .addTag('inscricoes')
+    .addTag('niveis-vaga')
+    .addTag('processos-seletivos')
+    .addTag('professores')
+    .addTag('reset-senha')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
