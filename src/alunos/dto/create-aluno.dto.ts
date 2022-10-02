@@ -14,6 +14,7 @@ export class CreateAlunoDto extends CreateUsuarioDto {
   @ApiProperty({
     example: '20221',
   })
+  @IsNumberString()
   @IsNotEmpty()
   semestre_pgcomp: number;
 
