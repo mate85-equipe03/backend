@@ -36,7 +36,7 @@ export class InscricoesService {
         historico_graduacao: data.historico_graduacao,
         historico_posgraduacao: data.historico_posgraduacao,
         producoes: { 
-          createMany: [
+          create: [
              data.producoes 
           ]
         }
