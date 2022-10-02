@@ -13,18 +13,7 @@ export class InscricoesService {
   ) {}
 
   async create(data, user) {
-    //PROCESSO-SELETIVO: precisa checar se o ID é permitido INSCRICAO
-    //STATUS-INCRICAO: Precisa procurar automaticamente o status "Enviada"
-    //ALUNO: Precisa trocar: tem que pegar do JWT TOKEN e não do POST do form
-
-    // Erro: "TypeError: Cannot read properties of undefined (reading 'areEligibleForEnrollment')"
-
-    //if(this.processosSeletivosService.areEligibleForEnrollment(parseInt(data1.processo_seletivo_id))){
-    //  return 1
-    //}
-    //else{
-    //  return 0
-    //}
+    
     if (
       !this.processosSeletivosService.areEligibleForEnrollment(
         data.processo_seletivo_id,
@@ -44,7 +33,17 @@ export class InscricoesService {
         url_lattes: data.url_enade,
         aluno_id: aluno.id,
         processo_seletivo_id: parseInt(data.processo_seletivo_id),
+        historico_graduacao: data.historico_graduacao,
+        historico_posgraduacao: data.historico_posgraduacao,
+        producoes: { 
+          createMany: [
+             data.producoes 
+          ]
+        }
       },
+      include: {
+        producoes: true,
+      }
     });
   }
 }
