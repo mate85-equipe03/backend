@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Request, Patch, UseGuards } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
+import { UpdateInscricaoDto } from './dto/update-inscricao.dto';
 import { JwtAuthGuard } from 'src/autenticacao/guards/jwt-auth.guard';
 import { Roles } from 'src/autenticacao/decorators/roles.decorator';
 import { Role } from '@prisma/client';
@@ -15,5 +16,12 @@ export class InscricoesController {
   @Post()
   create(@Body() createInscricaoDto: CreateInscricaoDto, @Request() req) {
     return this.inscricoesService.create(createInscricaoDto, req.user);
+  }
+
+  @Roles(Role.ALUNO)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch()
+  update(@Body() updateInscricaoDto: UpdateInscricaoDto, @Request() req) {
+    return this.inscricoesService.update(updateInscricaoDto, req.user);
   }
 }
