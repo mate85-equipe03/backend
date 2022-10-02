@@ -3,11 +3,10 @@ import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
 
 export class CreateAlunoDto extends CreateUsuarioDto {
   @IsNotEmpty()
-  @Length(10)
+  @Length(9)
   @IsNumberString()
   matricula: string;
 
-  @IsNumber()
   @IsNotEmpty()
   semestre_pgcomp: number;
 
