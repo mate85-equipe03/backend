@@ -11,7 +11,9 @@ import { ProcessosSeletivosService } from './processos-seletivos.service';
 import { CreateProcessosSeletivoDto } from './dto/create-processos-seletivo.dto';
 import { UpdateProcessosSeletivoDto } from './dto/update-processos-seletivo.dto';
 import { ProcessoSeletivo } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('processos-seletivos')
 @Controller('processos-seletivos')
 export class ProcessosSeletivosController {
   constructor(

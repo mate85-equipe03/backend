@@ -10,7 +10,9 @@ import {
 import { NiveisVagaService } from './niveis-vaga.service';
 import { CreateNiveisVagaDto } from './dto/create-niveis-vaga.dto';
 import { UpdateNiveisVagaDto } from './dto/update-niveis-vaga.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('niveis-vaga')
 @Controller('niveis-vaga')
 export class NiveisVagaController {
   constructor(private readonly niveisVagaService: NiveisVagaService) {}
