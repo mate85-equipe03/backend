@@ -5,9 +5,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { CreateResetSenhaDto } from './dto/create-reset-senha.dto';
 import { UpdateResetSenhaDto } from './dto/update-reset-senha.dto';
 import * as bcrypt from 'bcrypt';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('reset-senha')
+
 @Controller('reset-senha')
 export class ResetSenhaController {
   constructor(private readonly resetSenhaService: ResetSenhaService, 

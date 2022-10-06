@@ -2,9 +2,7 @@ import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { Usuario as UserModel } from '@prisma/client';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('usuarios')
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
