@@ -2,9 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { EtapasService } from './etapas.service';
 import { CreateEtapaDto } from './dto/create-etapa.dto';
 import { UpdateEtapaDto } from './dto/update-etapa.dto';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('etapas')
 @Controller('etapas')
 export class EtapasController {
   constructor(private readonly etapasService: EtapasService) {}
