@@ -19,16 +19,16 @@ model NivelVaga {
 }
 
 model ProcessoSeletivo {
-  id                  Int                 @id @default(autoincrement())
-  titulo              String
-  semestre            String
-  descricao           String?
-  edital_url          String
-  etapas              Etapa[]
-  inscricoes          Inscricao[]
-  categorias_producao CategoriaProducao[]
-  arquivado           Boolean?            @default(false)
-  createdAt           DateTime            @default(now())
+  id              Int             @id @default(autoincrement())
+  titulo          String
+  semestre        String
+  descricao       String?
+  edital_url      String
+  etapas          Etapa[]
+  inscricoes      Inscricao[]
+  tipos_documento TipoDocumento[]
+  arquivado       Boolean?        @default(false)
+  createdAt       DateTime        @default(now())
 
   @@map("processos_seletivos")
 }
@@ -66,10 +66,10 @@ model Usuario {
 }
 
 model ResetSenha {
-  id        Int        @id @default(autoincrement())
-  email     String     
+  id        Int      @id @default(autoincrement())
+  email     String
   token     String
-  createdAt DateTime   @default(now())
+  createdAt DateTime @default(now())
 
   @@map("reset_senha")
 }
@@ -99,18 +99,17 @@ model Aluno {
   @@map("alunos")
 }
 
-model CategoriaProducao {
+model TipoDocumento {
   id                   Int              @id @default(autoincrement())
   nome                 String
   pontuacao            Decimal          @default(0.00)
   processo_seletivo    ProcessoSeletivo @relation(fields: [processo_seletivo_id], references: [id])
   processo_seletivo_id Int
 
-  producoes ProducaoCientifica[]
+  documentos Documento[]
+  createdAt  DateTime    @default(now())
 
-  createdAt DateTime @default(now())
-
-  @@map("categorias_producao")
+  @@map("tipos_documento")
 }
 
 enum StatusInscricao {
@@ -126,21 +125,20 @@ model StatusInscricaoDesc {
   @@map("statuses_inscricao")
 }
 
-model ProducaoCientifica {
+model Documento {
   id Int @id @default(autoincrement())
 
   inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])
   inscricao_id Int
 
-  categorias_producao    CategoriaProducao @relation(fields: [categorias_producao_id], references: [id])
-  categorias_producao_id Int
+  tipos_documento    TipoDocumento @relation(fields: [tipos_documento_id], references: [id])
+  tipos_documento_id Int
 
-  url  String?
-  file Bytes?
+  url String
 
   createdAt DateTime @default(now())
 
-  @@map("producoes_cientificas")
+  @@map("documentos")
 }
 
 model Inscricao {
@@ -150,15 +148,12 @@ model Inscricao {
   processo_seletivo_id Int
 
   aluno    Aluno @relation(fields: [aluno_id], references: [id])
-  aluno_id Int 
-
+  aluno_id Int
+  
   url_lattes String?
   url_enade  String?
 
-  historico_graduacao    Bytes?
-  historico_posgraduacao Bytes?
-
-  producoes ProducaoCientifica[]
+  documentos Documento[]
 
   revisor    Professor? @relation("Revisor", fields: [revisor_id], references: [id])
   revisor_id Int?

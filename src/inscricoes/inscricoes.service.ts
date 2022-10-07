@@ -31,17 +31,10 @@ export class InscricoesService {
         url_enade: data.url_enade,
         url_lattes: data.url_enade,
         aluno_id: aluno.id,
-        processo_seletivo_id: parseInt(data.processo_seletivo_id),
-        historico_graduacao: data.historico_graduacao,
-        historico_posgraduacao: data.historico_posgraduacao,
-        producoes: { 
-          create: [
-             data.producoes 
-          ]
-        }
+        processo_seletivo_id: parseInt(data.processo_seletivo_id),  
       },
       include: {
-        producoes: true,
+        documentos: true,
       }
     });
   }
