@@ -149,7 +149,7 @@ model Inscricao {
 
   aluno    Aluno @relation(fields: [aluno_id], references: [id])
   aluno_id Int
-  
+
   url_lattes String?
   url_enade  String?
 
@@ -163,9 +163,28 @@ model Inscricao {
   nota_final    Decimal @default(0.00)
   classificacao Int     @default(0)
 
-  createdAt DateTime @default(now())
-  editedAt  DateTime @default(now())
+  createdAt DateTime    @default(now())
+  editedAt  DateTime    @default(now())
+  Historico Historico[]
 
   @@unique([aluno_id, processo_seletivo_id])
   @@map("inscricoes")
+}
+
+enum TipoHistorico {
+  GRADUACAO
+  POS_GRADUACAO
+}
+
+model Historico {
+  id   Int           @id @default(autoincrement())
+  url  String
+  tipo TipoHistorico
+
+  inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])
+  inscricao_id Int
+
+  createdAt DateTime @default(now())
+
+  @@map("historicos")
 }

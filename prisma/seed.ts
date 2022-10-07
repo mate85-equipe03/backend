@@ -219,12 +219,12 @@ async function main() {
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
       tipos_documento: {
         create: [
-          { nome: 'Histórico Graduação', pontuacao: 0.00 },
-          { nome: 'Histórico Pós-Graduação', pontuacao: 0.00 },
+          { nome: 'Histórico Graduação', pontuacao: 0.0 },
+          { nome: 'Histórico Pós-Graduação', pontuacao: 0.0 },
           { nome: 'Publicação A1', pontuacao: 10.0 },
           { nome: 'Publicação A2', pontuacao: 8.75 },
           { nome: 'Publicação A3', pontuacao: 8.75 },
-          { nome: 'Publicação B1', pontuacao: 6.75 },          
+          { nome: 'Publicação B1', pontuacao: 6.75 },
         ],
       },
     },
@@ -317,13 +317,11 @@ async function main() {
         create: [
           {
             url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665103845264-3236024.3236073.pdf',
-            tipos_documento_id:
-              processoSeletivo01.tipos_documento[0].id,
+            tipos_documento_id: processoSeletivo01.tipos_documento[0].id,
           },
           {
             url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665026409919-c157-rc-2020-RESySu-v1.0b.pdf',
-            tipos_documento_id:
-              processoSeletivo01.tipos_documento[1].id,
+            tipos_documento_id: processoSeletivo01.tipos_documento[1].id,
           },
         ],
       },

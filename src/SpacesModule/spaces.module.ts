@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SpacesController } from './spaces.controller';
 import { DoSpacesService } from './SpacesService/doSpacesService';
-import { DoSpacesServicerovider } from './SpacesService';
+import { DoSpacesServiceProvider } from './SpacesService';
 
 @Module({
-  imports: [],
-  controllers: [SpacesController],
   // provide both the service and the custom provider
-  providers: [DoSpacesServicerovider, DoSpacesService],
+  providers: [DoSpacesServiceProvider, DoSpacesService],
+  exports: [DoSpacesServiceProvider, DoSpacesService],
 })
 export class SpacesModule {}

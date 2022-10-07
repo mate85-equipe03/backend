@@ -18,12 +18,12 @@ const S3 = new AWS.S3({
 });
 
 // Now comes the provider
-export const DoSpacesServicerovider: Provider<AWS.S3> = {
+export const DoSpacesServiceProvider: Provider<AWS.S3> = {
   provide: DoSpacesServiceLib,
   useValue: S3,
 };
 
-// This is just a simple interface that represents an uploaded file object 
+// This is just a simple interface that represents an uploaded file object
 export interface UploadedMulterFileI {
   fieldname: string;
   originalname: string;

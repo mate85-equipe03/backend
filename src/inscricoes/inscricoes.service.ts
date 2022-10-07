@@ -12,7 +12,7 @@ export class InscricoesService {
     private alunosService: AlunosService,
   ) {}
 
-  async create(data, user) {
+  async create(data, user): Promise<Inscricao> {
     if (
       !this.processosSeletivosService.areEligibleForEnrollment(
         data.processo_seletivo_id,
@@ -31,27 +31,23 @@ export class InscricoesService {
         url_enade: data.url_enade,
         url_lattes: data.url_enade,
         aluno_id: aluno.id,
-        processo_seletivo_id: parseInt(data.processo_seletivo_id),  
+        processo_seletivo_id: parseInt(data.processo_seletivo_id),
       },
-      include: {
-        documentos: true,
-      }
     });
   }
 
-  async findInscricaoId(userId,data): Promise<Inscricao> {
+  async findInscricaoId(userId, data): Promise<Inscricao> {
     return this.prisma.inscricao.findFirst({
-      where: { AND:{
-        aluno_id: userId,
-        processo_seletivo_id: data.processo_seletivo_id
-      }
+      where: {
+        AND: {
+          aluno_id: userId,
+          processo_seletivo_id: data.processo_seletivo_id,
+        },
       },
     });
   }
 
-
-
-  async update(data,user) {
+  async update(data, user) {
     if (
       !this.processosSeletivosService.areEligibleForEnrollment(
         data.processo_seletivo_id,
@@ -64,17 +60,13 @@ export class InscricoesService {
     }
 
     const inscricao = await this.findInscricaoId(user.userId, data);
-    
-    return  this.prisma.inscricao.update({
 
-        where:
-          {id: inscricao.id,
-                },
-        data: {
+    return this.prisma.inscricao.update({
+      where: { id: inscricao.id },
+      data: {
         url_enade: data.url_enade,
         url_lattes: data.url_lattes,
-        }
+      },
     });
-
-}
+  }
 }

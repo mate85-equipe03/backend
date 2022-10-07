@@ -13,6 +13,7 @@ import { StatusesInscricaoModule } from './statuses-inscricao/statuses-inscricao
 import { InscricoesModule } from './inscricoes/inscricoes.module';
 import { ResetSenhaModule } from './reset-senha/reset-senha.module';
 import { SpacesModule } from './SpacesModule/spaces.module';
+import { HistoricoModule } from './historico/historico.module';
 
 
 @Module({
@@ -29,6 +30,7 @@ import { SpacesModule } from './SpacesModule/spaces.module';
     InscricoesModule,
     ResetSenhaModule,
     SpacesModule,
+    HistoricoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
