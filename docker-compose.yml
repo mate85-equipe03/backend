@@ -5,33 +5,16 @@ services:
       context: .
       # Roda a imagem de desenvolvimento
       target: development
-    volumes:
-      - ./:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
     env_file:
       - .env
+    volumes:
+      - .:/usr/src/app
     # Run a command against the development stage of the image
-    command: npm run start:dev
+    command: npm run start:dev:migrate
     ports:
       - ${PORT}:3000
     depends_on:
-      - database-${DATABASE}
-
-  database-mysql:
-    image: mysql:8.0
-    cap_add:
-      - SYS_NICE
-    restart: always
-    env_file:
-      - .env
-    environment:
-      - MYSQL_DATABASE=${DATABASE_NAME}
-      - MYSQL_USERNAME=${DATABASE_USER}
-      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
-    ports:
-      - ${DATABASE_PORT}:3306
-    volumes:
-      - database_mysql_data:/var/lib/mysql
+      - database-postgres
 
   database-postgres:
     image: postgres:14.5
@@ -45,7 +28,7 @@ services:
     ports:
       - ${DATABASE_PORT}:5432
     volumes:
-      - database_postgres_data:/var/lib/postgresql/data   
+      - database_postgres_data:/var/lib/postgresql/data
 
   adminer:
     image: adminer:4.8.1
@@ -54,9 +37,10 @@ services:
     ports:
       - ${ADMINER_PORT}:8080
     depends_on:
-      - database-${DATABASE}
+      - database-postgres
 
 volumes:
   node_modules: {}
-  database_mysql_data: {}  
+  prisma: {}
+  database_mysql_data: {}
   database_postgres_data: {}
