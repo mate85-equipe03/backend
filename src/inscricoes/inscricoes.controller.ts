@@ -7,6 +7,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  Header,
 } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
@@ -33,6 +34,7 @@ export class InscricoesController {
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
+  @Header('Content-Type', 'multipart/form-data')
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'historico_graduacao_file' },
@@ -56,7 +58,7 @@ export class InscricoesController {
       files.historico_graduacao_file.forEach(async (file) => {
         const url = await this.spacesService.uploadFile(file);
         if (url) {
-          this.historicoService.create({
+          await this.historicoService.create({
             inscricao_id: inscricao.id,
             url,
             tipo: TipoHistorico.GRADUACAO,
@@ -66,7 +68,7 @@ export class InscricoesController {
       files.historico_posgraduacao_file.forEach(async (file) => {
         const url = await this.spacesService.uploadFile(file);
         if (url) {
-          this.historicoService.create({
+          await this.historicoService.create({
             inscricao_id: inscricao.id,
             url,
             tipo: TipoHistorico.POS_GRADUACAO,
