@@ -305,28 +305,28 @@ async function main() {
   /* *********************************************************************** */
   //                          INSCRICAO
   /* *********************************************************************** */
-  const inscricaoBia = await prisma.inscricao.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
-      aluno_id: beatriz_user.aluno.id,
-      processo_seletivo_id: processoSeletivo01.id,
-      url_lattes: 'https://idojo.com.br',
-      url_enade: 'https://ufba.br',
-      documentos: {
-        create: [
-          {
-            url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665103845264-3236024.3236073.pdf',
-            tipos_documento_id: processoSeletivo01.tipos_documento[0].id,
-          },
-          {
-            url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665026409919-c157-rc-2020-RESySu-v1.0b.pdf',
-            tipos_documento_id: processoSeletivo01.tipos_documento[1].id,
-          },
-        ],
-      },
-    },
-  });
+  // const inscricaoBia = await prisma.inscricao.upsert({
+  //   where: { id: 1 },
+  //   update: {},
+  //   create: {
+  //     aluno_id: beatriz_user.aluno.id,
+  //     processo_seletivo_id: processoSeletivo01.id,
+  //     url_lattes: 'https://idojo.com.br',
+  //     url_enade: 'https://ufba.br',
+  //     documentos: {
+  //       create: [
+  //         {
+  //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665103845264-3236024.3236073.pdf',
+  //           tipos_documento_id: processoSeletivo01.tipos_documento[0].id,
+  //         },
+  //         {
+  //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665026409919-c157-rc-2020-RESySu-v1.0b.pdf',
+  //           tipos_documento_id: processoSeletivo01.tipos_documento[1].id,
+  //         },
+  //       ],
+  //     },
+  //   },
+  // });
 }
 
 main()
