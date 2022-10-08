@@ -53,7 +53,7 @@ export class InscricoesService {
     return this.prisma.inscricao.findFirst({
       where: {
         AND: {
-          aluno_id: id2,
+          id: id2,
           processo_seletivo_id: id1,
         },
       },
