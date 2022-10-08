@@ -217,15 +217,19 @@ async function main() {
       arquivado: false,
       edital_url:
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
-      categorias_producao: {
+      tipos_documento: {
         create: [
+          { nome: 'Histórico Graduação', pontuacao: 0.0 },
+          { nome: 'Histórico Pós-Graduação', pontuacao: 0.0 },
           { nome: 'Publicação A1', pontuacao: 10.0 },
           { nome: 'Publicação A2', pontuacao: 8.75 },
+          { nome: 'Publicação A3', pontuacao: 8.75 },
+          { nome: 'Publicação B1', pontuacao: 6.75 },
         ],
       },
     },
     include: {
-      categorias_producao: true,
+      tipos_documento: true,
     },
   });
   const etapa01 = await prisma.etapa.upsert({
@@ -234,8 +238,8 @@ async function main() {
     create: {
       processo_seletivo_id: processoSeletivo01.id,
       name: 'Inscrições',
-      data_inicio: new Date('2022-09-15'),
-      data_fim: new Date('2022-10-15'),
+      data_inicio: new Date('2022-10-01'),
+      data_fim: new Date('2022-11-15'),
     },
   });
   const etapa03 = await prisma.etapa.upsert({
@@ -244,8 +248,8 @@ async function main() {
     create: {
       processo_seletivo_id: processoSeletivo01.id,
       name: 'Em analise',
-      data_inicio: new Date('2022-10-15'),
-      data_fim: new Date('2022-11-15'),
+      data_inicio: new Date('2022-11-15'),
+      data_fim: new Date('2022-12-15'),
     },
   });
 
@@ -260,7 +264,7 @@ async function main() {
       arquivado: true,
       edital_url:
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
-      categorias_producao: {
+      tipos_documento: {
         create: [
           { nome: 'Publicação A1', pontuacao: 10.0 },
           { nome: 'Publicação A2', pontuacao: 8.75 },
@@ -268,7 +272,7 @@ async function main() {
       },
     },
     include: {
-      categorias_producao: true,
+      tipos_documento: true,
     },
   });
   const etapa02 = await prisma.etapa.upsert({
@@ -301,32 +305,28 @@ async function main() {
   /* *********************************************************************** */
   //                          INSCRICAO
   /* *********************************************************************** */
-  const inscricaoBia = await prisma.inscricao.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
-      aluno_id: beatriz_user.aluno.id,
-      processo_seletivo_id: processoSeletivo01.id,
-      url_lattes: 'https://idojo.com.br',
-      url_enade: 'https://ufba.br',
-      producoes: {
-        create: [
-          {
-            url: 'https://ieeexplore.ieee.org/',
-            file: null,
-            categorias_producao_id:
-              processoSeletivo01.categorias_producao[0].id,
-          },
-          {
-            url: 'https://www.acm.org/',
-            file: null,
-            categorias_producao_id:
-              processoSeletivo01.categorias_producao[1].id,
-          },
-        ],
-      },
-    },
-  });
+  // const inscricaoBia = await prisma.inscricao.upsert({
+  //   where: { id: 1 },
+  //   update: {},
+  //   create: {
+  //     aluno_id: beatriz_user.aluno.id,
+  //     processo_seletivo_id: processoSeletivo01.id,
+  //     url_lattes: 'https://idojo.com.br',
+  //     url_enade: 'https://ufba.br',
+  //     documentos: {
+  //       create: [
+  //         {
+  //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665103845264-3236024.3236073.pdf',
+  //           tipos_documento_id: processoSeletivo01.tipos_documento[0].id,
+  //         },
+  //         {
+  //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665026409919-c157-rc-2020-RESySu-v1.0b.pdf',
+  //           tipos_documento_id: processoSeletivo01.tipos_documento[1].id,
+  //         },
+  //       ],
+  //     },
+  //   },
+  // });
 }
 
 main()

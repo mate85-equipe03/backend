@@ -43,7 +43,7 @@ export class ProcessosSeletivosService {
     const dataAtual = new Date();
     return this.prisma.processoSeletivo.findMany({
       include: {
-        categorias_producao: {},
+        tipos_documento: {},
         etapas: {
           where: {
             AND: {
@@ -65,7 +65,7 @@ export class ProcessosSeletivosService {
     const processoSeletivo = await this.prisma.processoSeletivo.findUnique({
       where: { id: id },
       include: {
-        categorias_producao: {},
+        tipos_documento: {},
         etapas: {},
       },
     });

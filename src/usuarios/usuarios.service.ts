@@ -43,14 +43,12 @@ export class UsuariosService {
     });
   }
 
-  async update (id:number, data): Promise<Usuario> {
-    
+  async update(id: number, data): Promise<Usuario> {
     return await this.prisma.usuario.update({
       where: {
-        id: id
+        id: id,
       },
-      data: data
-    })
+      data: data,
+    });
   }
-
 }

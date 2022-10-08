@@ -8,12 +8,12 @@ async function main() {
       id: 1,
     },
     include: {
-      categorias_producao: true,
+      tipos_documento: true,
     }
   })
   
 
-  console.log(x.categorias_producao[0])
+  console.log(x.tipos_documento[0])
 }
 
 main()
