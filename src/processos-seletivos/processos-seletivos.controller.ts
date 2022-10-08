@@ -12,6 +12,7 @@ import { CreateProcessosSeletivoDto } from './dto/create-processos-seletivo.dto'
 import { UpdateProcessosSeletivoDto } from './dto/update-processos-seletivo.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { InscricoesService } from 'src/inscricoes/inscricoes.service';
+import { int } from 'aws-sdk/clients/datapipeline';
 
 @Controller('processos-seletivos')
 export class ProcessosSeletivosController {
@@ -55,10 +56,10 @@ export class ProcessosSeletivosController {
   }
 
   @Get(':id/inscricoes/:id2')
-  async findinscricao(@Param('id') id: string, id2: string) {
+  async findinscricao(@Param('id') id: string,@Param('id2') id2: string) {
   const processo = await this.processosSeletivosService.findOne(+id);
-  const inscricoes = await this.inscricoesService.findMany(processo.id)
-  return inscricoes
+  const inscricao = await this.inscricoesService.findInscricaoAlunoId(processo.id, parseInt(id2))
+  return inscricao
   }
 
 

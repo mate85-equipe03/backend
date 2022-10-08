@@ -54,9 +54,12 @@ export class InscricoesService {
       where: {
         AND: {
           aluno_id: id2,
-          processo_seletivo: id1,
+          processo_seletivo_id: id1,
         },
       },
+      include: {
+        Historico:true,
+      }
     });
   }
 
