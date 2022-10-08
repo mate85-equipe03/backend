@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Inscricao, StatusInscricao } from '@prisma/client';
 import { AlunosService } from 'src/alunos/alunos.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Historico } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
 
@@ -75,7 +76,10 @@ export class InscricoesService {
     return this.prisma.inscricao.findMany({
       where: {
        processo_seletivo_id: id
-    }
+    },
+      include: {
+        Historico:true,
+      }
   })
   }
 
