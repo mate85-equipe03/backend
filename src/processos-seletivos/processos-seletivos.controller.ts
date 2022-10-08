@@ -10,12 +10,13 @@ import {
 import { ProcessosSeletivosService } from './processos-seletivos.service';
 import { CreateProcessosSeletivoDto } from './dto/create-processos-seletivo.dto';
 import { UpdateProcessosSeletivoDto } from './dto/update-processos-seletivo.dto';
-import { ProcessoSeletivo } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Controller('processos-seletivos')
 export class ProcessosSeletivosController {
   constructor(
     private readonly processosSeletivosService: ProcessosSeletivosService,
+    //private readonly inscricoesService: InscricoesService,
   ) {}
 
   @Post()
@@ -44,6 +45,15 @@ export class ProcessosSeletivosController {
   findOne(@Param('id') id: string) {
     return this.processosSeletivosService.findOne(+id);
   }
+
+  @Get(':id/inscricoes')
+  async findinscricoes(@Param('id') id: string) {
+  const processo = await this.processosSeletivosService.findOne(+id);
+  //const inscricoes = await this.inscricoesService.findMany(processo.id)
+  return processo
+  }
+
+
 
   @Patch(':id')
   update(
