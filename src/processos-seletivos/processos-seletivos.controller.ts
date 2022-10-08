@@ -45,6 +45,16 @@ export class ProcessosSeletivosController {
     return this.processosSeletivosService.findOne(+id);
   }
 
+  //@Get(':id/inscricoes')
+  //findOne(@Param('id') id: string) {
+  //  return this.processosSeletivosService.findOne(+id);
+  //}
+
+  //@Get(':id/inscricoes/:id')
+  //findOne(@Param('id') id: string) {
+  //  return this.processosSeletivosService.findOne(+id);
+  //}
+
   @Patch(':id')
   update(
     @Param('id') id: string,
