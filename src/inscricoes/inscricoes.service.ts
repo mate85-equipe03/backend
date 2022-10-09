@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Inscricao, StatusInscricao } from '@prisma/client';
 import { AlunosService } from 'src/alunos/alunos.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Historico } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
 
 @Injectable()
@@ -45,6 +47,43 @@ export class InscricoesService {
         },
       },
     });
+  }
+
+  async findInscricaoAlunoId(id1, id2): Promise<Inscricao> {
+    return this.prisma.inscricao.findFirst({
+      where: {
+        AND: {
+          id: id2,
+          processo_seletivo_id: id1,
+        },
+      },
+      include: {
+        Historico:true,
+      }
+    });
+  }
+
+  async findOne(id: number): Promise<Inscricao> {
+    const inscricao = await this.prisma.inscricao.findUnique({
+      where: { id },
+    });
+    if (!inscricao)
+      throw new HttpException(
+        'Inscrição não encontrada',
+        HttpStatus.NOT_FOUND,
+      );
+    return inscricao;
+  }
+
+  findMany(id:number): Promise<Inscricao[]> {
+    return this.prisma.inscricao.findMany({
+      where: {
+       processo_seletivo_id: id
+    },
+      include: {
+        Historico:true,
+      }
+  })
   }
 
   async update(data, user) {

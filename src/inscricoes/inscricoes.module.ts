@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { InscricoesController } from './inscricoes.controller';
 import { ProcessosSeletivosModule } from 'src/processos-seletivos/processos-seletivos.module';
@@ -8,12 +8,13 @@ import { HistoricoModule } from 'src/historico/historico.module';
 
 @Module({
   imports: [
-    ProcessosSeletivosModule,
+    forwardRef(() => ProcessosSeletivosModule),
     AlunosModule,
     SpacesModule,
     HistoricoModule,
   ],
   controllers: [InscricoesController],
   providers: [InscricoesService],
+  exports: [InscricoesService]
 })
 export class InscricoesModule {}
