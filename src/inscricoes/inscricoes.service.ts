@@ -31,7 +31,7 @@ export class InscricoesService {
     return this.prisma.inscricao.create({
       data: {
         url_enade: data.url_enade,
-        url_lattes: data.url_enade,
+        url_lattes: aluno.lattes_link,
         aluno_id: aluno.id,
         processo_seletivo_id: parseInt(data.processo_seletivo_id),
       },
@@ -58,8 +58,8 @@ export class InscricoesService {
         },
       },
       include: {
-        Historico:true,
-      }
+        Historico: true,
+      },
     });
   }
 
@@ -68,22 +68,19 @@ export class InscricoesService {
       where: { id },
     });
     if (!inscricao)
-      throw new HttpException(
-        'Inscrição não encontrada',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Inscrição não encontrada', HttpStatus.NOT_FOUND);
     return inscricao;
   }
 
-  findMany(id:number): Promise<Inscricao[]> {
+  findMany(id: number): Promise<Inscricao[]> {
     return this.prisma.inscricao.findMany({
       where: {
-       processo_seletivo_id: id
-    },
+        processo_seletivo_id: id,
+      },
       include: {
-        Historico:true,
-      }
-  })
+        Historico: true,
+      },
+    });
   }
 
   async update(data, user) {
