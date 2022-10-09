@@ -20,7 +20,7 @@ export class ProfessoresService {
         telefone: data['telefone'],
         role: Role.PROFESSOR,
         professor: {
-          create: { siape: data['siape'] },
+          create: { siape: data['login'] },
         },
       },
     });

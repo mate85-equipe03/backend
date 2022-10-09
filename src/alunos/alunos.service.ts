@@ -19,7 +19,7 @@ export class AlunosService {
         role: Role.ALUNO,
         aluno: {
           create: {
-            matricula: data['matricula'],
+            matricula: data['login'],
             curso: data['curso'],
             lattes_link: data['lattes_link'],
             semestre_pgcomp: data['semestre_pgcomp'],
