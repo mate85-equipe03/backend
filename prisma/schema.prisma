@@ -19,16 +19,16 @@ model NivelVaga {
 }
 
 model ProcessoSeletivo {
-  id              Int             @id @default(autoincrement())
-  titulo          String
-  semestre        String
-  descricao       String?
-  edital_url      String
-  etapas          Etapa[]
-  inscricoes      Inscricao[]
-  tipos_documento TipoDocumento[]
-  arquivado       Boolean?        @default(false)
-  createdAt       DateTime        @default(now())
+  id                  Int                 @id @default(autoincrement())
+  titulo              String
+  semestre            String
+  descricao           String?
+  edital_url          String
+  etapas              Etapa[]
+  inscricoes          Inscricao[]
+  categorias_producao CategoriaProducao[]
+  arquivado           Boolean?            @default(false)
+  createdAt           DateTime            @default(now())
 
   @@map("processos_seletivos")
 }
@@ -79,8 +79,7 @@ model Professor {
   professor Usuario @relation(fields: [userId], references: [id])
   userId    Int     @unique
   siape     String  @unique
-  nome      String     @default("ABC")
-
+  nome      String  @default("ABC")
 
   Revisoes   Inscricao[] @relation("Revisor")
   Auditorias Inscricao[] @relation("Auditor")
@@ -94,7 +93,7 @@ model Aluno {
   userId          Int         @unique
   matricula       String      @unique
   inscricoes      Inscricao[]
-  nome      String     @default("ABC")
+  nome            String      @default("ABC")
   semestre_pgcomp Int
   curso           String
   lattes_link     String
@@ -102,17 +101,17 @@ model Aluno {
   @@map("alunos")
 }
 
-model TipoDocumento {
+model CategoriaProducao {
   id                   Int              @id @default(autoincrement())
   nome                 String
   pontuacao            Decimal          @default(0.00)
   processo_seletivo    ProcessoSeletivo @relation(fields: [processo_seletivo_id], references: [id])
   processo_seletivo_id Int
 
-  documentos Documento[]
-  createdAt  DateTime    @default(now())
+  producoes ProducaoCientifica[]
+  createdAt DateTime             @default(now())
 
-  @@map("tipos_documento")
+  @@map("categorias_producao")
 }
 
 enum StatusInscricao {
@@ -128,20 +127,20 @@ model StatusInscricaoDesc {
   @@map("statuses_inscricao")
 }
 
-model Documento {
+model ProducaoCientifica {
   id Int @id @default(autoincrement())
 
   inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])
   inscricao_id Int
 
-  tipos_documento    TipoDocumento @relation(fields: [tipos_documento_id], references: [id])
-  tipos_documento_id Int
+  categorias_producao    CategoriaProducao @relation(fields: [categorias_producao_id], references: [id])
+  categorias_producao_id Int
 
   url String
 
   createdAt DateTime @default(now())
 
-  @@map("documentos")
+  @@map("producoes_cientificas")
 }
 
 model Inscricao {
@@ -156,7 +155,7 @@ model Inscricao {
   url_lattes String?
   url_enade  String?
 
-  documentos Documento[]
+  producoes ProducaoCientifica[]
 
   revisor    Professor? @relation("Revisor", fields: [revisor_id], references: [id])
   revisor_id Int?
