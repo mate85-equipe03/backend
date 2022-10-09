@@ -51,6 +51,7 @@ async function main() {
       role: Role.PROFESSOR,
       professor: {
         create: {
+          nome: 'Djair',
           siape: '123456',
         },
       },
@@ -71,6 +72,7 @@ async function main() {
       role: Role.PROFESSOR,
       professor: {
         create: {
+          nome: 'Augusto',
           siape: '654321',
         },
       },
@@ -91,6 +93,7 @@ async function main() {
       role: Role.PROFESSOR,
       professor: {
         create: {
+          nome: 'Mateus',
           siape: '200420221',
         },
       },
@@ -111,6 +114,7 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Beatriz',
           matricula: '123654',
           semestre_pgcomp: 20221,
           curso: 'mestrado',
@@ -134,6 +138,7 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Lucas',
           matricula: '202202001',
           semestre_pgcomp: 20221,
           curso: 'mestrado',
@@ -157,6 +162,7 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Kennedy',
           matricula: '202202002',
           semestre_pgcomp: 20221,
           curso: 'mestrado',
@@ -180,6 +186,7 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Rodrigo',
           matricula: '202202003',
           semestre_pgcomp: 20221,
           curso: 'mestrado',

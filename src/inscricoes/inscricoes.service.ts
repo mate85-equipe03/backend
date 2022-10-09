@@ -39,15 +39,17 @@ export class InscricoesService {
   }
 
   async findInscricaoId(user, ps_id): Promise<Inscricao> {
+    const aluno = await this.alunosService.findAlunoByUserId(user.userId);
     return this.prisma.inscricao.findFirst({
       where: {
         AND: {
-          aluno_id: user.id,
+          aluno_id: aluno.id,
           processo_seletivo_id: ps_id,
         },
       },
       include: {
         Historico:true,
+        aluno:true
       }
     });
   }
@@ -62,6 +64,7 @@ export class InscricoesService {
       },
       include: {
         Historico:true,
+        aluno: true
       }
     });
   }
@@ -85,6 +88,7 @@ export class InscricoesService {
     },
       include: {
         Historico:true,
+        aluno:true,
       }
   })
   }

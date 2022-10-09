@@ -20,6 +20,7 @@ export class AlunosService {
         aluno: {
           create: {
             matricula: data['matricula'],
+            nome: data['nome'],
             curso: data['curso'],
             lattes_link: data['lattes_link'],
             semestre_pgcomp: data['semestre_pgcomp'],
