@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Patch,
+  Request,
   Param,
   Delete,
   UseGuards
@@ -59,6 +60,15 @@ export class ProcessosSeletivosController {
   const processo = await this.processosSeletivosService.findOne(+id);
   const inscricoes = await this.inscricoesService.findMany(processo.id)
   return inscricoes
+  }
+
+  @Roles(Role.ALUNO)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get(':id/inscricao')
+  async findinscricaoaluno(@Param('id') id: string, @Request() req) {
+  const processo = await this.processosSeletivosService.findOne(+id);
+  const inscricao = await this.inscricoesService.findInscricaoId(req.user, processo.id)
+  return inscricao
   }
 
   @Roles(Role.PROFESSOR)

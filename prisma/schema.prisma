@@ -79,6 +79,8 @@ model Professor {
   professor Usuario @relation(fields: [userId], references: [id])
   userId    Int     @unique
   siape     String  @unique
+  nome      String     @default("ABC")
+
 
   Revisoes   Inscricao[] @relation("Revisor")
   Auditorias Inscricao[] @relation("Auditor")
@@ -92,6 +94,7 @@ model Aluno {
   userId          Int         @unique
   matricula       String      @unique
   inscricoes      Inscricao[]
+  nome      String     @default("ABC")
   semestre_pgcomp Int
   curso           String
   lattes_link     String

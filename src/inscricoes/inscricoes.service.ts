@@ -38,14 +38,19 @@ export class InscricoesService {
     });
   }
 
-  async findInscricaoId(userId, data): Promise<Inscricao> {
+  async findInscricaoId(user, ps_id): Promise<Inscricao> {
+    const aluno = await this.alunosService.findAlunoByUserId(user.userId);
     return this.prisma.inscricao.findFirst({
       where: {
         AND: {
-          aluno_id: userId,
-          processo_seletivo_id: data.processo_seletivo_id,
+          aluno_id: aluno.id,
+          processo_seletivo_id: ps_id,
         },
       },
+      include: {
+        Historico:true,
+        aluno:true
+      }
     });
   }
 
@@ -59,6 +64,7 @@ export class InscricoesService {
       },
       include: {
         Historico:true,
+        aluno: true
       }
     });
   }
@@ -82,6 +88,7 @@ export class InscricoesService {
     },
       include: {
         Historico:true,
+        aluno:true,
       }
   })
   }
