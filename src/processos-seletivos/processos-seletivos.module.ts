@@ -7,6 +7,6 @@ import { InscricoesModule } from 'src/inscricoes/inscricoes.module';
   controllers: [ProcessosSeletivosController],
   providers: [ProcessosSeletivosService],
   exports: [ProcessosSeletivosService],
-  imports: [forwardRef(() => InscricoesModule)]
+  imports: [forwardRef(() => InscricoesModule)],
 })
 export class ProcessosSeletivosModule {}
