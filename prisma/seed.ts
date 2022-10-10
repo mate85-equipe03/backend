@@ -226,8 +226,6 @@ async function main() {
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
       categorias_producao: {
         create: [
-          { nome: 'Histórico Graduação', pontuacao: 0.0 },
-          { nome: 'Histórico Pós-Graduação', pontuacao: 0.0 },
           { nome: 'Publicação A1', pontuacao: 10.0 },
           { nome: 'Publicação A2', pontuacao: 8.75 },
           { nome: 'Publicação A3', pontuacao: 8.75 },
