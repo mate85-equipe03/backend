@@ -22,6 +22,7 @@ import {
 } from '@nestjs/platform-express';
 import { DoSpacesService } from 'src/SpacesModule/SpacesService/doSpacesService';
 import { HistoricoService } from 'src/historico/historico.service';
+import { checkFileType } from 'src/helpers/filters/pdf.file.filter';
 
 @Controller('inscricoes')
 export class InscricoesController {
@@ -36,10 +37,15 @@ export class InscricoesController {
   @Post()
   @Header('Content-Type', 'multipart/form-data')
   @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'historico_graduacao_file' },
-      { name: 'historico_posgraduacao_file' },
-    ]),
+    FileFieldsInterceptor(
+      [
+        { name: 'historico_graduacao_file' },
+        { name: 'historico_posgraduacao_file' },
+      ],
+      {
+        fileFilter: checkFileType,
+      },
+    ),
   )
   async create(
     @UploadedFiles()

@@ -15,6 +15,6 @@ import { HistoricoModule } from 'src/historico/historico.module';
   ],
   controllers: [InscricoesController],
   providers: [InscricoesService],
-  exports: [InscricoesService]
+  exports: [InscricoesService],
 })
 export class InscricoesModule {}
