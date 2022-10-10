@@ -18,6 +18,7 @@ import { JwtAuthGuard } from 'src/autenticacao/guards/jwt-auth.guard';
 import { Roles } from 'src/autenticacao/decorators/roles.decorator';
 import { Role, TipoHistorico } from '@prisma/client';
 import { RolesGuard } from 'src/autenticacao/guards/roles.guard';
+import { OptionalJwtAuthGuard } from 'src/autenticacao/guards/optional-jwt-auth.guard';
 
 @Controller('processos-seletivos')
 export class ProcessosSeletivosController {
@@ -31,14 +32,21 @@ export class ProcessosSeletivosController {
     return this.processosSeletivosService.create(createProcessosSeletivoDto);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get()
-  async findAllfiltrado() {
-    const processos_arquivados = await this.processosSeletivosService.findMany({
-      arquivado: true,
-    });
-    const processos_ativos = await this.processosSeletivosService.findMany({
-      arquivado: false,
-    });
+  async findAllfiltrado(@Request() req) {
+    const processos_arquivados = await this.processosSeletivosService.findMany(
+      {
+        arquivado: true,
+      },
+      req.user,
+    );
+    const processos_ativos = await this.processosSeletivosService.findMany(
+      {
+        arquivado: false,
+      },
+      req.user,
+    );
     const result = {
       editais: {
         em_andamento: processos_ativos,
@@ -48,9 +56,10 @@ export class ProcessosSeletivosController {
     return result;
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.processosSeletivosService.findOne(+id);
+  findOne(@Param('id') id: string, @Request() req) {
+    return this.processosSeletivosService.findOne(+id, req.user);
   }
 
   @Roles(Role.PROFESSOR)

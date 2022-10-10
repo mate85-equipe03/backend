@@ -37,11 +37,11 @@ export class ProcessosSeletivosService {
     return true;
   }
 
-  findMany(
-    where: Prisma.ProcessoSeletivoWhereInput,
-  ): Promise<ProcessoSeletivo[]> {
+  async findMany(where: Prisma.ProcessoSeletivoWhereInput, user?: any) {
+    const userId = user && user.role === 'ALUNO' ? user.userId : -1;
+
     const dataAtual = new Date();
-    return this.prisma.processoSeletivo.findMany({
+    const processos = await this.prisma.processoSeletivo.findMany({
       include: {
         categorias_producao: {},
         etapas: {
@@ -56,15 +56,43 @@ export class ProcessosSeletivosService {
             },
           },
         },
+        inscricoes: {
+          where: {
+            aluno: {
+              userId,
+            },
+          },
+        },
       },
       where,
     });
+    return processos.map((processo) => {
+      const { inscricoes, ...result } = processo;
+      if (user && user.role === 'ALUNO') {
+        return {
+          ...result,
+          isInscrito: inscricoes.length > 0,
+        };
+      }
+      return result;
+    });
   }
 
-  async findOne(id: number): Promise<ProcessoSeletivo> {
+  async findOne(id: number, user?: any) {
+    const userId = user && user.role === 'ALUNO' ? user.userId : -1;
     const processoSeletivo = await this.prisma.processoSeletivo.findUnique({
       where: { id: id },
-      include: { categorias_producao: {}, etapas: {} },
+      include: {
+        categorias_producao: {},
+        etapas: {},
+        inscricoes: {
+          where: {
+            aluno: {
+              userId,
+            },
+          },
+        },
+      },
     });
 
     if (!processoSeletivo)
@@ -72,7 +100,14 @@ export class ProcessosSeletivosService {
         'Processo Seletivo não encontrado',
         HttpStatus.NOT_FOUND,
       );
-    return processoSeletivo;
+
+    const { inscricoes, ...result } = processoSeletivo;
+    if (user && user.role === 'ALUNO')
+      return {
+        ...result,
+        isInscrito: inscricoes.length > 0,
+      };
+    return result;
   }
 
   update(id: number, updateProcessosSeletivoDto: UpdateProcessosSeletivoDto) {
