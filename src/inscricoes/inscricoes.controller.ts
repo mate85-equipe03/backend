@@ -95,16 +95,19 @@ export class InscricoesController {
 
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Post(':inscricaoId/producoes')
+  @Post('/producoes')
   @Header('Content-Type', 'multipart/form-data')
   @UseInterceptors(FilesInterceptor('files'))
   async createProducaoCientifica(
-    @Param('inscricaoId') inscricaoId: string,
     @UploadedFiles()
     files: Express.Multer.File[],
-    @Body() { categorias_producao_id }: CreateProducaoDto,
+    @Body() { categorias_producao_id, edital_id }: CreateProducaoDto,
+    @Request() req,
   ) {
-    const inscricao = await this.inscricoesService.findOne(+inscricaoId);
+    const inscricao = await this.inscricoesService.findInscricaoId(
+      req.user,
+      edital_id,
+    );
     const acceptCategoria =
       await this.processosSeletivosService.hasCategoriaProducao(
         inscricao.processo_seletivo_id,
