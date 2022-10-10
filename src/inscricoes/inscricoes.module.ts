@@ -5,6 +5,7 @@ import { ProcessosSeletivosModule } from 'src/processos-seletivos/processos-sele
 import { AlunosModule } from 'src/alunos/alunos.module';
 import { SpacesModule } from 'src/SpacesModule/spaces.module';
 import { HistoricoModule } from 'src/historico/historico.module';
+import { ProducaoCientificaModule } from 'src/producao-cientifica/producao-cientifica.module';
 
 @Module({
   imports: [
@@ -12,9 +13,10 @@ import { HistoricoModule } from 'src/historico/historico.module';
     AlunosModule,
     SpacesModule,
     HistoricoModule,
+    ProducaoCientificaModule,
   ],
   controllers: [InscricoesController],
   providers: [InscricoesService],
-  exports: [InscricoesService]
+  exports: [InscricoesService],
 })
 export class InscricoesModule {}

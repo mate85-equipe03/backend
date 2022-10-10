@@ -82,4 +82,25 @@ export class ProcessosSeletivosService {
   remove(id: number) {
     return `This action removes a #${id} processosSeletivo`;
   }
+
+  async hasCategoriaProducao(
+    processo_seletivo_id: number,
+    categorias_producao_id: number,
+  ): Promise<boolean> {
+    const processoSeletivo = await this.prisma.processoSeletivo.findUnique({
+      where: { id: processo_seletivo_id },
+      include: {
+        categorias_producao: true,
+      },
+    });
+    if (!processoSeletivo)
+      throw new HttpException(
+        'Processo Seletivo não encontrada',
+        HttpStatus.NOT_FOUND,
+      );
+
+    return processoSeletivo.categorias_producao.some(
+      (categoria) => categoria.id == categorias_producao_id,
+    );
+  }
 }

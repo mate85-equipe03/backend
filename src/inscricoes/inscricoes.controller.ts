@@ -8,6 +8,9 @@ import {
   UseInterceptors,
   UploadedFiles,
   Header,
+  Param,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
@@ -22,6 +25,9 @@ import {
 } from '@nestjs/platform-express';
 import { DoSpacesService } from 'src/SpacesModule/SpacesService/doSpacesService';
 import { HistoricoService } from 'src/historico/historico.service';
+import { CreateProducaoDto } from './dto/create-producao.dto';
+import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
+import { ProducaoCientificaService } from 'src/producao-cientifica/producao-cientifica.service';
 
 @Controller('inscricoes')
 export class InscricoesController {
@@ -29,6 +35,8 @@ export class InscricoesController {
     private readonly inscricoesService: InscricoesService,
     private readonly spacesService: DoSpacesService,
     private readonly historicoService: HistoricoService,
+    private readonly producaoCientificaService: ProducaoCientificaService,
+    private processosSeletivosService: ProcessosSeletivosService,
   ) {}
 
   @Roles(Role.ALUNO)
@@ -83,5 +91,42 @@ export class InscricoesController {
   @Patch()
   update(@Body() updateInscricaoDto: UpdateInscricaoDto, @Request() req) {
     return this.inscricoesService.update(updateInscricaoDto, req.user);
+  }
+
+  @Roles(Role.ALUNO)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post(':inscricaoId/producoes')
+  @Header('Content-Type', 'multipart/form-data')
+  @UseInterceptors(FilesInterceptor('files'))
+  async createProducaoCientifica(
+    @Param('inscricaoId') inscricaoId: string,
+    @UploadedFiles()
+    files: Express.Multer.File[],
+    @Body() { categorias_producao_id }: CreateProducaoDto,
+  ) {
+    const inscricao = await this.inscricoesService.findOne(+inscricaoId);
+    const acceptCategoria =
+      await this.processosSeletivosService.hasCategoriaProducao(
+        inscricao.processo_seletivo_id,
+        categorias_producao_id,
+      );
+    if (!acceptCategoria)
+      throw new HttpException(
+        'Processo Seletivo não aceita produções dessa categoria',
+        HttpStatus.UNAUTHORIZED,
+      );
+    const producoes = [];
+    files.forEach(async (file) => {
+      const url = await this.spacesService.uploadFile(file);
+      if (url) {
+        const producao = await this.producaoCientificaService.create(
+          inscricao.id,
+          +categorias_producao_id,
+          url,
+        );
+        producoes.push(producao);
+      }
+    });
+    return producoes;
   }
 }
