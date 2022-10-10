@@ -22,7 +22,7 @@ import {
 } from '@nestjs/platform-express';
 import { DoSpacesService } from 'src/SpacesModule/SpacesService/doSpacesService';
 import { HistoricoService } from 'src/historico/historico.service';
-import { checkFileType } from 'src/helpers/filters/pdf.file.filter';
+import { checkFileType } from 'src/helpers/filters/check.file.type';
 
 @Controller('inscricoes')
 export class InscricoesController {
@@ -44,6 +44,9 @@ export class InscricoesController {
       ],
       {
         fileFilter: checkFileType,
+        limits: {
+          fileSize: 1024 * 1024 * 2,
+        },
       },
     ),
   )
