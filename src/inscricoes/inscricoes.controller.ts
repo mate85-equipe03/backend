@@ -106,7 +106,7 @@ export class InscricoesController {
   ) {
     const inscricao = await this.inscricoesService.findInscricaoId(
       req.user,
-      edital_id,
+      +edital_id,
     );
     const acceptCategoria =
       await this.processosSeletivosService.hasCategoriaProducao(
