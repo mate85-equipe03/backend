@@ -50,6 +50,7 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
+        producoes: true,
       },
     });
   }
@@ -65,6 +66,7 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
+        producoes: true,
       },
     });
   }

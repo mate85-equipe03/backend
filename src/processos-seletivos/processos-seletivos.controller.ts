@@ -7,7 +7,7 @@ import {
   Request,
   Param,
   Delete,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ProcessosSeletivosService } from './processos-seletivos.service';
 import { CreateProcessosSeletivoDto } from './dto/create-processos-seletivo.dto';
@@ -57,30 +57,34 @@ export class ProcessosSeletivosController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id/inscricoes')
   async findinscricoes(@Param('id') id: string) {
-  const processo = await this.processosSeletivosService.findOne(+id);
-  const inscricoes = await this.inscricoesService.findMany(processo.id)
-  return inscricoes
+    const processo = await this.processosSeletivosService.findOne(+id);
+    const inscricoes = await this.inscricoesService.findMany(processo.id);
+    return inscricoes;
   }
 
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id/inscricao')
   async findinscricaoaluno(@Param('id') id: string, @Request() req) {
-  const processo = await this.processosSeletivosService.findOne(+id);
-  const inscricao = await this.inscricoesService.findInscricaoId(req.user, processo.id)
-  return inscricao
+    const processo = await this.processosSeletivosService.findOne(+id);
+    const inscricao = await this.inscricoesService.findInscricaoId(
+      req.user,
+      processo.id,
+    );
+    return inscricao;
   }
 
   @Roles(Role.PROFESSOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id/inscricoes/:id2')
-  async findinscricao(@Param('id') id: string,@Param('id2') id2: string) {
-  const processo = await this.processosSeletivosService.findOne(+id);
-  const inscricao = await this.inscricoesService.findInscricaoAlunoId(processo.id, parseInt(id2))
-  return inscricao
+  async findinscricao(@Param('id') id: string, @Param('id2') id2: string) {
+    const processo = await this.processosSeletivosService.findOne(+id);
+    const inscricao = await this.inscricoesService.findInscricaoAlunoId(
+      processo.id,
+      parseInt(id2),
+    );
+    return inscricao;
   }
-
-
 
   @Patch(':id')
   update(
