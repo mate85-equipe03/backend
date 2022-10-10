@@ -14,6 +14,7 @@ import { InscricoesModule } from './inscricoes/inscricoes.module';
 import { ResetSenhaModule } from './reset-senha/reset-senha.module';
 import { SpacesModule } from './SpacesModule/spaces.module';
 import { HistoricoModule } from './historico/historico.module';
+import { ProducaoCientificaModule } from './producao-cientifica/producao-cientifica.module';
 
 
 @Module({
@@ -31,6 +32,7 @@ import { HistoricoModule } from './historico/historico.module';
     ResetSenhaModule,
     SpacesModule,
     HistoricoModule,
+    ProducaoCientificaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

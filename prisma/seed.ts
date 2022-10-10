@@ -224,7 +224,7 @@ async function main() {
       arquivado: false,
       edital_url:
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/edital_pgcomp_03_2022_-_bolsas_mestrado_e_doutorado.pdf',
-      tipos_documento: {
+      categorias_producao: {
         create: [
           { nome: 'Histórico Graduação', pontuacao: 0.0 },
           { nome: 'Histórico Pós-Graduação', pontuacao: 0.0 },
@@ -236,7 +236,7 @@ async function main() {
       },
     },
     include: {
-      tipos_documento: true,
+      categorias_producao: true,
     },
   });
   const etapa01 = await prisma.etapa.upsert({
@@ -271,7 +271,7 @@ async function main() {
       arquivado: true,
       edital_url:
         'https://pgcomp.ufba.br/sites/pgcomp.ufba.br/files/3_-_edital_pgcomp_08_2021_-_bolsas_mestrado_e_doutorado_-_terceira_chamada.pdf',
-      tipos_documento: {
+      categorias_producao: {
         create: [
           { nome: 'Publicação A1', pontuacao: 10.0 },
           { nome: 'Publicação A2', pontuacao: 8.75 },
@@ -279,7 +279,7 @@ async function main() {
       },
     },
     include: {
-      tipos_documento: true,
+      categorias_producao: true,
     },
   });
   const etapa02 = await prisma.etapa.upsert({
@@ -324,11 +324,11 @@ async function main() {
   //       create: [
   //         {
   //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665103845264-3236024.3236073.pdf',
-  //           tipos_documento_id: processoSeletivo01.tipos_documento[0].id,
+  //           categorias_producao_id: processoSeletivo01.categorias_producao[0].id,
   //         },
   //         {
   //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665026409919-c157-rc-2020-RESySu-v1.0b.pdf',
-  //           tipos_documento_id: processoSeletivo01.tipos_documento[1].id,
+  //           categorias_producao_id: processoSeletivo01.categorias_producao[1].id,
   //         },
   //       ],
   //     },

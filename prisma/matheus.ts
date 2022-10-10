@@ -8,12 +8,11 @@ async function main() {
       id: 1,
     },
     include: {
-      tipos_documento: true,
-    }
-  })
-  
+      categorias_producao: true,
+    },
+  });
 
-  console.log(x.tipos_documento[0])
+  console.log(x.categorias_producao[0]);
 }
 
 main()
