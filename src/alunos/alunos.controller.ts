@@ -10,7 +10,9 @@ import {
 import { AlunosService } from './alunos.service';
 import { Usuario as UsuarioModel } from '@prisma/client';
 import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('alunos')
 @Controller('alunos')
 export class AlunosController {
   constructor(private readonly alunosService: AlunosService) {}

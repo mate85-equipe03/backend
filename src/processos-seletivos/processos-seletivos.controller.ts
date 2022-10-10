@@ -17,7 +17,9 @@ import { JwtAuthGuard } from 'src/autenticacao/guards/jwt-auth.guard';
 import { Roles } from 'src/autenticacao/decorators/roles.decorator';
 import { Role, TipoHistorico } from '@prisma/client';
 import { RolesGuard } from 'src/autenticacao/guards/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('processos-seletivos')
 @Controller('processos-seletivos')
 export class ProcessosSeletivosController {
   constructor(

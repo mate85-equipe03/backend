@@ -23,7 +23,9 @@ import {
 import { DoSpacesService } from 'src/SpacesModule/SpacesService/doSpacesService';
 import { HistoricoService } from 'src/historico/historico.service';
 import { checkFileType } from 'src/helpers/filters/check.file.type';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('inscricoes')
 @Controller('inscricoes')
 export class InscricoesController {
   constructor(

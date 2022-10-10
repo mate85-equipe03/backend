@@ -11,7 +11,9 @@ import { ProfessoresService } from './professores.service';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
 import { Usuario as UsuarioModel } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('professores')
 @Controller('professores')
 export class ProfessoresController {
   constructor(private readonly professoresService: ProfessoresService) {}
@@ -22,6 +24,4 @@ export class ProfessoresController {
   ): Promise<UsuarioModel> {
     return this.professoresService.createProfessor(professorData);
   }
-
-
 }

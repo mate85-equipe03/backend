@@ -8,9 +8,18 @@ async function bootstrap() {
   app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('API')
-    .setDescription('The backend API description')
+    .setDescription('Api do projeto de Seleção de Bolsistas PGCOMP - UFBA')
     .setVersion('0.0.1')
-    .addTag('bolsas')
+    .addTag('autenticacao')
+    .addTag('usuarios')
+    .addTag('niveis-vaga')
+    .addTag('alunos')
+    .addTag('professores')
+    .addTag('processos-seletivos')
+    .addTag('inscricoes')
+    .addTag('etapas')
+    .addTag('reset-senha')
+
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
