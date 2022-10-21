@@ -28,8 +28,6 @@ import { HistoricoService } from 'src/historico/historico.service';
 import { CreateProducaoDto } from './dto/create-producao.dto';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
 import { ProducaoCientificaService } from 'src/producao-cientifica/producao-cientifica.service';
-import { MailerService } from '@nestjs-modules/mailer';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
 
 @Controller('inscricoes')
 export class InscricoesController {
@@ -39,8 +37,6 @@ export class InscricoesController {
     private readonly historicoService: HistoricoService,
     private readonly producaoCientificaService: ProducaoCientificaService,
     private processosSeletivosService: ProcessosSeletivosService,
-    private mailService: MailerService,
-    private usuarioService: UsuariosService
   ) {}
 
   @Roles(Role.ALUNO)
@@ -87,18 +83,6 @@ export class InscricoesController {
           });
         }
       });
-    }
-
-    if (inscricao) {
-      const usuario = await this.usuarioService.findOne(req.user.login);
-      const processo = await this.processosSeletivosService.findOne(inscricao.processo_seletivo_id);
-      
-      await this.mailService.sendMail({
-        to: usuario.email,
-        subject:'Inscrição Realizada com Sucesso',
-        html:`Parabéns. Sua inscrição no Processo Seletivo de Concessão de Bolsas do PGCOMP, ${processo.titulo} foi realizado com sucesso.`
-      })
-      console.log(processo)
     }
   }
 

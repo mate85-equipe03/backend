@@ -94,7 +94,7 @@ model Aluno {
   matricula       String      @unique
   inscricoes      Inscricao[]
   nome            String      @default("ABC")
-  semestre_pgcomp String
+  semestre_pgcomp Int
   curso           String
   lattes_link     String
 
