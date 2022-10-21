@@ -67,6 +67,7 @@ export class InscricoesController {
       createInscricaoDto,
       req.user,
     );
+    console.log(inscricao)
     if (inscricao) {
       files.historico_graduacao_file.forEach(async (file) => {
         const url = await this.spacesService.uploadFile(file);
@@ -89,15 +90,22 @@ export class InscricoesController {
         }
       });
 
-      if (inscricao) {
+      if (inscricao) { //Nao precisa disso, pois já tem lá em cima
         const usuario = await this.usuarioService.findOne(req.user.login);
         const processo = await this.processosSeletivosService.findOne(inscricao.processo_seletivo_id);
-        await this.mailService.sendMail({
-          to: usuario.email,
-          subject:'Inscrição Realizada com Sucesso',
-          html:`Parabéns. Sua inscrição no Processo Seletivo de Concessão de Bolsas do PGCOMP, ${processo.titulo} foi realizado com sucesso.`
-        })
-        console.log(processo)        
+        try{
+          await this.mailService.sendMail({
+            to: usuario.email,
+            subject:'Inscrição Realizada com Sucesso',
+            html:`Parabéns. Sua inscrição no Processo Seletivo de Concessão de Bolsas do PGCOMP, ${processo.titulo} foi realizado com sucesso.`
+          })
+        }
+        catch(e){
+          console.log("=====================")
+          console.log("ERRO AO ENVIAR EMAIL:")
+          console.log(e)
+          console.log("=====================")
+        }        
       }
     }
   }
