@@ -12,6 +12,7 @@ export class HistoricoService {
         inscricao_id: data.inscricao_id,
         tipo: data.tipo,
         url: data.url,
+        nota: data.nota,
       },
     });
   }

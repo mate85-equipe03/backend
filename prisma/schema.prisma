@@ -186,6 +186,8 @@ model Historico {
   inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])
   inscricao_id Int
 
+  nota         Decimal @default(0.00)
+
   createdAt DateTime @default(now())
 
   @@map("historicos")
