@@ -99,10 +99,15 @@ export class InscricoesController {
             subject:'Inscrição Realizada com Sucesso',
             html:`Parabéns. Sua inscrição no Processo Seletivo de Concessão de Bolsas do PGCOMP, ${processo.titulo} foi realizado com sucesso.`
           })
+          console.log("Email enviado para " + usuario.email)
         }
         catch(e){
           console.log("=====================")
           console.log("ERRO AO ENVIAR EMAIL:")
+          console.log(process.env.SMTP_HOST)
+          console.log(process.env.SMTP_PORT)
+          console.log(process.env.SMTP_USER)
+          console.log(process.env.SMTP_NOREPLY)
           console.log(e)
           console.log("=====================")
         }        
