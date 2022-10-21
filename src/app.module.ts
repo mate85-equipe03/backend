@@ -15,7 +15,7 @@ import { ResetSenhaModule } from './reset-senha/reset-senha.module';
 import { SpacesModule } from './SpacesModule/spaces.module';
 import { HistoricoModule } from './historico/historico.module';
 import { ProducaoCientificaModule } from './producao-cientifica/producao-cientifica.module';
-
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -33,6 +33,20 @@ import { ProducaoCientificaModule } from './producao-cientifica/producao-cientif
     SpacesModule,
     HistoricoModule,
     ProducaoCientificaModule,
+    MailerModule.forRoot({
+      transport:{
+        host: process.env.SMTP_HOST,
+        port:process.env.SMTP_PORT,
+        secure: false,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASSWORD,
+        }  
+      },
+      defaults:{
+        from: process.env.SMTP_NOREPLY,
+      }
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
