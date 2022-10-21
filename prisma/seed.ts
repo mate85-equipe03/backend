@@ -116,7 +116,7 @@ async function main() {
         create: {
           nome: 'Beatriz',
           matricula: '123654',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -140,7 +140,7 @@ async function main() {
         create: {
           nome: 'Lucas',
           matricula: '202202001',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -164,7 +164,7 @@ async function main() {
         create: {
           nome: 'Kennedy',
           matricula: '202202002',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -188,7 +188,7 @@ async function main() {
         create: {
           nome: 'Rodrigo',
           matricula: '202202003',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
