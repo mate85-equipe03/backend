@@ -8,12 +8,17 @@ import { UsuariosService } from 'src/usuarios/usuarios.service';
 @Module({
   imports:[UsuariosModule, UsuariosService, MailerModule.forRoot({
     transport:{
-      host:'localhost',
-      port:1025
+      host: process.env.SMTP_HOST,
+      port:process.env.SMTP_PORT,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      }
 
     },
     defaults:{
-      from:'no-reply@postgress.com'
+      from: process.env.SMTP_NOREPLY,
     }
   })],
   controllers: [ResetSenhaController],
