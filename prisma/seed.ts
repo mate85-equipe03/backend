@@ -103,6 +103,30 @@ async function main() {
     },
   });
 
+  const matheus_user2 = await prisma.usuario.upsert({
+    where: { login: '230718' },
+    update: {},
+    create: {
+      login: '230718',
+      email: 'matheuswcf@gmail.com',
+      telefone: '5464646',
+      senha: bcrypt.hashSync('230718', 10),
+      role: Role.ALUNO,
+      aluno: {
+        create: {
+          nome: 'Matheus Andrade',
+          matricula: '230718',
+          semestre_pgcomp: 20221,
+          curso: 'mestrado',
+          lattes_link: 'https://idojo.com.br',
+        },
+      },
+    },
+    include: {
+      aluno: true,
+    },
+  });
+
   const beatriz_user = await prisma.usuario.upsert({
     where: { login: '123654' },
     update: {},
