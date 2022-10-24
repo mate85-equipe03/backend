@@ -137,6 +137,7 @@ model ProducaoCientifica {
   categorias_producao_id Int
 
   url String
+  filename  String  @default("filename")
 
   createdAt DateTime @default(now())
 
@@ -181,6 +182,7 @@ enum TipoHistorico {
 model Historico {
   id   Int           @id @default(autoincrement())
   url  String
+  filename  String  @default("filename")
   tipo TipoHistorico
 
   inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])

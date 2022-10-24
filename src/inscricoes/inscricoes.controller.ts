@@ -67,7 +67,6 @@ export class InscricoesController {
       createInscricaoDto,
       req.user,
     );
-    console.log(inscricao)
     if (inscricao) {
       files.historico_graduacao_file.forEach(async (file) => {
         const url = await this.spacesService.uploadFile(file);
@@ -75,7 +74,8 @@ export class InscricoesController {
           await this.historicoService.create({
             inscricao_id: inscricao.id,
             url,
-            tipo: TipoHistorico.GRADUACAO,
+            tipo: TipoHistorico.GRADUACAO, 
+            filename: file.originalname,           
           });
         }
       });
@@ -86,6 +86,7 @@ export class InscricoesController {
             inscricao_id: inscricao.id,
             url,
             tipo: TipoHistorico.POS_GRADUACAO,
+            filename: file.originalname,
           });
         }
       });
@@ -155,6 +156,7 @@ export class InscricoesController {
           inscricao.id,
           +categorias_producao_id,
           url,
+          file.originalname,
         );
         producoes.push(producao);
       }
