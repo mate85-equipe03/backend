@@ -34,6 +34,21 @@ export class ProcessosSeletivosController {
 
   @UseGuards(OptionalJwtAuthGuard)
   @Get()
+  async findAll(@Request() req) {
+    const processos = await this.processosSeletivosService.findMany(
+      {},
+      req.user,
+    );
+    const result = {
+      editais: {
+        processos,
+      },
+    };
+    return result;
+  }
+
+  @UseGuards(OptionalJwtAuthGuard)
+  @Get('filtrado')
   async findAllfiltrado(@Request() req) {
     const processos_arquivados = await this.processosSeletivosService.findMany(
       {
