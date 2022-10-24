@@ -28,4 +28,12 @@ export class ProfessoresService {
       },
     });
   }
+
+  async findProfessorByUserId(userId): Promise<Professor> {
+    return this.prisma.professor.findUnique({
+      where: {
+        userId: userId,
+      },
+    });
+  }
 }
