@@ -30,6 +30,25 @@ export class AlunosService {
     });
   }
 
+  async update(data, userId) {
+
+    return this.prisma.usuario.update({
+      where: { id: userId, },
+      data: {
+        email: data['email'],
+        telefone: data['telefone'],
+        aluno:{
+          update: {
+            nome: data['nome'],
+            curso: data['curso'],
+            lattes_link: data['lattes_link'],
+            semestre_pgcomp: data['semestre_pgcomp'],
+          },
+        },
+      },
+    });
+  }
+
   async findAlunoByUserId(userId): Promise<Aluno> {
     return this.prisma.aluno.findUnique({
       where: {
@@ -37,4 +56,19 @@ export class AlunosService {
       },
     });
   }
+
+  async findUserDataById(userId): Promise<Usuario> {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      include:
+      {aluno:true
+      }
+
+    })
+
+
+  }
+
 }
