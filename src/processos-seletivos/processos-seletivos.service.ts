@@ -69,9 +69,11 @@ export class ProcessosSeletivosService {
     return processos.map((processo) => {
       const { inscricoes, ...result } = processo;
       if (user && user.role === 'ALUNO') {
+        const isInscrito = inscricoes.length > 0;
         return {
           ...result,
-          isInscrito: inscricoes.length > 0,
+          isInscrito,
+          idInscricao: isInscrito ? inscricoes[0].id : null,
         };
       }
       return result;
