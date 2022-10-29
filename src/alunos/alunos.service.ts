@@ -37,4 +37,19 @@ export class AlunosService {
       },
     });
   }
+
+  async findUserDataById(userId): Promise<Usuario> {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      include:
+      {aluno:true
+      }
+
+    })
+
+
+  }
+
 }
