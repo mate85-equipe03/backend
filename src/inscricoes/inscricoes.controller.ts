@@ -11,6 +11,7 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
@@ -166,4 +167,17 @@ export class InscricoesController {
     });
     return producoes;
   }
+
+  @Roles(Role.ALUNO)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('/producoes/:id')
+  async deleteProducao(@Param('id') id: string) {
+
+    try{  
+      this.producaoCientificaService.deleteProducao({ id: Number(id) });
+    }catch (e){
+      console.log("foo bla")
+    }
+  }  
+    
 }

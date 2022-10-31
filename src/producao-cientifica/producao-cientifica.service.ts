@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Prisma, ProducaoCientifica } from '@prisma/client';
+
 
 @Injectable()
 export class ProducaoCientificaService {
   constructor(private prisma: PrismaService) {}
+
   create(inscricao_id: number, categorias_producao_id: number, url: string, filename: string) {
     return this.prisma.producaoCientifica.create({
       data: {
@@ -14,4 +17,21 @@ export class ProducaoCientificaService {
       },
     });
   }
+
+  async findId(id: number): Promise<ProducaoCientifica> {
+    return await this.prisma.producaoCientifica.findUnique({
+      where: {
+        id: id
+      }
+    });
+    
+  }
+
+  async deleteProducao(where: Prisma.ProducaoCientificaWhereUniqueInput): Promise<ProducaoCientifica> {
+    
+    return this.prisma.producaoCientifica.delete({
+      where,
+    });
+  }
 }
+
