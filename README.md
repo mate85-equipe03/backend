@@ -8,7 +8,7 @@ Seguem abaixo algumas alternativas de instalação para um ambiente funcional de
 
 ### Requisitos Mínimos de Instalação
 
-O principal requisito a ser instalado é [Docker](docker.com) para execução de [Linux Containers](https://www.redhat.com/en/topics/containers)
+O principal requisito a ser instalado é [Docker](https://docker.com) para execução de [Linux Containers](https://www.redhat.com/en/topics/containers)
 
 Instale, preferencialmente o [Docker Desktop](https://www.docker.com/products/docker-desktop/) em sua estação de trabalho. Há opções para LINUX, WINDOWS e Mac (Apple e Intel Chips). Caso deseje, pode-se instalar o [Docker Engine](https://docs.docker.com/engine/install/), que traz uma abordagem para servidores. 
 
@@ -80,7 +80,7 @@ $ docker compose up -d
 $ docker container exec -t backend-api-1 npx prisma migrate dev
 
 # Execute o reset do banco e a população com o seed
-$ docker container exec -t backend-api-1 npx prisma migrate reset
+$ docker container exec -it backend-api-1 npx prisma migrate reset
 
 ```
 
