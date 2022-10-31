@@ -86,7 +86,7 @@ $ docker container exec -t backend-api-1 npx prisma migrate reset
 
 Os serviços devem estar disponíveis para acesso:
 
-* API: http://localhost:<PORT>
+* API: http://localhost:<ePORT>
 * Adminer: http://localhost:<ADMINER_PORT>
 * Banco: http://localhost:<DATABASE_PORT>
 
