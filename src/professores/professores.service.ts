@@ -20,8 +20,19 @@ export class ProfessoresService {
         telefone: data['telefone'],
         role: Role.PROFESSOR,
         professor: {
-          create: { siape: data['siape'] },
+          create: { siape: 
+            data['siape'],
+            nome: data['nome'],
+          },
         },
+      },
+    });
+  }
+
+  async findProfessorByUserId(userId): Promise<Professor> {
+    return this.prisma.professor.findUnique({
+      where: {
+        userId: userId,
       },
     });
   }

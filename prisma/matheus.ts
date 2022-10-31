@@ -9,11 +9,10 @@ async function main() {
     },
     include: {
       categorias_producao: true,
-    }
-  })
-  
+    },
+  });
 
-  console.log(x.categorias_producao[0])
+  console.log(x.categorias_producao[0]);
 }
 
 main()

@@ -66,10 +66,10 @@ model Usuario {
 }
 
 model ResetSenha {
-  id        Int        @id @default(autoincrement())
-  email     String     
+  id        Int      @id @default(autoincrement())
+  email     String
   token     String
-  createdAt DateTime   @default(now())
+  createdAt DateTime @default(now())
 
   @@map("reset_senha")
 }
@@ -79,6 +79,7 @@ model Professor {
   professor Usuario @relation(fields: [userId], references: [id])
   userId    Int     @unique
   siape     String  @unique
+  nome      String  @default("ABC")
 
   Revisoes   Inscricao[] @relation("Revisor")
   Auditorias Inscricao[] @relation("Auditor")
@@ -92,7 +93,8 @@ model Aluno {
   userId          Int         @unique
   matricula       String      @unique
   inscricoes      Inscricao[]
-  semestre_pgcomp Int
+  nome            String      @default("ABC")
+  semestre_pgcomp String
   curso           String
   lattes_link     String
 
@@ -107,8 +109,7 @@ model CategoriaProducao {
   processo_seletivo_id Int
 
   producoes ProducaoCientifica[]
-
-  createdAt DateTime @default(now())
+  createdAt DateTime             @default(now())
 
   @@map("categorias_producao")
 }
@@ -135,8 +136,8 @@ model ProducaoCientifica {
   categorias_producao    CategoriaProducao @relation(fields: [categorias_producao_id], references: [id])
   categorias_producao_id Int
 
-  url  String?
-  file Bytes?
+  url String
+  filename  String  @default("filename")
 
   createdAt DateTime @default(now())
 
@@ -155,9 +156,6 @@ model Inscricao {
   url_lattes String?
   url_enade  String?
 
-  historico_graduacao    Bytes?
-  historico_posgraduacao Bytes?
-
   producoes ProducaoCientifica[]
 
   revisor    Professor? @relation("Revisor", fields: [revisor_id], references: [id])
@@ -168,9 +166,29 @@ model Inscricao {
   nota_final    Decimal @default(0.00)
   classificacao Int     @default(0)
 
-  createdAt DateTime @default(now())
-  editedAt  DateTime @default(now())
+  createdAt DateTime    @default(now())
+  editedAt  DateTime    @default(now())
+  Historico Historico[]
 
   @@unique([aluno_id, processo_seletivo_id])
   @@map("inscricoes")
+}
+
+enum TipoHistorico {
+  GRADUACAO
+  POS_GRADUACAO
+}
+
+model Historico {
+  id   Int           @id @default(autoincrement())
+  url  String
+  filename  String  @default("filename")
+  tipo TipoHistorico
+
+  inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])
+  inscricao_id Int
+
+  createdAt DateTime @default(now())
+
+  @@map("historicos")
 }

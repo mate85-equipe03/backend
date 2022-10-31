@@ -51,6 +51,7 @@ async function main() {
       role: Role.PROFESSOR,
       professor: {
         create: {
+          nome: 'Djair',
           siape: '123456',
         },
       },
@@ -71,6 +72,7 @@ async function main() {
       role: Role.PROFESSOR,
       professor: {
         create: {
+          nome: 'Augusto',
           siape: '654321',
         },
       },
@@ -91,12 +93,37 @@ async function main() {
       role: Role.PROFESSOR,
       professor: {
         create: {
+          nome: 'Mateus',
           siape: '200420221',
         },
       },
     },
     include: {
       professor: true,
+    },
+  });
+
+  const matheus_user2 = await prisma.usuario.upsert({
+    where: { login: '230718' },
+    update: {},
+    create: {
+      login: '230718',
+      email: 'matheuswcf@gmail.com',
+      telefone: '5464646',
+      senha: bcrypt.hashSync('230718', 10),
+      role: Role.ALUNO,
+      aluno: {
+        create: {
+          nome: 'Matheus Andrade',
+          matricula: '230718',
+          semestre_pgcomp: '20221',
+          curso: 'mestrado',
+          lattes_link: 'https://idojo.com.br',
+        },
+      },
+    },
+    include: {
+      aluno: true,
     },
   });
 
@@ -111,8 +138,9 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Beatriz',
           matricula: '123654',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -134,8 +162,9 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Lucas',
           matricula: '202202001',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -157,8 +186,9 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Kennedy',
           matricula: '202202002',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -180,8 +210,9 @@ async function main() {
       role: Role.ALUNO,
       aluno: {
         create: {
+          nome: 'Rodrigo',
           matricula: '202202003',
-          semestre_pgcomp: 20221,
+          semestre_pgcomp: '20221',
           curso: 'mestrado',
           lattes_link: '-',
         },
@@ -221,6 +252,8 @@ async function main() {
         create: [
           { nome: 'Publicação A1', pontuacao: 10.0 },
           { nome: 'Publicação A2', pontuacao: 8.75 },
+          { nome: 'Publicação A3', pontuacao: 8.75 },
+          { nome: 'Publicação B1', pontuacao: 6.75 },
         ],
       },
     },
@@ -234,8 +267,8 @@ async function main() {
     create: {
       processo_seletivo_id: processoSeletivo01.id,
       name: 'Inscrições',
-      data_inicio: new Date('2022-09-15'),
-      data_fim: new Date('2022-10-15'),
+      data_inicio: new Date('2022-10-01'),
+      data_fim: new Date('2022-11-15'),
     },
   });
   const etapa03 = await prisma.etapa.upsert({
@@ -244,8 +277,8 @@ async function main() {
     create: {
       processo_seletivo_id: processoSeletivo01.id,
       name: 'Em analise',
-      data_inicio: new Date('2022-10-15'),
-      data_fim: new Date('2022-11-15'),
+      data_inicio: new Date('2022-11-15'),
+      data_fim: new Date('2022-12-15'),
     },
   });
 
@@ -301,32 +334,28 @@ async function main() {
   /* *********************************************************************** */
   //                          INSCRICAO
   /* *********************************************************************** */
-  const inscricaoBia = await prisma.inscricao.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
-      aluno_id: beatriz_user.aluno.id,
-      processo_seletivo_id: processoSeletivo01.id,
-      url_lattes: 'https://idojo.com.br',
-      url_enade: 'https://ufba.br',
-      producoes: {
-        create: [
-          {
-            url: 'https://ieeexplore.ieee.org/',
-            file: null,
-            categorias_producao_id:
-              processoSeletivo01.categorias_producao[0].id,
-          },
-          {
-            url: 'https://www.acm.org/',
-            file: null,
-            categorias_producao_id:
-              processoSeletivo01.categorias_producao[1].id,
-          },
-        ],
-      },
-    },
-  });
+  // const inscricaoBia = await prisma.inscricao.upsert({
+  //   where: { id: 1 },
+  //   update: {},
+  //   create: {
+  //     aluno_id: beatriz_user.aluno.id,
+  //     processo_seletivo_id: processoSeletivo01.id,
+  //     url_lattes: 'https://idojo.com.br',
+  //     url_enade: 'https://ufba.br',
+  //     documentos: {
+  //       create: [
+  //         {
+  //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665103845264-3236024.3236073.pdf',
+  //           categorias_producao_id: processoSeletivo01.categorias_producao[0].id,
+  //         },
+  //         {
+  //           url: 'https://ufba-bolsa.nyc3.digitaloceanspaces.com/1665026409919-c157-rc-2020-RESySu-v1.0b.pdf',
+  //           categorias_producao_id: processoSeletivo01.categorias_producao[1].id,
+  //         },
+  //       ],
+  //     },
+  //   },
+  // });
 }
 
 main()

@@ -20,6 +20,26 @@ export class AlunosService {
         aluno: {
           create: {
             matricula: data['matricula'],
+            nome: data['nome'],
+            curso: data['curso'],
+            lattes_link: data['lattes_link'],
+            semestre_pgcomp: data['semestre_pgcomp'],
+          },
+        },
+      },
+    });
+  }
+
+  async update(data, userId) {
+
+    return this.prisma.usuario.update({
+      where: { id: userId, },
+      data: {
+        email: data['email'],
+        telefone: data['telefone'],
+        aluno:{
+          update: {
+            nome: data['nome'],
             curso: data['curso'],
             lattes_link: data['lattes_link'],
             semestre_pgcomp: data['semestre_pgcomp'],
@@ -36,4 +56,19 @@ export class AlunosService {
       },
     });
   }
+
+  async findUserDataById(userId): Promise<Usuario> {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      include:
+      {aluno:true
+      }
+
+    })
+
+
+  }
+
 }
