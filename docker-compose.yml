@@ -39,8 +39,19 @@ services:
     depends_on:
       - database-postgres
 
+  s3-local:
+    image: scireum/s3-ninja:8.1.0
+    env_file:
+      - .env
+    ports:
+      - ${S3_PORT}:9000
+    command: /bin/sh /home/sirius/app/entrypoint.sh
+    volumes:
+      - ./s3-local-entrypoint.sh:/home/sirius/app/entrypoint.sh
+      - ./s3-local.conf:/tmp/application.conf
+      - s3-local:/home/sirius/data 
+
+
 volumes:
-  node_modules: {}
-  prisma: {}
-  database_mysql_data: {}
+  s3-local: {}
   database_postgres_data: {}
