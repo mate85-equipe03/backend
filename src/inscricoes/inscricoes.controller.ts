@@ -74,6 +74,7 @@ export class InscricoesController {
           await this.historicoService.create({
             inscricao_id: inscricao.id,
             url,
+            nota: createInscricaoDto.nota_historico_graduacao,
             tipo: TipoHistorico.GRADUACAO,
             filename: file.originalname,
           });
@@ -85,6 +86,7 @@ export class InscricoesController {
           await this.historicoService.create({
             inscricao_id: inscricao.id,
             url,
+            nota: createInscricaoDto.nota_historico_posgraduacao,
             tipo: TipoHistorico.POS_GRADUACAO,
             filename: file.originalname,
           });

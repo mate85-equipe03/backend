@@ -31,7 +31,8 @@ export class InscricoesService {
     return this.prisma.inscricao.create({
       data: {
         url_enade: data.url_enade,
-        url_lattes: data.url_enade,
+        nota_enade: data.nota_enade,
+        url_lattes: data.url_enade,        
         aluno_id: aluno.id,
         processo_seletivo_id: parseInt(data.processo_seletivo_id),
       },
@@ -114,6 +115,7 @@ export class InscricoesService {
       where: { id: inscricao.id },
       data: {
         url_enade: data.url_enade,
+        nota_enade: data.nota_enade,
         url_lattes: data.url_lattes,
       },
     });
