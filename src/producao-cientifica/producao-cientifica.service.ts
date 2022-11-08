@@ -33,5 +33,12 @@ export class ProducaoCientificaService {
       where,
     });
   }
+
+  async removeByInscricao(inscricao_id: number) {
+    return this.prisma.producaoCientifica.deleteMany({
+      where: { 
+        inscricao_id: inscricao_id },
+    });
+  }
 }
 
