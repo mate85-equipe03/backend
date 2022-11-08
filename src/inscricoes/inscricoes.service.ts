@@ -120,4 +120,11 @@ export class InscricoesService {
       },
     });
   }
+
+  async deleteInscricao(where: Prisma.InscricaoWhereUniqueInput): Promise<Inscricao> {
+    
+    return this.prisma.inscricao.delete({
+      where,
+    });
+  }
 }

@@ -17,4 +17,13 @@ export class HistoricoService {
       },
     });
   }
+
+  async removeByInscricao(inscricao_id: number) {
+    return this.prisma.historico.deleteMany({
+      where: { 
+        inscricao_id: inscricao_id },
+    });
+  }
+
+
 }

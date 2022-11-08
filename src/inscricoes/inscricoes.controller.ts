@@ -173,6 +173,58 @@ export class InscricoesController {
     return producoes;
   }
 
+
+  @Roles(Role.ALUNO)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete(':id')
+  async deleteInscricao(
+    @Param('id') id: string,
+    @Request() req,
+  ) {
+
+    const aluno = await this.alunosService.findAlunoByUserId(req.user.userId);
+    const inscricao = await this.inscricoesService.findOne(+id);
+    if(!inscricao){
+      throw new HttpException(
+        'Inscricão não existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (
+      !this.processosSeletivosService.areEligibleForEnrollment(
+        inscricao.processo_seletivo_id,
+      )
+    ) {
+      throw new HttpException(
+        'Não é possível apagar inscrição, pois está fora do prazo',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+      
+    if(inscricao.aluno_id != aluno.id) {
+      throw new HttpException(
+        'Ação não permitida.',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+    else{
+      try {
+        this.historicoService.removeByInscricao(inscricao.id);
+        this.producaoCientificaService.removeByInscricao(inscricao.id);
+        this.inscricoesService.deleteInscricao({ id: Number(id) })
+        return {
+          statusCode: HttpStatus.OK,
+          message: "Inscrição deletada"
+        }
+      } catch (error) {
+        
+      }      
+    }      
+  }
+
+
+
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':inscricao_id/producoes/:id')
