@@ -173,13 +173,27 @@ export class InscricoesController {
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete('/producoes/:id')
-  async deleteProducao(@Param('id') id: string) {
+  async deleteProducao(
+    @Param('id') id: string,
+    @Request() req,
+  ) {
 
-    try{  
-      this.producaoCientificaService.deleteProducao({ id: Number(id) });
-    }catch (e){
-      console.log("foo bla")
+    const producao = await this.producaoCientificaService.findId(+id); 
+    if(!producao){
+      throw new HttpException(
+        'Documento não existe',
+        HttpStatus.NOT_FOUND,
+      );
     }
+    else{
+      if (this.producaoCientificaService.deleteProducao({ id: Number(id) })){
+        return {
+          statusCode: HttpStatus.OK,
+          message: "Documento deletado"
+        }
+      }
+    }
+    
   }  
     
 }
