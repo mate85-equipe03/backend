@@ -11,6 +11,7 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
@@ -30,6 +31,8 @@ import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-sel
 import { ProducaoCientificaService } from 'src/producao-cientifica/producao-cientifica.service';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { AlunosService } from 'src/alunos/alunos.service';
+
 
 @Controller('inscricoes')
 export class InscricoesController {
@@ -41,6 +44,7 @@ export class InscricoesController {
     private processosSeletivosService: ProcessosSeletivosService,
     private mailService: MailerService,
     private usuarioService: UsuariosService,
+    private alunosService: AlunosService,
   ) {}
 
   @Roles(Role.ALUNO)
@@ -168,4 +172,50 @@ export class InscricoesController {
     });
     return producoes;
   }
+
+  @Roles(Role.ALUNO)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete(':inscricao_id/producoes/:id')
+  async deleteProducao(
+    @Param('id') id: string,
+    @Param('inscricao_id') inscricao_id: string,
+    @Request() req,
+  ) {
+
+    const producao = await this.producaoCientificaService.findId(+id); 
+    if(!producao){
+      throw new HttpException(
+        'Documento não existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    else{
+      const aluno = await this.alunosService.findAlunoByUserId(req.user.userId);
+      const inscricao = await this.inscricoesService.findOne(+inscricao_id);
+      if(!inscricao){
+        throw new HttpException(
+          'Inscricão não existe',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      
+      if(producao.inscricao_id != inscricao.id || inscricao.aluno_id != aluno.id) {
+        throw new HttpException(
+          'Ação não permitida.',
+          HttpStatus.FORBIDDEN,
+        );
+      }
+      else{
+        if (this.producaoCientificaService.deleteProducao({ id: Number(id) })){
+          return {
+            statusCode: HttpStatus.OK,
+            message: "Documento deletado"
+          }
+        }
+      }
+      
+    }
+    
+  }  
+    
 }
