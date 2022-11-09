@@ -16,6 +16,7 @@ import {
 import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
 import { UpdateInscricaoDto } from './dto/update-inscricao.dto';
+import { RevisaInscricaoDto } from './dto/revisa-inscricao.dto';
 import { JwtAuthGuard } from 'src/autenticacao/guards/jwt-auth.guard';
 import { Roles } from 'src/autenticacao/decorators/roles.decorator';
 import { Role, TipoHistorico } from '@prisma/client';
@@ -178,6 +179,16 @@ export class InscricoesController {
   
   
   
+  }
+
+
+  @Roles(Role.PROFESSOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/revisa-inscricao')
+  async revisaInscricao(@Body() revisaInscricaoDto:RevisaInscricaoDto, @Request() req)
+  {
+    const inscricao_atualizada = await this.inscricoesService.update_revisao(revisaInscricaoDto,req.user)
+    return inscricao_atualizada
   }
 
   @Roles(Role.ALUNO)
