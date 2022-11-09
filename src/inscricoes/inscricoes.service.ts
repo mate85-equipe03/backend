@@ -109,7 +109,7 @@ export class InscricoesService {
       );
     }
 
-    const inscricao = await this.findInscricaoId(user.userId, data);
+    const inscricao = await this.findInscricaoId(user, parseInt(data.processo_seletivo_id));
 
     return this.prisma.inscricao.update({
       where: { id: inscricao.id },
