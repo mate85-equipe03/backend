@@ -121,6 +121,20 @@ export class InscricoesService {
     });
   }
 
+  async update_revisao(data,user) {
+
+    const inscricao = await this.findOne(data.id);
+
+    return this.prisma.inscricao.update({
+      where: { id: inscricao.id },
+      data: {
+        nota_final: data.nota_final,
+        observacao: data.observacao,
+        revisor_id: user.userId,
+      },
+    });
+  }
+
   async deleteInscricao(where: Prisma.InscricaoWhereUniqueInput): Promise<Inscricao> {
     
     return this.prisma.inscricao.delete({
