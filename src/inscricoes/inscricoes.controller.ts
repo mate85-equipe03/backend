@@ -128,8 +128,56 @@ export class InscricoesController {
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch()
-  update(@Body() updateInscricaoDto: UpdateInscricaoDto, @Request() req) {
-    return this.inscricoesService.update(updateInscricaoDto, req.user);
+  @Header('Content-Type', 'multipart/form-data')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'historico_graduacao_file' },
+      { name: 'historico_posgraduacao_file' },
+    ]),
+  )
+  async update(@UploadedFiles()files: {
+    historico_graduacao_file?: Express.Multer.File[];
+    historico_posgraduacao_file?: Express.Multer.File[];
+  }, @Body() updateInscricaoDto: UpdateInscricaoDto, @Request() req) {
+    const inscricao = await this.inscricoesService.update(updateInscricaoDto, req.user);
+    try {
+      this.historicoService.removeByInscricao(inscricao.id);
+    } catch (error) {      
+    }
+    
+    if (inscricao) {
+      files.historico_graduacao_file.forEach(async (file) => {
+        const url = await this.spacesService.uploadFile(file);
+        if (url) {
+          await this.historicoService.create({
+            inscricao_id: inscricao.id,
+            url,
+            nota: updateInscricaoDto.nota_historico_graduacao,
+            tipo: TipoHistorico.GRADUACAO,
+            filename: file.originalname,
+          });
+        }
+      });
+      files.historico_posgraduacao_file.forEach(async (file) => {
+        const url = await this.spacesService.uploadFile(file);
+        if (url) {
+          await this.historicoService.create({
+            inscricao_id: inscricao.id,
+            url,
+            nota: updateInscricaoDto.nota_historico_posgraduacao,
+            tipo: TipoHistorico.POS_GRADUACAO,
+            filename: file.originalname,
+          });
+        }
+      });
+    
+    }
+
+
+    return inscricao;
+  
+  
+  
   }
 
   @Roles(Role.ALUNO)
