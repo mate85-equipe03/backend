@@ -200,8 +200,17 @@ export class InscricoesController {
     const inscricao = await this.inscricoesService.findOne(auditaInscricaoDto.id)
 
     if (inscricao.revisor_id) {
+      if(inscricao.revisor_id != req.user.userId) {
     const inscricao_atualizada = await this.inscricoesService.audita_revisao(auditaInscricaoDto,req.user)
-    return inscricao_atualizada }
+    return inscricao_atualizada 
+      }
+      else {
+        throw new HttpException(
+          'O professor auditor deve ser diferente do revisor',
+          HttpStatus.FORBIDDEN,
+        );
+      }
+  }
     else {
       throw new HttpException(
         'É preciso ser revisado por um professor, antes de auditar',
