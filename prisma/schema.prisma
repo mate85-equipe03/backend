@@ -167,6 +167,7 @@ model Inscricao {
   nota_final    Decimal @default(0.00)
   classificacao Int     @default(0)
   observacao String?
+  flag_revisao Boolean?
 
   createdAt DateTime    @default(now())
   editedAt  DateTime    @default(now())

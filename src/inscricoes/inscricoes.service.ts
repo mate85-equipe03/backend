@@ -131,6 +131,21 @@ export class InscricoesService {
         nota_final: data.nota_final,
         observacao: data.observacao,
         revisor_id: user.userId,
+        flag_revisao:true
+      },
+    });
+  }
+
+  async audita_revisao(data,user) {
+
+    const inscricao = await this.findOne(data.id);
+
+    return this.prisma.inscricao.update({
+      where: { id: inscricao.id },
+      data: {
+        nota_final: data.nota_final,
+        observacao: data.observacao,
+        auditor_id: user.userId,
       },
     });
   }

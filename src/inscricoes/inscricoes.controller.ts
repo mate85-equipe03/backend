@@ -17,6 +17,7 @@ import { InscricoesService } from './inscricoes.service';
 import { CreateInscricaoDto } from './dto/create-inscricao.dto';
 import { UpdateInscricaoDto } from './dto/update-inscricao.dto';
 import { RevisaInscricaoDto } from './dto/revisa-inscricao.dto';
+import { AuditaInscricaoDto } from './dto/audita-inscricao.dto';
 import { JwtAuthGuard } from 'src/autenticacao/guards/jwt-auth.guard';
 import { Roles } from 'src/autenticacao/decorators/roles.decorator';
 import { Role, TipoHistorico } from '@prisma/client';
@@ -189,6 +190,24 @@ export class InscricoesController {
   {
     const inscricao_atualizada = await this.inscricoesService.update_revisao(revisaInscricaoDto,req.user)
     return inscricao_atualizada
+  }
+
+  @Roles(Role.PROFESSOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/audita-inscricao')
+  async auditaInscricao(@Body() auditaInscricaoDto:AuditaInscricaoDto, @Request() req)
+  {
+    const inscricao = await this.inscricoesService.findOne(auditaInscricaoDto.id)
+
+    if (inscricao.revisor_id) {
+    const inscricao_atualizada = await this.inscricoesService.audita_revisao(auditaInscricaoDto,req.user)
+    return inscricao_atualizada }
+    else {
+      throw new HttpException(
+        'É preciso ser revisado por um professor, antes de auditar',
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 
   @Roles(Role.ALUNO)
