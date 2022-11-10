@@ -86,6 +86,24 @@ export class ProcessosSeletivosController {
     return inscricoes;
   }
 
+  @Roles(Role.PROFESSOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get(':id/resultado-final')
+  async resultadofinal(@Param('id') id: string) {
+    const processo = await this.processosSeletivosService.findOne(+id);
+    const inscricoes = await this.inscricoesService.findMany(processo.id);
+
+    inscricoes.sort((a, b) => (a.nota_final > b.nota_final) ? 1 : -1)
+    
+    var c = 1
+    for (var i = (inscricoes.length-1); i >= 0; i--){
+    inscricoes[i].classificacao = c
+    c++
+    }
+
+    return inscricoes.reverse();
+  }
+
   @Roles(Role.ALUNO)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id/inscricao')
