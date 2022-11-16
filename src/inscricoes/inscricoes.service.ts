@@ -97,6 +97,34 @@ export class InscricoesService {
     });
   }
 
+  findManyMestrado(id: number): Promise<Inscricao[]> {
+    return this.prisma.inscricao.findMany({
+      where: {
+        processo_seletivo_id: id,
+        aluno:{
+          curso:'mestrado',
+        }
+      },
+      include: {
+        aluno: true,
+      },
+    });
+  }
+
+  findManyDoutorado(id: number): Promise<Inscricao[]> {
+    return this.prisma.inscricao.findMany({
+      where: {
+        processo_seletivo_id: id,
+        aluno:{
+          curso:'doutorado',
+        }
+      },
+      include: {
+        aluno: true,
+      },
+    });
+  }
+
   async update(data, user) {
     if (
       !this.processosSeletivosService.areEligibleForEnrollment(
