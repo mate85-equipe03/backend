@@ -21,11 +21,14 @@ create(data,id) {
   }
 
   findAll() {
-    return `This action returns all etapas`;
+    return this.prisma.etapa.findMany({
+    });;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} etapa`;
+    return  this.prisma.etapa.findUnique({
+        where: { id: id },
+      });;
   }
 
   update(id: number, data) {
