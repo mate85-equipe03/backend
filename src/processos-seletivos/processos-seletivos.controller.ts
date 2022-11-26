@@ -150,16 +150,27 @@ export class ProcessosSeletivosController {
     return inscricao;
   }
 
+  @Roles(Role.PROFESSOR,Role.ROOT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateProcessosSeletivoDto: UpdateProcessosSeletivoDto,
-  ) {
-    return this.processosSeletivosService.update(
-      updateProcessosSeletivoDto,+id
-    );
+  update(@Param('id') id: string, @Body() data) {
+    return this.etapasService.update(+id, data);
   }
 
+  @Roles(Role.PROFESSOR,Role.ROOT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch(':edital_id/etapas/:id')
+  update_etapa(
+    @Param('edital_id') edital_id: string,
+    @Param('id') id: string,
+    @Body() data,
+  ) {
+    return this.etapasService.update(+id, data);
+  }
+  
+
+  @Roles(Role.PROFESSOR,Role.ROOT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.processosSeletivosService.remove(+id);
