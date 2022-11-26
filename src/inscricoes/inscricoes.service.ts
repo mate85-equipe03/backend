@@ -102,7 +102,7 @@ export class InscricoesService {
       where: {
         processo_seletivo_id: id,
         aluno:{
-          curso:'mestrado',
+          curso:'Mestrado',
         }
       },
       include: {
@@ -116,7 +116,7 @@ export class InscricoesService {
       where: {
         processo_seletivo_id: id,
         aluno:{
-          curso:'doutorado',
+          curso:'Doutorado',
         }
       },
       include: {
