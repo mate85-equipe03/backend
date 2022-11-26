@@ -22,7 +22,7 @@ import { LocalStrategy } from './strategies/local.strategy';
       useFactory: () => ({
         secret: process.env.JWT_SECRET,
         signOptions: {
-          expiresIn: '7200s',
+          expiresIn: '14400s',
         },
       }),
     }),
