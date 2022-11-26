@@ -19,10 +19,21 @@ export class ProcessosSeletivosService {
             create: [
               { nome: 'Publicação A1', pontuacao: 10.0 },
               { nome: 'Publicação A2', pontuacao: 8.75 },
-              { nome: 'Publicação A3', pontuacao: 8.75 },
-              { nome: 'Publicação B1', pontuacao: 6.75 },
+              { nome: 'Publicação A3', pontuacao: 7.5 },
+              { nome: 'Publicação A4', pontuacao: 6.25 },
+              { nome: 'Publicação B1', pontuacao: 5.00 },
+              { nome: 'Publicação B2', pontuacao: 2.00 },
+              { nome: 'Publicação B3', pontuacao: 1.00 },
+              { nome: 'Publicação B4', pontuacao: 0.05 },
             ],
           },
+          etapas:{
+            create: [
+              { name: "Inscrições", data_inicio: new Date("01/01/2022"), data_fim: new Date("02/01/2022")},
+              { name: "Em Análise", data_inicio: new Date("03/01/2022"), data_fim: new Date("04/01/2022")},
+              { name: "Resultado Final", data_inicio: new Date("05/01/2022"), data_fim: new Date("06/01/2022")},              
+            ]
+          }
         }
       });
   }

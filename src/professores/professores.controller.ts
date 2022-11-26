@@ -25,7 +25,7 @@ export class ProfessoresController {
   @Roles(Role.ROOT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  async signupUser(
+  async create(
     @Body() professorData: CreateUsuarioDto,
   ): Promise<UsuarioModel> {
     return this.professoresService.createProfessor(professorData);

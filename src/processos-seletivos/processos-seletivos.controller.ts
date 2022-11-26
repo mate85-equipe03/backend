@@ -34,14 +34,7 @@ export class ProcessosSeletivosController {
   @Post()
   create(@Body() createProcessosSeletivoDto: CreateProcessosSeletivoDto) {
     return this.processosSeletivosService.create(createProcessosSeletivoDto);
-  }
-
-  @Roles(Role.PROFESSOR,Role.ROOT)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Post(':id/etapa')
-  createEtapaProcesso(@Param('id') id: string, @Body() data) {
-    return this.etapasService.create(data,id);
-  }
+  }  
 
   @UseGuards(OptionalJwtAuthGuard)
   @Get()
