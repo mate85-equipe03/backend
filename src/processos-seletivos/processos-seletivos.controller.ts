@@ -76,9 +76,17 @@ export class ProcessosSeletivosController {
   }
 
   @UseGuards(OptionalJwtAuthGuard)
+  @Get(':id/etapa-atual')
+  getEtapaAtual(@Param('id') id: string, @Request() req) {
+    return this.etapasService.findAtual(+id);   
+    
+  }
+
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req) {
-    return this.processosSeletivosService.findOne(+id, req.user);
+    return this.processosSeletivosService.findOne(+id, req.user);   
+    
   }
 
   @Roles(Role.PROFESSOR)

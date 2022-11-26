@@ -31,6 +31,25 @@ create(data,id) {
       });;
   }
 
+  findAtual(edital_id: number) {
+    const now = new Date();
+    return  this.prisma.etapa.findFirst({
+        where: {           
+          AND: {
+            processo_seletivo_id: {
+              equals: edital_id,
+            },
+            data_inicio: {
+              lte: now,
+            },
+            data_fim: {
+              gte: now,
+            },
+          },
+        }
+    });
+  }
+
   update(id: number, data) {
     return this.prisma.etapa.update({
       where: { id: id },
