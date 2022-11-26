@@ -92,9 +92,28 @@ export class ProcessosSeletivosController {
 
   @Roles(Role.PROFESSOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch(':id/liberar-resultado-final')
+  liberarResultadoFinal(@Param('id') id: string) {
+    return this.processosSeletivosService.updateFlagArquivado(+id, true);
+  }
+
+  @Roles(Role.PROFESSOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch(':id/nao-liberar-resultado-final')
+  naoLiberarResultadoFinal(@Param('id') id: string) {
+    return this.processosSeletivosService.updateFlagArquivado(+id, false);
+  }
+
+  @Roles(Role.PROFESSOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id/resultado-final-mestrado')
   async resultadofinalmestado(@Param('id') id: string) {
     const processo = await this.processosSeletivosService.findOne(+id);
+
+    if(!processo.arquivado){
+      return {"message": "Resultado final ainda não disponibilizado"}
+    }
+
     const inscricoes = await this.inscricoesService.findManyMestrado(processo.id);
 
     inscricoes.sort((a, b) => (a.nota_final > b.nota_final) ? 1 : -1)
@@ -113,6 +132,11 @@ export class ProcessosSeletivosController {
   @Get(':id/resultado-final-doutorado')
   async resultadofinaldoutorado(@Param('id') id: string) {
     const processo = await this.processosSeletivosService.findOne(+id);
+
+    if(!processo.arquivado){
+      return {"message": "Resultado final ainda não disponibilizado"}
+    }
+
     const inscricoes = await this.inscricoesService.findManyDoutorado(processo.id);
 
     inscricoes.sort((a, b) => (a.nota_final > b.nota_final) ? 1 : -1)

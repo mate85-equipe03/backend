@@ -52,6 +52,16 @@ export class ProcessosSeletivosService {
     });
   }
 
+  async updateFlagArquivado(Id, flag) {
+
+    return this.prisma.processoSeletivo.update({
+      where: { id: Id, },
+      data: {
+        arquivado: flag,
+      },
+    });
+  }
+
   areEligibleForEnrollment(id: number) {
     const now = new Date();
 
