@@ -281,6 +281,16 @@ async function main() {
       data_fim: new Date('2022-12-15'),
     },
   });
+  const etapa04 = await prisma.etapa.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      processo_seletivo_id: processoSeletivo01.id,
+      name: 'Resultado Final',
+      data_inicio: new Date('2023-01-01'),
+      data_fim: new Date('2023-01-31'),
+    },
+  });
 
   const processoSeletivo02 = await prisma.processoSeletivo.upsert({
     where: { id: 2 },
