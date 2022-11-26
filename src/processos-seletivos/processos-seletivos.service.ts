@@ -9,7 +9,36 @@ export class ProcessosSeletivosService {
   constructor(private prisma: PrismaService) {}
 
   create(createProcessosSeletivoDto: CreateProcessosSeletivoDto) {
-    return 'This action adds a new processosSeletivo';
+      return this.prisma.processoSeletivo.create({
+        data: {
+          titulo: createProcessosSeletivoDto.titulo,
+          semestre: createProcessosSeletivoDto.semestre,
+          descricao: createProcessosSeletivoDto.descricao,
+          edital_url: createProcessosSeletivoDto.edital_url,
+          categorias_producao: {
+            create: [
+              { nome: 'Publicação A1', pontuacao: 10.0 },
+              { nome: 'Publicação A2', pontuacao: 8.75 },
+              { nome: 'Publicação A3', pontuacao: 8.75 },
+              { nome: 'Publicação B1', pontuacao: 6.75 },
+            ],
+          },
+        }
+      });
+  }
+
+
+  async update(updateProcessosSeletivoDto:UpdateProcessosSeletivoDto, Id) {
+
+    return this.prisma.processoSeletivo.update({
+      where: { id: Id, },
+      data: {
+        titulo: updateProcessosSeletivoDto.titulo,
+        semestre: updateProcessosSeletivoDto.semestre,
+        descricao: updateProcessosSeletivoDto.descricao,
+        edital_url: updateProcessosSeletivoDto.edital_url,
+      },
+    });
   }
 
   areEligibleForEnrollment(id: number) {
@@ -115,9 +144,6 @@ export class ProcessosSeletivosService {
     return result;
   }
 
-  update(id: number, updateProcessosSeletivoDto: UpdateProcessosSeletivoDto) {
-    return `This action updates a #${id} processosSeletivo`;
-  }
 
   remove(id: number) {
     return `This action removes a #${id} processosSeletivo`;

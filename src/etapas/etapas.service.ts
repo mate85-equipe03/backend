@@ -1,23 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEtapaDto } from './dto/create-etapa.dto';
 import { UpdateEtapaDto } from './dto/update-etapa.dto';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+
 
 @Injectable()
 export class EtapasService {
-  create(createEtapaDto: CreateEtapaDto) {
-    return 'This action adds a new etapa';
+constructor(private prisma: PrismaService) {}
+  
+create(data,id) {
+    return this.prisma.etapa.create({
+      data: {
+        processo_seletivo_id: parseInt(id),
+        name: data.name,
+        data_inicio: new Date(data.data_inicio),
+        data_fim: new Date(data.data_fim),
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all etapas`;
+    return this.prisma.etapa.findMany({
+    });;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} etapa`;
+    return  this.prisma.etapa.findUnique({
+        where: { id: id },
+      });;
   }
 
-  update(id: number, updateEtapaDto: UpdateEtapaDto) {
-    return `This action updates a #${id} etapa`;
+  update(id: number, data) {
+    return this.prisma.etapa.update({
+      where: { id: id },
+      data: {
+        name: data.name,
+        data_inicio: new Date(data.data_inicio),
+        data_fim: new Date(data.data_fim),
+      },
+    });
   }
 
   remove(id: number) {
