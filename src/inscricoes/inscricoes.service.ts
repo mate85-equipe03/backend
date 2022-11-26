@@ -51,6 +51,8 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
+        revisor:true,
+        auditor:true,
         producoes: {
           include: {
             categorias_producao: true,
@@ -72,6 +74,8 @@ export class InscricoesService {
         Historico: true,
         aluno: true,
         producoes: true,
+        revisor:true,
+        auditor:true,
       },
     });
   }
@@ -93,6 +97,8 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
+        revisor:true,
+        auditor:true,
       },
     });
   }
@@ -107,6 +113,8 @@ export class InscricoesService {
       },
       include: {
         aluno: true,
+        revisor:true,
+        auditor:true,
       },
     });
   }
@@ -121,6 +129,8 @@ export class InscricoesService {
       },
       include: {
         aluno: true,
+        revisor:true,
+        auditor:true,
       },
     });
   }
