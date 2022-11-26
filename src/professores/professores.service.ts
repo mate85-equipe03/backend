@@ -29,11 +29,41 @@ export class ProfessoresService {
     });
   }
 
+  async update(data, userId) {
+
+    return this.prisma.usuario.update({
+      where: { id: userId, },
+      data: {
+        email: data['email'],
+        telefone: data['telefone'],
+        professor:{
+          update: {
+            nome: data['nome'],
+          },
+        },
+      },
+    });
+  }
+
   async findProfessorByUserId(userId): Promise<Professor> {
     return this.prisma.professor.findUnique({
       where: {
         userId: userId,
       },
     });
+  }
+
+  async findUserDataById(userId): Promise<Usuario> {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      include:
+      {professor:true
+      }
+
+    })
+
+
   }
 }

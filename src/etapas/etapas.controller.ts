@@ -7,10 +7,6 @@ import { UpdateEtapaDto } from './dto/update-etapa.dto';
 export class EtapasController {
   constructor(private readonly etapasService: EtapasService) {}
 
-  @Post()
-  create(@Body() createEtapaDto: CreateEtapaDto) {
-    return this.etapasService.create(createEtapaDto);
-  }
 
   @Get()
   findAll() {
@@ -23,8 +19,8 @@ export class EtapasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEtapaDto: UpdateEtapaDto) {
-    return this.etapasService.update(+id, updateEtapaDto);
+  update(@Param('id') id: string, @Body() data) {
+    return this.etapasService.update(+id, data);
   }
 
   @Delete(':id')

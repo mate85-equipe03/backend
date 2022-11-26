@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProcessosSeletivosService } from './processos-seletivos.service';
+import { EtapasService } from 'src/etapas/etapas.service';
 import { CreateProcessosSeletivoDto } from './dto/create-processos-seletivo.dto';
 import { UpdateProcessosSeletivoDto } from './dto/update-processos-seletivo.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -25,11 +26,21 @@ export class ProcessosSeletivosController {
   constructor(
     private readonly processosSeletivosService: ProcessosSeletivosService,
     private readonly inscricoesService: InscricoesService,
+    private readonly etapasService: EtapasService
   ) {}
-
+  
+  @Roles(Role.PROFESSOR,Role.ROOT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   create(@Body() createProcessosSeletivoDto: CreateProcessosSeletivoDto) {
     return this.processosSeletivosService.create(createProcessosSeletivoDto);
+  }
+
+  @Roles(Role.PROFESSOR,Role.ROOT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Post(':id/etapa')
+  createEtapaProcesso(@Param('id') id: string, @Body() data) {
+    return this.etapasService.create(data,id);
   }
 
   @UseGuards(OptionalJwtAuthGuard)
@@ -152,8 +163,7 @@ export class ProcessosSeletivosController {
     @Body() updateProcessosSeletivoDto: UpdateProcessosSeletivoDto,
   ) {
     return this.processosSeletivosService.update(
-      +id,
-      updateProcessosSeletivoDto,
+      updateProcessosSeletivoDto,+id
     );
   }
 
