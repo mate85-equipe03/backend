@@ -7,11 +7,13 @@ import { SpacesModule } from 'src/SpacesModule/spaces.module';
 import { HistoricoModule } from 'src/historico/historico.module';
 import { ProducaoCientificaModule } from 'src/producao-cientifica/producao-cientifica.module';
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
+import { ProfessoresModule } from 'src/professores/professores.module';
 
 @Module({
   imports: [
     forwardRef(() => ProcessosSeletivosModule),
     AlunosModule,
+    ProfessoresModule,
     SpacesModule,
     HistoricoModule,
     ProducaoCientificaModule,

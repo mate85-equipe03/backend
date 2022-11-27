@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Historico } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
+import { ProfessoresService } from 'src/professores/professores.service';
 
 @Injectable()
 export class InscricoesService {
@@ -12,6 +13,7 @@ export class InscricoesService {
     private prisma: PrismaService,
     private processosSeletivosService: ProcessosSeletivosService,
     private alunosService: AlunosService,
+    private professorService:ProfessoresService,
   ) {}
 
   async create(data, user): Promise<Inscricao> {
@@ -162,13 +164,14 @@ export class InscricoesService {
   async update_revisao(data,user) {
 
     const inscricao = await this.findOne(data.id);
-
+    const professor = await this.professorService.findProfessorByUserId(user.userId)
+  
     return this.prisma.inscricao.update({
       where: { id: inscricao.id },
       data: {
         nota_final: data.nota_final,
         observacao: data.observacao,
-        revisor_id: user.userId,
+        revisor_id: professor.id,
         flag_revisao:true
       },
     });
@@ -177,13 +180,14 @@ export class InscricoesService {
   async audita_revisao(data,user) {
 
     const inscricao = await this.findOne(data.id);
+    const professor = await this.professorService.findProfessorByUserId(user.userId)
 
     return this.prisma.inscricao.update({
       where: { id: inscricao.id },
       data: {
         nota_final: data.nota_final,
         observacao: data.observacao,
-        auditor_id: user.userId,
+        auditor_id: professor.id,
       },
     });
   }
