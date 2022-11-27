@@ -20,6 +20,7 @@ async function main() {
       role: Role.ROOT,
     },
   });
+  console.log(root_user)
   
 }
 
