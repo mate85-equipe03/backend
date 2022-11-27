@@ -12,8 +12,10 @@ export class ProfessoresService {
   constructor(private prisma: PrismaService) {}
 
   async createProfessor(data): Promise<Usuario> {
-    return this.prisma.usuario.create({
-      data: {
+    return this.prisma.usuario.upsert({
+      where: { login: data['login']},
+      update : {},
+      create: {
         login: data['login'],
         email: data['email'],
         senha: bcrypt.hashSync(data['senha'], 10),
@@ -25,6 +27,9 @@ export class ProfessoresService {
             nome: data['nome'],
           },
         },
+      },
+      include: {
+        professor: true,
       },
     });
   }
