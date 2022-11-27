@@ -148,7 +148,7 @@ export class ProcessosSeletivosController {
   async resultadofinaldoutorado(@Param('id') id: string) {
     const processo = await this.processosSeletivosService.findOne(+id);
 
-    if(!processo.arquivado){
+    if(!processo.resultado_liberado){
       return {"message": "Resultado final ainda não disponibilizado"}
     }
 
