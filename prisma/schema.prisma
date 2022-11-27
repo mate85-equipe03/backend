@@ -28,6 +28,7 @@ model ProcessoSeletivo {
   inscricoes          Inscricao[]
   categorias_producao CategoriaProducao[]
   arquivado           Boolean?            @default(false)
+  resultado_liberado  Boolean?            @default(false)
   createdAt           DateTime            @default(now())
 
   @@map("processos_seletivos")

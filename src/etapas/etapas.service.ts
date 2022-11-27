@@ -31,9 +31,41 @@ create(data,id) {
       });;
   }
 
-  findAtual(edital_id: number) {
+  findEtapaInscricao(edital_id: number) {
+    return this.prisma.etapa.findFirst({
+        where: {           
+          AND: {
+            processo_seletivo_id: {
+              equals: edital_id,
+            },
+            name: {
+              equals: "Inscrições",
+            },
+            
+          },
+        }
+    });    
+  }
+
+  findEtapaResultado(edital_id: number) {
+    return this.prisma.etapa.findFirst({
+        where: {           
+          AND: {
+            processo_seletivo_id: {
+              equals: edital_id,
+            },
+            name: {
+              equals: "Resultado Final",
+            },
+            
+          },
+        }
+    });    
+  }
+
+  async findAtual(edital_id: number) {
     const now = new Date();
-    return  this.prisma.etapa.findFirst({
+    const etapa = await this.prisma.etapa.findFirst({
         where: {           
           AND: {
             processo_seletivo_id: {
@@ -48,6 +80,35 @@ create(data,id) {
           },
         }
     });
+
+    if (!etapa){
+      const inscricao = await this.findEtapaInscricao(edital_id);
+      if (inscricao.data_inicio > now){
+        return {
+          "id": 999999,
+          "processo_seletivo_id": edital_id,
+          "name": "Inscrições em breve",
+          "data_inicio": "",
+          "data_fim": "",          
+        };
+      }
+      else{
+        const resultado = await this.findEtapaResultado(edital_id);
+        if(now > resultado.data_inicio){
+          return {
+            "id": 999999,
+            "processo_seletivo_id": edital_id,
+            "name": "Resultado Final em breve",
+            "data_inicio": "",
+            "data_fim": "",          
+          };
+        }
+      }
+      
+    }
+    else{
+      return etapa;
+    }
   }
 
   update(id: number, data) {

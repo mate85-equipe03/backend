@@ -67,12 +67,12 @@ export class ProcessosSeletivosService {
   //  });
   //}
 
-  async updateFlagArquivado(Id, flag) {
+  async updateFlagResultado(Id, flag) {
 
     return this.prisma.processoSeletivo.update({
       where: { id: Id, },
       data: {
-        arquivado: flag,
+        resultado_liberado: flag,
       },
     });
   }

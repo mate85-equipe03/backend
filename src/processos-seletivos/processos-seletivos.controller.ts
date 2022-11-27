@@ -77,8 +77,15 @@ export class ProcessosSeletivosController {
 
   @UseGuards(OptionalJwtAuthGuard)
   @Get(':id/etapa-atual')
-  getEtapaAtual(@Param('id') id: string, @Request() req) {
-    return this.etapasService.findAtual(+id);   
+  async getEtapaAtual(@Param('id') id: string, @Request() req) {
+    const processo = await this.processosSeletivosService.findOne(+id);
+
+    if(processo.resultado_liberado){
+      return await this.etapasService.findEtapaResultado(+id);
+    }
+    else{
+      return await this.etapasService.findAtual(+id);
+    }
     
   }
 
@@ -102,14 +109,14 @@ export class ProcessosSeletivosController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id/liberar-resultado-final')
   liberarResultadoFinal(@Param('id') id: string) {
-    return this.processosSeletivosService.updateFlagArquivado(+id, true);
+    return this.processosSeletivosService.updateFlagResultado(+id, true);
   }
 
   @Roles(Role.PROFESSOR)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id/nao-liberar-resultado-final')
   naoLiberarResultadoFinal(@Param('id') id: string) {
-    return this.processosSeletivosService.updateFlagArquivado(+id, false);
+    return this.processosSeletivosService.updateFlagResultado(+id, false);
   }
 
   @Roles(Role.PROFESSOR)
@@ -118,7 +125,7 @@ export class ProcessosSeletivosController {
   async resultadofinalmestado(@Param('id') id: string) {
     const processo = await this.processosSeletivosService.findOne(+id);
 
-    if(!processo.arquivado){
+    if(!processo.resultado_liberado){
       return {"message": "Resultado final ainda não disponibilizado"}
     }
 
