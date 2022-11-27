@@ -34,6 +34,7 @@ import { ProducaoCientificaService } from 'src/producao-cientifica/producao-cien
 import { MailerService } from '@nestjs-modules/mailer';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { AlunosService } from 'src/alunos/alunos.service';
+import { ProfessoresService } from 'src/professores/professores.service';
 
 
 @Controller('inscricoes')
@@ -47,6 +48,7 @@ export class InscricoesController {
     private mailService: MailerService,
     private usuarioService: UsuariosService,
     private alunosService: AlunosService,
+    private professorService: ProfessoresService
   ) {}
 
   @Roles(Role.ALUNO)
@@ -198,9 +200,10 @@ export class InscricoesController {
   async auditaInscricao(@Body() auditaInscricaoDto:AuditaInscricaoDto, @Request() req)
   {
     const inscricao = await this.inscricoesService.findOne(auditaInscricaoDto.id)
+    const professor = await this.professorService.findProfessorByUserId(req.user.userId)
 
     if (inscricao.revisor_id) {
-      if(inscricao.revisor_id != req.user.userId) {
+      if(inscricao.revisor_id != professor.id) {
     const inscricao_atualizada = await this.inscricoesService.audita_revisao(auditaInscricaoDto,req.user)
     return inscricao_atualizada 
       }
