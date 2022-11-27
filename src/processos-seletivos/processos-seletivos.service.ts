@@ -29,9 +29,9 @@ export class ProcessosSeletivosService {
           },
           etapas:{
             create: [
-              { name: "Inscrições", data_inicio: new Date("01/01/2022"), data_fim: new Date("02/01/2022")},
-              { name: "Em Análise", data_inicio: new Date("03/01/2022"), data_fim: new Date("04/01/2022")},
-              { name: "Resultado Final", data_inicio: new Date("05/01/2022"), data_fim: new Date("06/01/2022")},              
+              { name: "Inscrições", data_inicio: new Date(createProcessosSeletivoDto.etapa_inscricao_inicio), data_fim: new Date(createProcessosSeletivoDto.etapa_inscricao_fim)},
+              { name: "Análise", data_inicio: new Date(createProcessosSeletivoDto.etapa_analise_inicio), data_fim: new Date(createProcessosSeletivoDto.etapa_analise_fim)},
+              { name: "Resultado Final", data_inicio: new Date(createProcessosSeletivoDto.etapa_resultado_inicio), data_fim: new Date(createProcessosSeletivoDto.etapa_resultado_fim)},              
             ]
           }
         }
