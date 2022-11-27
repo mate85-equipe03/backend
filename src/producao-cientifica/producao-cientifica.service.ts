@@ -33,7 +33,7 @@ export class ProducaoCientificaService {
         id: id
       },
       data: {
-        categorias_producao:data.categorias_producao
+        categorias_producao_id:data.categorias_producao_id
       }
     });
     
