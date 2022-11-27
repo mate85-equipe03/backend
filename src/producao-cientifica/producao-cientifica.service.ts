@@ -27,6 +27,18 @@ export class ProducaoCientificaService {
     
   }
 
+  async update(id: number,data): Promise<ProducaoCientifica> {
+    return await this.prisma.producaoCientifica.update({
+      where: {
+        id: id
+      },
+      data: {
+        categorias_producao:data.categorias_producao
+      }
+    });
+    
+  }
+
   async deleteProducao(where: Prisma.ProducaoCientificaWhereUniqueInput): Promise<ProducaoCientifica> {
     
     return this.prisma.producaoCientifica.delete({

@@ -359,5 +359,16 @@ export class InscricoesController {
     }
     
   }  
-    
+
+
+  @Roles(Role.ALUNO, Role.PROFESSOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('producoes/:id')
+  async updateProducao(
+    @Param('id') id: string,
+    @Body() data
+  ) {
+    return this.producaoCientificaService.update(+id, data);
+
+  }
 }
