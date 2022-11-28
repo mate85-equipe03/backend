@@ -75,7 +75,11 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
-        producoes: true,
+        producoes: {
+          include: {
+            categorias_producao: true,
+          },
+        },
         revisor:true,
         auditor:true,
       },
