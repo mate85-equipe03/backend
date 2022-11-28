@@ -43,10 +43,29 @@ export class ProcessosSeletivosController {
       {},
       req.user,
     );
+
+    var etapas = [];
+    for (var i = 1; i <= processos.length; i++){
+
+      var processo = await this.processosSeletivosService.findOne(i)
+
+      if(processo.resultado_liberado){
+        etapas.push(await this.etapasService.findEtapaResultado(i));
+      }
+      else{
+        etapas.push(await this.etapasService.findAtual(i));
+      }
+
+      
+      }
+  
     const result = {
       editais: {
         processos,
       },
+      etapas_atuais: {
+        etapas
+      }
     };
     return result;
   }
