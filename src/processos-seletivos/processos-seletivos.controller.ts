@@ -98,6 +98,7 @@ export class ProcessosSeletivosController {
   @Get(':id/etapa-atual')
   async getEtapaAtual(@Param('id') id: string, @Request() req) {
     const processo = await this.processosSeletivosService.findOne(+id);
+
     if(processo.resultado_liberado){
       return await this.etapasService.findEtapaResultado(+id);
     }
@@ -222,8 +223,8 @@ export class ProcessosSeletivosController {
   @Roles(Role.PROFESSOR,Role.ROOT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data) {
-    return this.etapasService.update(+id, data);
+  update(@Param('id') id: string, @Body() updateProcessosSeletivoDto:UpdateProcessosSeletivoDto) {
+    return this.processosSeletivosService.update(updateProcessosSeletivoDto,+id);
   }
 
   @Roles(Role.PROFESSOR,Role.ROOT)
