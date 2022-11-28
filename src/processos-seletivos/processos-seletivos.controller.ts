@@ -103,7 +103,19 @@ export class ProcessosSeletivosController {
       return await this.etapasService.findEtapaResultado(+id);
     }
     else{
-      return await this.etapasService.findAtual(+id);
+      const etapa = await this.etapasService.findAtual(+id);
+      if(etapa.name == "Resultado Final"){
+        return {
+          "id": 999999,
+          "processo_seletivo_id": id,
+          "name": "Resultado Final em breve",
+          "data_inicio": "",
+          "data_fim": "",          
+        };
+      }
+      else{
+        return etapa;
+      }
     }
     
   }
