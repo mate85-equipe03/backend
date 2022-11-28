@@ -24,6 +24,13 @@ export class ProfessoresController {
 
   @Roles(Role.ROOT)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get()
+  findAll() {
+    return this.professoresService.findAll();
+  }
+
+  @Roles(Role.ROOT)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   async create(
     @Body() professorData: CreateUsuarioDto,

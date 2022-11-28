@@ -34,6 +34,10 @@ export class ProfessoresService {
     });
   }
 
+  findAll(): Promise<Professor[]> {
+    return this.prisma.professor.findMany();
+  }
+
   async update(data, userId) {
 
     return this.prisma.usuario.update({
