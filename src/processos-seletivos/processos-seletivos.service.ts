@@ -52,20 +52,6 @@ export class ProcessosSeletivosService {
     });
   }
 
-  //async updatecategoria(data, Id) {
-  //
-  //  return this.prisma.processoSeletivo.updateMany({
-  //    where: {
-  //      AND:{  
-  //      id: Id,
-  //      categorias_producao: {
-  //      },
-  //      }
-  //    },
-  //    data: {
-  //    },
-  //  });
-  //}
 
   async updateFlagResultado(Id, flag) {
 
