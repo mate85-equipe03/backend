@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Historico } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { ProcessosSeletivosService } from 'src/processos-seletivos/processos-seletivos.service';
+import { ProfessoresService } from 'src/professores/professores.service';
 
 @Injectable()
 export class InscricoesService {
@@ -12,6 +13,7 @@ export class InscricoesService {
     private prisma: PrismaService,
     private processosSeletivosService: ProcessosSeletivosService,
     private alunosService: AlunosService,
+    private professorService:ProfessoresService,
   ) {}
 
   async create(data, user): Promise<Inscricao> {
@@ -31,7 +33,8 @@ export class InscricoesService {
     return this.prisma.inscricao.create({
       data: {
         url_enade: data.url_enade,
-        url_lattes: data.url_enade,
+        nota_enade: data.nota_enade,
+        url_lattes: data.url_enade,        
         aluno_id: aluno.id,
         processo_seletivo_id: parseInt(data.processo_seletivo_id),
       },
@@ -50,6 +53,8 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
+        revisor:true,
+        auditor:true,
         producoes: {
           include: {
             categorias_producao: true,
@@ -71,6 +76,8 @@ export class InscricoesService {
         Historico: true,
         aluno: true,
         producoes: true,
+        revisor:true,
+        auditor:true,
       },
     });
   }
@@ -92,6 +99,40 @@ export class InscricoesService {
       include: {
         Historico: true,
         aluno: true,
+        revisor:true,
+        auditor:true,
+      },
+    });
+  }
+
+  findManyMestrado(id: number): Promise<Inscricao[]> {
+    return this.prisma.inscricao.findMany({
+      where: {
+        processo_seletivo_id: id,
+        aluno:{
+          curso:'Mestrado',
+        }
+      },
+      include: {
+        aluno: true,
+        revisor:true,
+        auditor:true,
+      },
+    });
+  }
+
+  findManyDoutorado(id: number): Promise<Inscricao[]> {
+    return this.prisma.inscricao.findMany({
+      where: {
+        processo_seletivo_id: id,
+        aluno:{
+          curso:'Doutorado',
+        }
+      },
+      include: {
+        aluno: true,
+        revisor:true,
+        auditor:true,
       },
     });
   }
@@ -108,14 +149,53 @@ export class InscricoesService {
       );
     }
 
-    const inscricao = await this.findInscricaoId(user.userId, data);
+    const inscricao = await this.findInscricaoId(user, parseInt(data.processo_seletivo_id));
 
     return this.prisma.inscricao.update({
       where: { id: inscricao.id },
       data: {
         url_enade: data.url_enade,
+        nota_enade: data.nota_enade,
         url_lattes: data.url_lattes,
       },
+    });
+  }
+
+  async update_revisao(data,user) {
+
+    const inscricao = await this.findOne(data.id);
+    const professor = await this.professorService.findProfessorByUserId(user.userId)
+  
+    return this.prisma.inscricao.update({
+      where: { id: inscricao.id },
+      data: {
+        nota_final: data.nota_final,
+        observacao: data.observacao,
+        revisor_id: professor.id,
+        flag_revisao:true
+      },
+    });
+  }
+
+  async audita_revisao(data,user) {
+
+    const inscricao = await this.findOne(data.id);
+    const professor = await this.professorService.findProfessorByUserId(user.userId)
+
+    return this.prisma.inscricao.update({
+      where: { id: inscricao.id },
+      data: {
+        nota_final: data.nota_final,
+        observacao: data.observacao,
+        auditor_id: professor.id,
+      },
+    });
+  }
+
+  async deleteInscricao(where: Prisma.InscricaoWhereUniqueInput): Promise<Inscricao> {
+    
+    return this.prisma.inscricao.delete({
+      where,
     });
   }
 }

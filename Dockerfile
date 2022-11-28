@@ -1,68 +1,59 @@
-###################
-# BUILD FOR LOCAL DEVELOPMENT
-###################
+######################################## 
+#   Container para desenvolvimento local
+######################################## 
 
-FROM node:18 As development
+# Pega imagem mais recente do node
+FROM node:18-alpine AS development
 
-RUN apt-get update && apt-get install -y openssl
-
-# Create app directory
+# define diretorio de trabalho como /usr/src/app
 WORKDIR /usr/src/app
 
-# Copy application dependency manifests to the container image.
-# A wildcard is used to ensure copying both package.json AND package-lock.json (when available).
-# Copying this first prevents re-running npm install on every code change.
-#COPY --chown=node:node package*.json ./
-COPY  package*.json ./
+# copia o package json e o package-lock para o container
+COPY package*.json ./
 
-# Install app dependencies using the `npm ci` command instead of `npm install`
+# faz a instalação das dependencias
 RUN npm ci
 
-# Bundle app source
-#COPY --chown=node:node . .
+# copia todos os arquivos da aplicação para o container
 COPY . .
-
 
 RUN npm run prisma:generate
 
-# Use the node user from the image (instead of the root user)
-#USER node
+######################################## 
+#   Container para build
+######################################## 
 
-###################
-# BUILD FOR PRODUCTION
-###################
+# Pega imagem mais recente do node
+FROM node:18-alpine AS build
 
-FROM node:18-alpine As build
-
+# define diretorio de trabalho como /usr/src/app
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
+# copia o package json e o package-lock para o container
+COPY package*.json ./
 
-# In order to run `npm run build` we need access to the Nest CLI which is a dev dependency. In the previous development stage we ran `npm ci` which installed all dependencies, so we can copy over the node_modules directory from the development image
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+# copia o node_modules criado pelo container de desenvolvimento
+COPY --from=development /usr/src/app/node_modules ./node_modules
 
-COPY --chown=node:node . .
+# copia todos os arquivos da aplicação para o container
+COPY . .
 
-# Run the build command which creates the production bundle
+# roda lint testes e então faz o build da aplicação
 RUN npm run build
 
-# Set NODE_ENV environment variable
-ENV NODE_ENV production
-
-# Running `npm ci` removes the existing node_modules directory and passing in --only=production ensures that only the production dependencies are installed. This ensures that the node_modules directory is as optimized as possible
+# apaga antiga node_modules e instala apenas dependencias de produção
 RUN npm ci --only=production && npm cache clean --force
 
-USER node
+##################################################
+#   Container para rodar aplicação em produção
+##################################################
 
-###################
-# PRODUCTION
-###################
+# Pega imagem mais recente do node
+FROM node:18-alpine AS production
 
-FROM node:18-alpine As production
+# Copia pastas do node_modules e dist da aplicação geradas no estagio de build
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
 
-# Copy the bundled code from the build stage to the production image
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-
-# Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+# quando o container subir inicia a aplicação 
+CMD ["npm", "run", "start:prod"]

@@ -41,25 +41,49 @@ export class AutenticacaoService {
       const aluno = await this.alunosService.findAlunoByUserId(usuario.id); 
       matricula = aluno.matricula;
       nome = aluno.nome;
+      return {
+        access_token: this.jwtService.sign(payload),
+        user: {
+          role: usuario.role,
+          id: usuario.id,
+          email: usuario.email,
+          telefone: usuario.telefone,
+          nome: nome,
+          matricula: matricula,
+        },
+      };
     }else if (usuario.role == Role.PROFESSOR){
       const professor = await this.professoresService.findProfessorByUserId(usuario.id); 
       matricula = professor.siape
       nome = professor.nome;
+      return {
+        access_token: this.jwtService.sign(payload),
+        user: {
+          role: usuario.role,
+          id: usuario.id,
+          professor_id: professor.id,
+          email: usuario.email,
+          telefone: usuario.telefone,
+          nome: nome,
+          matricula: matricula,
+        },
+      };
     }else{
       matricula = "ROOT";
       nome = "ROOT";
+      return {
+        access_token: this.jwtService.sign(payload),
+        user: {
+          role: usuario.role,
+          id: usuario.id,
+          email: usuario.email,
+          telefone: usuario.telefone,
+          nome: nome,
+          matricula: matricula,
+        },
+      };
     }
 
-    return {
-      access_token: this.jwtService.sign(payload),
-      user: {
-        role: usuario.role,
-        id: usuario.id,
-        email: usuario.email,
-        telefone: usuario.telefone,
-        nome: nome,
-        matricula: matricula,
-      },
-    };
+
   }
 }

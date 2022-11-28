@@ -28,6 +28,7 @@ model ProcessoSeletivo {
   inscricoes          Inscricao[]
   categorias_producao CategoriaProducao[]
   arquivado           Boolean?            @default(false)
+  resultado_liberado  Boolean?            @default(false)
   createdAt           DateTime            @default(now())
 
   @@map("processos_seletivos")
@@ -155,6 +156,7 @@ model Inscricao {
 
   url_lattes String?
   url_enade  String?
+  nota_enade Decimal @default(0.00)
 
   producoes ProducaoCientifica[]
 
@@ -165,6 +167,8 @@ model Inscricao {
 
   nota_final    Decimal @default(0.00)
   classificacao Int     @default(0)
+  observacao String?
+  flag_revisao Boolean?
 
   createdAt DateTime    @default(now())
   editedAt  DateTime    @default(now())
@@ -183,6 +187,7 @@ model Historico {
   id   Int           @id @default(autoincrement())
   url  String
   filename  String  @default("filename")
+  nota    Decimal @default(0.00)
   tipo TipoHistorico
 
   inscricao    Inscricao @relation(fields: [inscricao_id], references: [id])

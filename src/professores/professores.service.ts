@@ -12,8 +12,10 @@ export class ProfessoresService {
   constructor(private prisma: PrismaService) {}
 
   async createProfessor(data): Promise<Usuario> {
-    return this.prisma.usuario.create({
-      data: {
+    return this.prisma.usuario.upsert({
+      where: { login: data['login']},
+      update : {},
+      create: {
         login: data['login'],
         email: data['email'],
         senha: bcrypt.hashSync(data['senha'], 10),
@@ -22,6 +24,25 @@ export class ProfessoresService {
         professor: {
           create: { siape: 
             data['siape'],
+            nome: data['nome'],
+          },
+        },
+      },
+      include: {
+        professor: true,
+      },
+    });
+  }
+
+  async update(data, userId) {
+
+    return this.prisma.usuario.update({
+      where: { id: userId, },
+      data: {
+        email: data['email'],
+        telefone: data['telefone'],
+        professor:{
+          update: {
             nome: data['nome'],
           },
         },
@@ -35,5 +56,19 @@ export class ProfessoresService {
         userId: userId,
       },
     });
+  }
+
+  async findUserDataById(userId): Promise<Usuario> {
+    return this.prisma.usuario.findUnique({
+      where: {
+        id: userId,
+      },
+      include:
+      {professor:true
+      }
+
+    })
+
+
   }
 }

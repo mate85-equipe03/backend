@@ -9,7 +9,58 @@ export class ProcessosSeletivosService {
   constructor(private prisma: PrismaService) {}
 
   create(createProcessosSeletivoDto: CreateProcessosSeletivoDto) {
-    return 'This action adds a new processosSeletivo';
+      return this.prisma.processoSeletivo.create({
+        data: {
+          titulo: createProcessosSeletivoDto.titulo,
+          semestre: createProcessosSeletivoDto.semestre,
+          descricao: createProcessosSeletivoDto.descricao,
+          edital_url: createProcessosSeletivoDto.edital_url,
+          categorias_producao: {
+            create: [
+              { nome: 'Publicação A1', pontuacao: 10.0 },
+              { nome: 'Publicação A2', pontuacao: 8.75 },
+              { nome: 'Publicação A3', pontuacao: 7.5 },
+              { nome: 'Publicação A4', pontuacao: 6.25 },
+              { nome: 'Publicação B1', pontuacao: 5.00 },
+              { nome: 'Publicação B2', pontuacao: 2.00 },
+              { nome: 'Publicação B3', pontuacao: 1.00 },
+              { nome: 'Publicação B4', pontuacao: 0.05 },
+            ],
+          },
+          etapas:{
+            create: [
+              { name: "Inscrições", data_inicio: new Date(createProcessosSeletivoDto.etapa_inscricao_inicio), data_fim: new Date(createProcessosSeletivoDto.etapa_inscricao_fim)},
+              { name: "Análise", data_inicio: new Date(createProcessosSeletivoDto.etapa_analise_inicio), data_fim: new Date(createProcessosSeletivoDto.etapa_analise_fim)},
+              { name: "Resultado Final", data_inicio: new Date(createProcessosSeletivoDto.etapa_resultado_inicio), data_fim: new Date(createProcessosSeletivoDto.etapa_resultado_fim)},              
+            ]
+          }
+        }
+      });
+  }
+
+
+  async update(updateProcessosSeletivoDto:UpdateProcessosSeletivoDto, Id) {
+
+    return this.prisma.processoSeletivo.update({
+      where: { id: Id, },
+      data: {
+        titulo: updateProcessosSeletivoDto.titulo,
+        semestre: updateProcessosSeletivoDto.semestre,
+        descricao: updateProcessosSeletivoDto.descricao,
+        edital_url: updateProcessosSeletivoDto.edital_url,
+      },
+    });
+  }
+
+
+  async updateFlagResultado(Id, flag) {
+
+    return this.prisma.processoSeletivo.update({
+      where: { id: Id, },
+      data: {
+        resultado_liberado: flag,
+      },
+    });
   }
 
   areEligibleForEnrollment(id: number) {
@@ -104,17 +155,17 @@ export class ProcessosSeletivosService {
       );
 
     const { inscricoes, ...result } = processoSeletivo;
-    if (user && user.role === 'ALUNO')
+    if (user && user.role === 'ALUNO'){
+      const isInscrito = inscricoes.length > 0;
       return {
         ...result,
-        isInscrito: inscricoes.length > 0,
+        isInscrito,
+        idInscricao: isInscrito ? inscricoes[0].id : null,
       };
+    }
     return result;
   }
 
-  update(id: number, updateProcessosSeletivoDto: UpdateProcessosSeletivoDto) {
-    return `This action updates a #${id} processosSeletivo`;
-  }
 
   remove(id: number) {
     return `This action removes a #${id} processosSeletivo`;

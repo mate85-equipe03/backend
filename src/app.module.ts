@@ -16,6 +16,7 @@ import { SpacesModule } from './SpacesModule/spaces.module';
 import { HistoricoModule } from './historico/historico.module';
 import { ProducaoCientificaModule } from './producao-cientifica/producao-cientifica.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { CategoriasProducaoModule } from './categorias-producao/categorias-producao.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
         from: process.env.SMTP_NOREPLY,
       }
     }),
+    CategoriasProducaoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

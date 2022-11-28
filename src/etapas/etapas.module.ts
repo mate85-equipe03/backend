@@ -4,6 +4,7 @@ import { EtapasController } from './etapas.controller';
 
 @Module({
   controllers: [EtapasController],
-  providers: [EtapasService]
+  providers: [EtapasService],
+  exports: [EtapasService]
 })
 export class EtapasModule {}
